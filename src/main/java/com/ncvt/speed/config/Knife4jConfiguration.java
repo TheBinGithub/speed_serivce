@@ -31,7 +31,7 @@ public class Knife4jConfiguration {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .description("speed云盘接口文档")
-                .contact(new Contact("我不吃饼干", "https://github.com/toklove", "2586438083@qq.com"))
+                .contact(new Contact("我不吃饼干", "https://github.com/TheBinGithub/speed_serivce/tree/master", "2869447368@qq.com"))
                 .version("v1.1.0")
                 .title("speed云盘接口文档")
                 .build();

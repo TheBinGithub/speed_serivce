@@ -1,4 +1,4 @@
-package com.ncvt.speed.config;
+package com.ncvt.speed.util;
 
 import lombok.Builder;
 import lombok.Data;
