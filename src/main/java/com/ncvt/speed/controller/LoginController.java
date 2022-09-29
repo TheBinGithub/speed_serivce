@@ -5,6 +5,8 @@ import com.ncvt.speed.config.Result;
 import com.ncvt.speed.mapper.AccountMapper;
 import com.ncvt.speed.params.AccountParams;
 import com.ncvt.speed.pojo.AccountPojo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +14,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
+@Api(tags = "登录模块")
 @RestController
 public class LoginController {
 
@@ -19,6 +22,7 @@ public class LoginController {
     private AccountMapper accountMapper;
 
     // 登录
+    @ApiOperation("登录")
     @GetMapping("/login/{userName}/{password}")
     public Result login(@PathVariable String userName,@PathVariable String password){
         try {
@@ -42,6 +46,7 @@ public class LoginController {
     }
 
     // 注册
+    @ApiOperation("注册")
     @PostMapping("/login")
     public Result accountAddition(@RequestBody AccountParams accountParams){
 
@@ -81,8 +86,9 @@ public class LoginController {
     }
 
     // 修改密码
-    @PatchMapping("login/{id}")
-    public Result accountUpdate(@PathVariable int id, @RequestBody @Validated AccountParams accountParams){
+    @ApiOperation("修改密码")
+    @PatchMapping("login/{id}/{password}")
+    public Result accountUpdate(@PathVariable int id, @Validated String password){
 
         try {
 
@@ -95,6 +101,7 @@ public class LoginController {
     }
 
     // 注销
+    @ApiOperation("注销")
     @DeleteMapping("login/{id}")
     public Result accountDeletion(@PathVariable int id){
 
