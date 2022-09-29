@@ -60,9 +60,16 @@ public class AccountServiceImpl implements AccountService {
             if (userName == null || passwprd == null){
                 return Result.fail(400,"账号或密码不能为空！");
             }
+            AccountEntity accountEntity = accountMapper.queryOneAccount(userName);
 
+            if (accountEntity == null){
+                return Result.fail(400,"账号不存在！");
+            }
 
-            return null;
+            if (accountEntity.getPassword().equals(passwprd)){
+                return Result.ok("登录成功！",accountEntity);
+            }
+            return Result.fail(400,"密码错误！");
 
 
         }catch (Exception e){

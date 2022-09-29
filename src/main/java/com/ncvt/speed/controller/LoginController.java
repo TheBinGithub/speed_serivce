@@ -26,7 +26,7 @@ public class LoginController {
     public Object login(@PathVariable String userName,@PathVariable String password){
         try {
 
-            return accountService.queryOneAccount(userName);
+            return accountService.login(userName,password);
 
         }catch (Exception e){
             e.printStackTrace();
