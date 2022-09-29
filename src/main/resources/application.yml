@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/speed_db?characterEncoding=utf-8&userSSL=fales
+    username: root
+    password: root
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+
+server:
+  servlet:
+    context-path: /api
+  port: 8089
