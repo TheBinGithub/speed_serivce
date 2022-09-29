@@ -7,5 +7,6 @@ public class AccountParams {
 
     private String userName;
     private String password;
+    private String salt;
 
 }

@@ -9,6 +9,7 @@
         <result column="user_id" property="userId"></result>
         <result column="user_name" property="userName"></result>
         <result column="password" property="password"></result>
+        <result column="salt" property="salt"></result>
     </resultMap>
 
 
@@ -20,9 +21,10 @@
     <insert id="accountAddition" useGeneratedKeys="true">
         INSERT INTO tb_account(
             user_name,
-            password
+            password,
+            salt
         ) VALUES (
-                     #{userName},#{password}
+                     #{userName},#{password},#{salt}
                  )
     </insert>
 
