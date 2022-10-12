@@ -28,17 +28,22 @@ public class AccountServiceImpl implements AccountService {
         return password;
     }
 
+    // 查询单个
     @Override
     public Object queryOneAccount(String userName) {
         try {
-            return Result.ok("查询成功！",accountMapper.queryOneAccount(userName));
-
+            AccountEntity accountEntity = accountMapper.queryOneAccount(userName);
+            if (accountEntity == null){
+                return Result.fail(400,"无结果！");
+            }
+            return Result.ok("查询成功！",accountEntity);
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！");
         }
     }
 
+    // 添加
     @Override
     public Object accountAddition(AccountParams accountParams) {
 
@@ -71,6 +76,7 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
+    // 登录
     @Override
     public Object login(String userName, String passwprd) {
 

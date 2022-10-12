@@ -6,9 +6,6 @@ import com.ncvt.speed.params.AccountParams;
 
 public interface AccountMapper{
 
-    // 登录
-    AccountEntity login(AccountParams accountParams);
-
     // 注册
     Integer accountAddition(AccountParams accountParams);
 

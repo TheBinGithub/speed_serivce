@@ -6,10 +6,23 @@ spring:
     username: root
     password: root
 
+
+  servlet:
+    multipart:
+      # 最大文件大小
+      max-file-size: 130MB
+      # 单次最大请求大小
+      max-request-size: 130MB
+
   # knife4j所需
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
+
+file-save-path: E:\\bishe\\file\\
+
+file-save-type: exe,jpg
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
@@ -18,4 +31,3 @@ server:
   servlet:
     context-path: /api
   port: 8089
-
