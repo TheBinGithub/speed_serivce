@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 
 
-@Api(tags = "上下传模块")
 public class Uploader {
 
     // file 文件
