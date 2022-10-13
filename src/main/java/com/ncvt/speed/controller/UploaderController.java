@@ -178,6 +178,13 @@ public class UploaderController {
                         }
                     }
 
+                    // 需要做删除临时目录
+                    boolean result = temppath1.delete();
+                    if (!result){
+                        return Result.fail("删除临时目录出现异常！");
+                    }
+
+
                     // 数据库
                     return fileService.addFile(fileEntity,"path: "+endFile.getPath());
                 }
