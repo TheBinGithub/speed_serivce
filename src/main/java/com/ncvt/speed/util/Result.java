@@ -23,6 +23,10 @@ public class Result {
         return Result.builder().code(500).msg(msg).build();
     }
 
+    public static Result fail(String msg,Object data) {
+        return Result.builder().msg(msg).data(data).build();
+    }
+
     public static Result fail(Integer code,String msg) {
         return Result.builder().code(code).msg(msg).build();
     }

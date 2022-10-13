@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ncvt.speed.mapper.FileMapper">
+
+    <resultMap id="FileRMap" type="com.ncvt.speed.entity.FileEntity">
+        <result column="file_id" property="fileId"></result>
+        <result column="user_id" property="userId"></result>
+        <result column="du_you" property="duYou"></result>
+        <result column="file_name" property="fileName"></result>
+        <result column="file_type" property="fileType"></result>
+        <result column="file_path" property="filePath"></result>
+        <result column="file_size" property="fileSize"></result>
+        <result column="hash" property="hash"></result>
+    </resultMap>
+
+
+    <select id="queryFile" resultMap="FileRMap">
+        SELECT * FROM tb_file WHERE user_id =#{userId}
+    </select>
+
+    <!-- keyProperty="userId" 设置主键字段对应的实体类 -->
+    <insert id="addFile" useGeneratedKeys="true">
+        INSERT INTO tb_file(
+            user_id,
+            du_you,
+            file_name,
+            file_type,
+            file_path,
+            file_size,
+            hash
+        ) VALUES (
+                     #{userId},#{duYou},#{fileName},#{fileType},#{filePath},#{fileSize},#{hash}
+                 )
+    </insert>
+
+
+
+</mapper>
