@@ -13,7 +13,7 @@ public interface FileService {
     Result queryFile(String userId);
 
     // 添加
-    Result addFile(FileEntity file);
+    Result addFile(FileEntity file, String msg);
 
     // 删除
     Result deleteFile(String FileName);

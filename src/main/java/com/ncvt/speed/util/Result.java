@@ -15,6 +15,10 @@ public class Result {
         return Result.builder().code(200).msg(msg).build();
     }
 
+    public static Result ok(Integer code, String msg) {
+        return Result.builder().code(code).code(200).msg(msg).build();
+    }
+
     public static Result ok(String msg, Object data) {
         return Result.builder().code(200).msg(msg).data(data).build();
     }

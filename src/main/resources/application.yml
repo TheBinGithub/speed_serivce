@@ -21,6 +21,8 @@ spring:
 
 file-save-path: E:\\bishe\\file\\
 
+file-temp-path: E:\\bishe\\tempfile\\
+
 file-save-type: exe,jpg
 
 mybatis:

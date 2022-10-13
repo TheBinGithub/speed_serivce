@@ -30,13 +30,13 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public Result addFile(FileEntity file) {
+    public Result addFile(FileEntity file, String msg) {
         try {
             int result = fileMapper.addFile(file);
             if (result == 0){
                 return Result.fail(300,"新增时出现未知异常！");
             }
-            return Result.ok("上传成功！","path：E:\\bishe\\file\\{用户id}\\文件名");
+            return Result.ok("合并成功！",msg);
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！");

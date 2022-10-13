@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.util.Arrays;
 
 @Api(tags = "上传模块")
 @RestController
@@ -31,6 +32,10 @@ public class UploaderController {
     private String path;
 
 
+    @Value("${file-temp-path}")
+    private String temppath;
+
+
     private static final String utf8 = "utf-8";
 
     @ApiOperation(value = "单个上传")
@@ -40,6 +45,7 @@ public class UploaderController {
         //获取文件的名字
         String originName = Mfile.getOriginalFilename();
         System.out.println("originName:" + originName);
+
         if (originName == null){
             return Result.fail(400,"文件名不能为空！");
         }
@@ -56,7 +62,7 @@ public class UploaderController {
         log.info(file.getPath());
 
         try {
-            req.setCharacterEncoding(utf8);
+//            req.setCharacterEncoding(utf8);
 
             // 此处Mfile转为File, 好像速度都差不多？
 //            long s1 = System.currentTimeMillis();
@@ -83,13 +89,108 @@ public class UploaderController {
             // 数据库
 //            fileEntity.setDuYou(true);
 
-            return fileService.addFile(fileEntity);
+            return fileService.addFile(fileEntity,"");
 
             //生成返回给前端的url
 //            String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/images" + format + newName;
 
         } catch (Exception e) {
             return Result.fail("服务端异常",e.getMessage());
+        } finally {
+
+        }
+
+    }
+
+
+    @ApiOperation(value = "分片上传")
+    @PostMapping("/fupload/{id}")
+    public Result fupload(@PathVariable String id,FileEntity fileEntity, MultipartFile MFile, HttpServletRequest req){
+
+        Integer shunk = Integer.valueOf(req.getParameter("chunk"));
+        Integer shunks = Integer.valueOf(req.getParameter("chunks"));
+
+        if (MFile == null) return Result.fail(400,"请上传文件");
+
+        //  获取文件的名字
+        String originName = MFile.getOriginalFilename();
+        // 判断文件名不能为空
+        if (originName == null) return Result.fail(400,"文件名不能为空！");
+        // new一个临时目录的File对象
+        File temppath1 = new File(temppath+id);
+        // 不存在则创建
+        if (!temppath1.exists()){
+            temppath1.mkdirs();
+        }
+        // new一个分片文件的File对象
+        File shunkFile = new File(temppath1,shunk+"_"+originName);
+        System.out.println(shunkFile.getPath()+"--"+shunkFile.exists());
+        // 判断该分片是否存在
+        if (!shunkFile.exists()){
+            try(
+                BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(shunkFile));
+                BufferedInputStream bis = new BufferedInputStream(MFile.getInputStream())
+            ){
+                // 不存在则
+                byte[] b = new byte[1024 * 1024 * 10];
+                int len = 0;
+
+                long s = System.currentTimeMillis();
+                while ((len = bis.read(b)) != -1){
+                    bos.write(b,0,len);
+                    bos.flush();
+                }
+                long e = System.currentTimeMillis();
+
+                log.info("time2:"+(e-s)+"/ms");
+
+                // 合并
+                if (shunk.intValue() == shunks.intValue()){
+                    // new一个最终文件存放的位置File对象
+                    File f = new File(path+id);
+                    if (!f.exists()){
+                        f.mkdirs();
+                    }
+                    // new一个最终的文件File对象
+                    File endFile = new File(path+id,originName);
+                    // 循环拿出分片
+                    for (int i=1; i<=shunks; i++){
+                        // new一个当前取到的分片File对象
+                        File iFile = new File(temppath1,i+"_"+originName);
+                        System.out.println("取出分片"+iFile.getPath());
+                        // 如果取到的分片不存在则休眠1000ms后继续判断
+//                        while (!iFile.exists()){
+//                            Thread.sleep(1000);
+//                        }
+                        try(
+                            BufferedOutputStream endBos = new BufferedOutputStream(new FileOutputStream(endFile,true));
+                            BufferedInputStream endBis = new BufferedInputStream(new FileInputStream(iFile));
+                        ) {
+                            byte[] b1 = new byte[1024 * 1024 * 10];
+                            int len1 = 0;
+                            while ((len1 = endBis.read(b1)) != -1){
+                                endBos.write(b1,0,len1);
+                                endBos.flush();
+                            }
+                        }catch (Exception endE){
+                            endE.printStackTrace();
+                            return Result.fail("合并出现异常！",endE.getMessage());
+                        }
+                    }
+
+                    // 数据库
+                    return fileService.addFile(fileEntity,"path: "+endFile.getPath());
+                }
+
+                return Result.ok(201,"分片成功！");
+
+            }catch (Exception e){
+                e.printStackTrace();
+                return Result.fail("服务端异常！",e.getMessage());
+            }
+        }else {
+            // 存在则不上传
+            return Result.ok(202,"该分片已存在！");
         }
 
     }
