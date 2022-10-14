@@ -31,15 +31,13 @@ public class UploaderController {
     @Value("${file-save-path}")
     private String path;
 
-
     @Value("${file-temp-path}")
     private String temppath;
-
 
     private static final String utf8 = "utf-8";
 
     @ApiOperation(value = "单个上传")
-    @PostMapping("/upload/{id}")
+    @PostMapping("/oneUpload/{id}")
     public Result upload(@PathVariable String id,FileEntity fileEntity, MultipartFile Mfile, HttpServletRequest req) {
         if (Mfile == null) return Result.fail(400,"请上传文件");
         //获取文件的名字
@@ -121,10 +119,9 @@ public class UploaderController {
         }
 
     }
-    
 
     @ApiOperation(value = "分片上传")
-    @PostMapping("/fupload/{id}")
+    @PostMapping("/upload/{id}")
     public Result fupload(@PathVariable String id,FileEntity fileEntity, MultipartFile MFile, HttpServletRequest req){
 
         Integer shunk = Integer.valueOf(req.getParameter("chunk"));
@@ -144,7 +141,6 @@ public class UploaderController {
         }
         // new一个分片文件的File对象
         File shunkFile = new File(temppath1,shunk+"_"+originName);
-        System.out.println(shunkFile.getPath()+"--"+shunkFile.exists());
         // 判断该分片是否存在
         if (!shunkFile.exists()){
             try(
@@ -161,8 +157,14 @@ public class UploaderController {
 //                    bos.flush();
                     bos.close();
                 }
+                if (len != -1){
+                    boolean sf = shunkFile.delete();
+                    if (!sf){
+                        return Result.fail("删除损坏的分片出现异常！",shunkFile.getPath());
+                    }
+                    return Result.fail("分片上传出现异常！",shunkFile.getPath());
+                }
                 long e = System.currentTimeMillis();
-
                 log.info("time2:"+(e-s)+"/ms");
 
                 // 合并
@@ -178,7 +180,7 @@ public class UploaderController {
                     for (int i=0; i<shunks; i++){
                         // new一个当前取到的分片File对象
                         File iFile = new File(temppath1,i+"_"+originName);
-                        System.out.println("取出分片"+iFile.getPath());
+                        log.info("取出分片"+iFile.getPath());
                         if (!iFile.exists()){
                             return Result.fail("分片不存在："+iFile.getPath());
                         }
@@ -194,7 +196,7 @@ public class UploaderController {
                             int len1 = 0;
                             while ((len1 = endBis.read(b1)) != -1){
                                 endBos.write(b1,0,len1);
-                                endBos.flush();
+                                endBos.close();
                             }
                         }catch (Exception endE){
                             endE.printStackTrace();
