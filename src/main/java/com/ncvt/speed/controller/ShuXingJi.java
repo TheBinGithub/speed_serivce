@@ -18,8 +18,6 @@ public class ShuXingJi {
 
     private static final String name = "E:\\bishe\\copy";
 
-
-
     private static void show01() {
         // Object setProperty(String k,String v) 相当于Hashtable的put
         // Object getProperty(String k) 通过k找v 相当于Map的get(k)

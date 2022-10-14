@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface FileService {
 
-
     // 查询
     Result queryFile(String userId);
 

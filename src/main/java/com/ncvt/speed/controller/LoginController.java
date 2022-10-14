@@ -25,9 +25,7 @@ public class LoginController {
     @GetMapping("/login/{userName}/{password}")
     public Object login(@PathVariable String userName,@PathVariable String password){
         try {
-
             return accountService.login(userName,password);
-
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("请求服务器错误！");
@@ -41,8 +39,6 @@ public class LoginController {
 
         try {
             return accountService.accountAddition(accountParams);
-
-
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务器错误！");

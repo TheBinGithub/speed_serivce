@@ -7,7 +7,6 @@ public class RecursiveDeletion {
     public static void deleteFile(File file){
         try {
             File[] files = file.listFiles();
-            System.out.println("deletePath:"+file.getPath());
             if (files!=null){//如果包含文件进行删除操作
                 for (File f:files) {
                     //判断遍历出的文件是不是文件
@@ -22,7 +21,6 @@ public class RecursiveDeletion {
         }catch (Exception e){
             e.printStackTrace();
         }
-
     }
 
 }
