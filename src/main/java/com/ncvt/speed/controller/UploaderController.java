@@ -102,6 +102,26 @@ public class UploaderController {
 
     }
 
+    public static void deleteFile(File file){
+        try {
+            File[] files = file.listFiles();
+            if (files!=null){//如果包含文件进行删除操作
+                for (File f:files) {
+                    //判断遍历出的文件是不是文件
+                    if (f.isFile()){
+                        //如果是则直接删除
+                        f.delete();
+                    }else {
+                        deleteFile(f);
+                    }
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+    
 
     @ApiOperation(value = "分片上传")
     @PostMapping("/fupload/{id}")
@@ -113,7 +133,7 @@ public class UploaderController {
         if (MFile == null) return Result.fail(400,"请上传文件");
 
         //  获取文件的名字
-        String originName = MFile.getOriginalFilename();
+        String originName = req.getParameter("originName");
         // 判断文件名不能为空
         if (originName == null) return Result.fail(400,"文件名不能为空！");
         // new一个临时目录的File对象
@@ -138,14 +158,15 @@ public class UploaderController {
                 long s = System.currentTimeMillis();
                 while ((len = bis.read(b)) != -1){
                     bos.write(b,0,len);
-                    bos.flush();
+//                    bos.flush();
+                    bos.close();
                 }
                 long e = System.currentTimeMillis();
 
                 log.info("time2:"+(e-s)+"/ms");
 
                 // 合并
-                if (shunk.intValue() == shunks.intValue()){
+                if (shunk.intValue() == shunks.intValue()-1){
                     // new一个最终文件存放的位置File对象
                     File f = new File(path+id);
                     if (!f.exists()){
@@ -154,10 +175,13 @@ public class UploaderController {
                     // new一个最终的文件File对象
                     File endFile = new File(path+id,originName);
                     // 循环拿出分片
-                    for (int i=1; i<=shunks; i++){
+                    for (int i=0; i<shunks; i++){
                         // new一个当前取到的分片File对象
                         File iFile = new File(temppath1,i+"_"+originName);
                         System.out.println("取出分片"+iFile.getPath());
+                        if (!iFile.exists()){
+                            return Result.fail("分片不存在："+iFile.getPath());
+                        }
                         // 如果取到的分片不存在则休眠1000ms后继续判断
 //                        while (!iFile.exists()){
 //                            Thread.sleep(1000);
@@ -179,11 +203,11 @@ public class UploaderController {
                     }
 
                     // 需要做删除临时目录
+                    deleteFile(temppath1);
                     boolean result = temppath1.delete();
                     if (!result){
                         return Result.fail("删除临时目录出现异常！");
                     }
-
 
                     // 数据库
                     return fileService.addFile(fileEntity,"path: "+endFile.getPath());
