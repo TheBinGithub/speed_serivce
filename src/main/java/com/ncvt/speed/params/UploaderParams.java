@@ -7,5 +7,6 @@ public class UploaderParams {
 
     private String part;
     private String allPart;
+    private String originName;
 
 }

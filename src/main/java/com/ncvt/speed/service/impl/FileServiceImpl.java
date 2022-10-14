@@ -34,7 +34,7 @@ public class FileServiceImpl implements FileService {
         try {
             int result = fileMapper.addFile(file);
             if (result == 0){
-                return Result.fail(300,"新增时出现未知异常！");
+                return Result.fail(300,"数据库新增出现未知异常！");
             }
             return Result.ok("合并成功！",msg);
         }catch (Exception e){

@@ -3,22 +3,18 @@ package com.ncvt.speed.controller;
 import com.ncvt.speed.entity.FileEntity;
 import com.ncvt.speed.params.UploaderParams;
 import com.ncvt.speed.service.FileService;
+import com.ncvt.speed.util.RecursiveDeletion;
 import com.ncvt.speed.util.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
-import java.util.Arrays;
 
 @Api(tags = "上传模块")
 @RestController
@@ -33,8 +29,6 @@ public class UploaderController {
 
     @Value("${file-temp-path}")
     private String temppath;
-
-    private static final String utf8 = "utf-8";
 
     @ApiOperation(value = "单个上传")
     @PostMapping("/oneUpload/{id}")
@@ -100,41 +94,19 @@ public class UploaderController {
 
     }
 
-    public static void deleteFile(File file){
-        try {
-            File[] files = file.listFiles();
-            if (files!=null){//如果包含文件进行删除操作
-                for (File f:files) {
-                    //判断遍历出的文件是不是文件
-                    if (f.isFile()){
-                        //如果是则直接删除
-                        f.delete();
-                    }else {
-                        deleteFile(f);
-                    }
-                }
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-    }
-
     @ApiOperation(value = "分片上传")
     @PostMapping("/upload/{id}")
     public Result fupload(@PathVariable String id,FileEntity fileEntity, MultipartFile MFile, HttpServletRequest req){
 
         Integer shunk = Integer.valueOf(req.getParameter("chunk"));
         Integer shunks = Integer.valueOf(req.getParameter("chunks"));
-
         if (MFile == null) return Result.fail(400,"请上传文件");
-
         //  获取文件的名字
         String originName = req.getParameter("originName");
         // 判断文件名不能为空
         if (originName == null) return Result.fail(400,"文件名不能为空！");
         // new一个临时目录的File对象
-        File temppath1 = new File(temppath+id);
+        File temppath1 = new File(temppath+id,originName);
         // 不存在则创建
         if (!temppath1.exists()){
             temppath1.mkdirs();
@@ -203,15 +175,12 @@ public class UploaderController {
                             return Result.fail("合并出现异常！",endE.getMessage());
                         }
                     }
-
-                    // 需要做删除临时目录
-                    deleteFile(temppath1);
+                    // 删除临时目录
+                    RecursiveDeletion.deleteFile(temppath1);
                     boolean result = temppath1.delete();
-                    if (!result){
-                        return Result.fail("删除临时目录出现异常！");
-                    }
+                    if (!result) return Result.fail("删除临时目录出现异常！");
 
-                    // 数据库
+                    // 数据库添加记录
                     return fileService.addFile(fileEntity,"path: "+endFile.getPath());
                 }
 
@@ -227,4 +196,23 @@ public class UploaderController {
         }
 
     }
+
+    @ApiOperation(value = "取消上传")
+    @PostMapping("/endUpload/{id}")
+    public Result endUpload(@PathVariable String id, @RequestBody UploaderParams uploaderParams){
+        try {
+            File file = new File(temppath+id,uploaderParams.getOriginName());
+            RecursiveDeletion.deleteFile(file);
+            boolean result =  file.delete();
+            if (file.exists() && result){
+                return Result.fail("删除临时文件出现未知异常！");
+            }else {
+                return Result.ok("取消成功！");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.fail("取消上传出现异常！");
+        }
+    }
+
 }
