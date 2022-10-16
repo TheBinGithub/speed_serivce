@@ -31,26 +31,25 @@ public class UploaderServiceImpl implements UploaderService {
     @Override
     public Result upload(String id, FileEntity fileEntity, MultipartFile MFile, HttpServletRequest req) {
 
-        Integer shunk = Integer.valueOf(req.getParameter("chunk"));
-        Integer shunks = Integer.valueOf(req.getParameter("chunks"));
+//        Integer shunk = Integer.valueOf(req.getParameter("chunk"));
         if (MFile == null) return Result.fail(400,"请上传文件");
-        //  获取文件的名字
-        String originName = req.getParameter("originName");
+        // 取出所需参数
+        Integer shunk = fileEntity.getShunk();
+        Integer shunks = fileEntity.getShunks();
+        String originName = fileEntity.getFileName();
         // 判断文件名不能为空
         if (originName == null) return Result.fail(400,"文件名不能为空！");
         // new一个临时目录的File对象
         File temppath1 = new File(temppath+id,originName);
         // 不存在则创建
-        if (!temppath1.exists()){
-            temppath1.mkdirs();
-        }
+        if (!temppath1.exists()) temppath1.mkdirs();
         // new一个分片文件的File对象
         File shunkFile = new File(temppath1,shunk+"_"+originName);
         // 判断该分片是否存在
         if (!shunkFile.exists()){
             try(
-                    BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(shunkFile));
-                    BufferedInputStream bis = new BufferedInputStream(MFile.getInputStream())
+                BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(shunkFile));
+                BufferedInputStream bis = new BufferedInputStream(MFile.getInputStream())
             ){
                 // 不存在则开始上传
                 byte[] b = new byte[1024 * 1024 * 10];
@@ -59,16 +58,15 @@ public class UploaderServiceImpl implements UploaderService {
                 // 使用缓冲流边读边写
                 while ((len = bis.read(b)) != -1){
                     bos.write(b,0,len);
-//                    bos.flush();
-                    bos.close();
+                    bos.flush();
                 }
+                // close
+                if (bos != null) bos.close();
                 // 判断该分片是否上传完成
                 if (len != -1){
                     // 未完成则删除该分片残余数据
                     boolean sf = shunkFile.delete();
-                    if (!sf){
-                        return Result.fail("删除损坏的分片出现异常！",shunkFile.getPath());
-                    }
+                    if (!sf) return Result.fail("删除损坏的分片出现异常！",shunkFile.getPath());
                     return Result.fail("分片上传出现异常！",shunkFile.getPath());
                 }
                 // 合并
@@ -76,9 +74,7 @@ public class UploaderServiceImpl implements UploaderService {
                     // new一个最终文件存放目录的File对象
                     File f = new File(path+id);
                     // 存放目录不存在则new一个
-                    if (!f.exists()){
-                        f.mkdirs();
-                    }
+                    if (!f.exists()) f.mkdirs();
                     // new一个最终文件的File对象
                     File endFile = new File(path+id,originName);
                     // 循环拿出分片
@@ -87,25 +83,24 @@ public class UploaderServiceImpl implements UploaderService {
                         File iFile = new File(temppath1,i+"_"+originName);
                         log.info("取出分片"+iFile.getPath());
                         // 分片不存在则return
-                        if (!iFile.exists()){
-                            return Result.ok(404,"分片不存在："+iFile.getPath());
-                        }
+                        if (!iFile.exists()) return Result.ok(404,"分片不存在："+iFile.getPath());
                         // 如果取到的分片不存在则休眠1000ms后继续判断
 //                        while (!iFile.exists()){
 //                            Thread.sleep(1000);
 //                        }
                         // 捕获一下，在try()里可传入流
                         try(
-                                BufferedOutputStream endBos = new BufferedOutputStream(new FileOutputStream(endFile,true));
-                                BufferedInputStream endBis = new BufferedInputStream(new FileInputStream(iFile));
+                            BufferedOutputStream endBos = new BufferedOutputStream(new FileOutputStream(endFile,true));
+                            BufferedInputStream endBis = new BufferedInputStream(new FileInputStream(iFile));
                         ) {
                             byte[] b1 = new byte[1024 * 1024 * 10];
                             int len1 = 0;
                             // 使用缓冲流边读边写，已开启追加
                             while ((len1 = endBis.read(b1)) != -1){
                                 endBos.write(b1,0,len1);
-                                endBos.close();
+                                endBos.flush();
                             }
+                            if (endBos != null) endBos.close();
                         }catch (Exception endE){
                             endE.printStackTrace();
                             return Result.fail("合并出现异常！",endE.getMessage());
@@ -113,9 +108,8 @@ public class UploaderServiceImpl implements UploaderService {
                     }
                     // 删除临时目录
                     RecursiveDeletion.deleteFile(temppath1);
-                    boolean result = temppath1.delete();
-                    if (!result) return Result.fail("删除临时目录出现异常！");
-
+//                    boolean result = temppath1.delete();
+//                    if (!result) return Result.fail("删除临时目录出现异常！");
                     // 数据库添加记录
                     return fileService.addFile(fileEntity,"path: "+endFile.getPath());
                 }
@@ -143,7 +137,7 @@ public class UploaderServiceImpl implements UploaderService {
             }
         }catch (Exception e){
             e.printStackTrace();
-            return Result.fail("取消上传出现异常！");
+            return Result.fail("取消上传出现未知异常！",e.getMessage());
         }
     }
 

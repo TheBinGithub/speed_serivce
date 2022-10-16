@@ -12,7 +12,6 @@
         <result column="salt" property="salt"></result>
     </resultMap>
 
-
     <select id="queryOneAccount" resultMap="UserRMap">
         SELECT * FROM tb_account WHERE user_name=#{userName}
     </select>
@@ -27,7 +26,5 @@
                      #{userName},#{password},#{salt}
                  )
     </insert>
-
-
 
 </mapper>

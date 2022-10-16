@@ -33,9 +33,7 @@ public class AccountServiceImpl implements AccountService {
     public Object queryOneAccount(String userName) {
         try {
             AccountEntity accountEntity = accountMapper.queryOneAccount(userName);
-            if (accountEntity == null){
-                return Result.fail(400,"无结果！");
-            }
+            if (accountEntity == null) return Result.fail(400,"无结果！");
             return Result.ok("查询成功！",accountEntity);
         }catch (Exception e){
             e.printStackTrace();
@@ -63,12 +61,9 @@ public class AccountServiceImpl implements AccountService {
             accountParams.setPassword(getMd5Password(accountParams.getPassword(),salt));
 
             Integer result = accountMapper.accountAddition(accountParams);
-            if (result != 1){
-                return Result.fail("注册过程出现未知异常！");
-            }
+            if (result != 1) return Result.fail("注册过程出现未知异常！");
 
             return Result.ok("注册成功！",accountParams);
-
 
         }catch (Exception e){
             e.printStackTrace();

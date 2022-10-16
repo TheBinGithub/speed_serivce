@@ -3,7 +3,6 @@ package com.ncvt.speed.service;
 import com.ncvt.speed.entity.UserEntity;
 import com.ncvt.speed.util.Result;
 
-
 public interface UserService {
 
     // 查询

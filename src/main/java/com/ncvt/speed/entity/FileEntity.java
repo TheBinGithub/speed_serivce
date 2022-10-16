@@ -1,6 +1,6 @@
 package com.ncvt.speed.entity;
 
-import lombok.Builder;
+import io.swagger.annotations.ApiImplicitParam;
 import lombok.Data;
 
 @Data
@@ -14,5 +14,9 @@ public class FileEntity {
     private String filePath;
     private Long fileSize;
     private String hash;
+
+    // 非数据库字段
+    private Integer shunk;
+    private Integer shunks;
 
 }

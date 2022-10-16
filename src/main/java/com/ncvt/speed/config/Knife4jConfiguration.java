@@ -25,7 +25,6 @@ public class Knife4jConfiguration {
                 .select().apis(RequestHandlerSelectors.basePackage("com.ncvt.speed.controller"))
                 .paths(PathSelectors.any())
                 .build();
-
     }
 
     private ApiInfo apiInfo() {

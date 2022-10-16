@@ -1,6 +1,5 @@
 package com.ncvt.speed.mapper;
 
-
 import com.ncvt.speed.entity.AccountEntity;
 import com.ncvt.speed.params.AccountParams;
 

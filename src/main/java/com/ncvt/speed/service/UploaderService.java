@@ -3,7 +3,6 @@ package com.ncvt.speed.service;
 import com.ncvt.speed.entity.FileEntity;
 import com.ncvt.speed.params.UploaderParams;
 import com.ncvt.speed.util.Result;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;

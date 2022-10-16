@@ -16,7 +16,6 @@
         <result column="hash" property="hash"></result>
     </resultMap>
 
-
     <select id="queryFile" resultMap="FileRMap">
         SELECT * FROM tb_file WHERE user_id =#{userId}
     </select>
@@ -35,7 +34,5 @@
                      #{userId},#{duYou},#{fileName},#{fileType},#{filePath},#{fileSize},#{hash}
                  )
     </insert>
-
-
 
 </mapper>

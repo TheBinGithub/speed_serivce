@@ -2,9 +2,6 @@ package com.ncvt.speed.service;
 
 import com.ncvt.speed.entity.FileEntity;
 import com.ncvt.speed.util.Result;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 public interface FileService {
 
