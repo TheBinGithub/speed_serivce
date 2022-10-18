@@ -35,6 +35,12 @@ public class DownloadServiceImpl implements DownloadService {
         ) {
             res.reset();
             res.setContentType("application/x-download");
+
+            res.addHeader("Access-Control-Allow-Origin", req.getHeader("origin"));
+            res.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+            res.addHeader("Access-Control-Allow-Headers", "Content-Type");
+            res.addHeader("Access-Control-Allow-Credentials","true");
+
             String fileName1 = URLEncoder.encode(file.getName(),utf8);
             res.addHeader("Content-Disposition","attachment;filename=" + fileName1);
             byte[] b = new byte[1024 * 1024 * 10];
