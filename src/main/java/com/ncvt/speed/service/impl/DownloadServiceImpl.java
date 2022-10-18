@@ -24,10 +24,12 @@ public class DownloadServiceImpl implements DownloadService {
 
     private static final String utf8 = "utf-8";
 
+    // 下载
     @Override
-    public Result download(String id, String fileName, HttpServletRequest req, HttpServletResponse res) {
+    public Result download(String id, String filePath, HttpServletRequest req, HttpServletResponse res) {
+        log.info("id:"+id+"filePath:" +filePath);
         res.setCharacterEncoding(utf8);
-        File file = new File(path+id,fileName);
+        File file = new File(filePath);
         log.info("file:"+file);
         if (!file.exists()) return Result.fail(404,"文件不存在!");
         try(
@@ -42,10 +44,10 @@ public class DownloadServiceImpl implements DownloadService {
             int len = 0;
             while ((len = bis.read(b)) != -1){
                 bos.write(b, 0, len);
-                bos.close();
+                bos.flush();
             }
-//            bis.close();
-            String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/"+ fileName;
+            bis.close();
+            String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/"+ filePath;
             return Result.ok("获取成功！",url);
         }catch (Exception e){
             e.printStackTrace();
