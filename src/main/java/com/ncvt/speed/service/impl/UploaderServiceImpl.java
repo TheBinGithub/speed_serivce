@@ -28,6 +28,7 @@ public class UploaderServiceImpl implements UploaderService {
     @Resource
     private FileService fileService;
 
+    // 分片上传
     @Override
     public Result upload(String id, FileEntity fileEntity, MultipartFile MFile, HttpServletRequest req) {
 
@@ -83,7 +84,7 @@ public class UploaderServiceImpl implements UploaderService {
                         File iFile = new File(temppath1,i+"_"+originName);
                         log.info("取出分片"+iFile.getPath());
                         // 分片不存在则return
-                        if (!iFile.exists()) return Result.ok(404,"分片不存在："+iFile.getPath());
+                        if (!iFile.exists()) return Result.ok(404,"合并时，分片不存在："+iFile.getPath());
                         // 如果取到的分片不存在则休眠1000ms后继续判断
 //                        while (!iFile.exists()){
 //                            Thread.sleep(1000);
@@ -91,7 +92,7 @@ public class UploaderServiceImpl implements UploaderService {
                         // 捕获一下，在try()里可传入流
                         try(
                             BufferedOutputStream endBos = new BufferedOutputStream(new FileOutputStream(endFile,true));
-                            BufferedInputStream endBis = new BufferedInputStream(new FileInputStream(iFile));
+                            BufferedInputStream endBis = new BufferedInputStream(new FileInputStream(iFile))
                         ) {
                             byte[] b1 = new byte[1024 * 1024 * 10];
                             int len1 = 0;
@@ -108,9 +109,16 @@ public class UploaderServiceImpl implements UploaderService {
                     }
                     // 删除临时目录
                     RecursiveDeletion.deleteFile(temppath1);
-//                    boolean result = temppath1.delete();
-//                    if (!result) return Result.fail("删除临时目录出现异常！");
+                    boolean result = temppath1.delete();
+                    if (!result) return Result.fail("删除临时目录出现异常！");
                     // 数据库添加记录
+                    fileEntity.setUserId(id);
+                    fileEntity.setDuYou(false);
+                    // 需要注意的是像【.】【|】【+】【*】等都是转义字符，在作为参数时，需要加入“\\”,
+                    String[] sName = fileEntity.getFileName().split("\\.");
+                    fileEntity.setFileType(sName[sName.length - 1]);
+                    fileEntity.setFilePath(endFile.getPath());
+                    fileEntity.setFileSize(endFile.length());
                     return fileService.addFile(fileEntity,"path: "+endFile.getPath());
                 }
                 return Result.ok(201,"分片成功！");
@@ -124,6 +132,7 @@ public class UploaderServiceImpl implements UploaderService {
         }
     }
 
+    // 取消上传
     @Override
     public Result endUpload(String id, UploaderParams uploaderParams) {
         try {
@@ -140,5 +149,6 @@ public class UploaderServiceImpl implements UploaderService {
             return Result.fail("取消上传出现未知异常！",e.getMessage());
         }
     }
+
 
 }

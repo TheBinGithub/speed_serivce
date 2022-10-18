@@ -33,7 +33,7 @@ public class AccountServiceImpl implements AccountService {
     public Object queryOneAccount(String userName) {
         try {
             AccountEntity accountEntity = accountMapper.queryOneAccount(userName);
-            if (accountEntity == null) return Result.fail(400,"无结果！");
+            if (accountEntity == null) return Result.fail(404,"账号不存在！");
             return Result.ok("查询成功！",accountEntity);
         }catch (Exception e){
             e.printStackTrace();
@@ -82,14 +82,13 @@ public class AccountServiceImpl implements AccountService {
             AccountEntity accountEntity = accountMapper.queryOneAccount(userName);
 
             if (accountEntity == null){
-                return Result.fail(400,"账号不存在！");
+                return Result.fail(404,"账号不存在！");
             }
 
             if (accountEntity.getPassword().equals(getMd5Password(passwprd,accountEntity.getSalt()))){
                 return Result.ok("登录成功！",accountEntity);
             }
             return Result.fail(400,"密码错误！");
-
 
         }catch (Exception e){
             e.printStackTrace();

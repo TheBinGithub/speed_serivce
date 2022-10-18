@@ -4,9 +4,11 @@ import com.ncvt.speed.entity.UserEntity;
 import com.ncvt.speed.mapper.UserMapper;
 import com.ncvt.speed.service.UserService;
 import com.ncvt.speed.util.Result;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     @Resource
