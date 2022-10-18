@@ -8,6 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface DownloadService {
 
-    Result download(DownloadParams downloadParams, HttpServletRequest req, HttpServletResponse res);
+    Result download(String id, String fielName, HttpServletRequest req, HttpServletResponse res);
 
 }

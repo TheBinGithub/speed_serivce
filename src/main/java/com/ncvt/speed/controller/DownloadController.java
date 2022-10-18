@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,9 +25,9 @@ public class DownloadController {
     private DownloadService downloadService;
 
     @ApiOperation(value = "下载")
-    @GetMapping("/download")
-    public Result download(@RequestBody DownloadParams downloadParams, HttpServletRequest req, HttpServletResponse res){
-        return downloadService.download(downloadParams, req, res);
+    @GetMapping("/download/{id}/{filePath}")
+    public Result download(@PathVariable String id, @PathVariable String filePath,HttpServletRequest req, HttpServletResponse res){
+        return downloadService.download(id, filePath, req, res);
     }
 
 }

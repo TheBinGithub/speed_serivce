@@ -25,9 +25,9 @@ public class DownloadServiceImpl implements DownloadService {
     private static final String utf8 = "utf-8";
 
     @Override
-    public Result download(DownloadParams downloadParams, HttpServletRequest req, HttpServletResponse res) {
+    public Result download(String id, String fileName, HttpServletRequest req, HttpServletResponse res) {
         res.setCharacterEncoding(utf8);
-        File file = new File(path+downloadParams.getId(),downloadParams.getFile());
+        File file = new File(path+id,fileName);
         log.info("file:"+file);
         if (!file.exists()) return Result.fail(404,"文件不存在!");
         try(
@@ -36,8 +36,8 @@ public class DownloadServiceImpl implements DownloadService {
         ) {
             res.reset();
             res.setContentType("application/x-download");
-            String fileName = URLEncoder.encode(file.getName(),utf8);
-            res.addHeader("Content-Disposition","attachment;filename=" + fileName);
+            String fileName1 = URLEncoder.encode(file.getName(),utf8);
+            res.addHeader("Content-Disposition","attachment;filename=" + fileName1);
             byte[] b = new byte[1024 * 1024 * 10];
             int len = 0;
             while ((len = bis.read(b)) != -1){
@@ -45,7 +45,7 @@ public class DownloadServiceImpl implements DownloadService {
                 bos.close();
             }
 //            bis.close();
-            String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/"+ downloadParams.getFile();
+            String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/"+ fileName;
             return Result.ok("获取成功！",url);
         }catch (Exception e){
             e.printStackTrace();

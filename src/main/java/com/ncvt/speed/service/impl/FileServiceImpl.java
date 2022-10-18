@@ -15,8 +15,9 @@ public class FileServiceImpl implements FileService {
     @Resource
     private FileMapper fileMapper;
 
+    // 根据用户id查询文件位置
     @Override
-    public Result queryFile(String userId) {
+    public Result queryFileByUser(String userId) {
         try {
             List<FileEntity> lists = fileMapper.queryFile(userId);
             if (lists == null) return Result.ok("无结果");
