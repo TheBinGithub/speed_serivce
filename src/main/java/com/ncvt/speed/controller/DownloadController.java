@@ -9,10 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -29,11 +26,10 @@ public class DownloadController {
     @ApiOperation(value = "下载")
     @GetMapping("/download/{id}/{filePath}")
     @JsonBackReference
-    public Result download(@PathVariable String id, @PathVariable String filePath,HttpServletRequest req, HttpServletResponse res){
-        System.out.println("filePath:"+filePath);
+    public void download(@PathVariable String id, @PathVariable String filePath,HttpServletRequest req, HttpServletResponse res){
         String s = filePath.replace("@", "\\");
-        System.out.println("s:"+s);
-        return downloadService.download(id, s, req, res);
+        log.info("download... "+s);
+        downloadService.download(id, s, req, res);
     }
 
 }

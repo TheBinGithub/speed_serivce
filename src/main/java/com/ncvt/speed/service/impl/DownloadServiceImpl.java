@@ -1,6 +1,5 @@
 package com.ncvt.speed.service.impl;
 
-import com.ncvt.speed.params.DownloadParams;
 import com.ncvt.speed.service.DownloadService;
 import com.ncvt.speed.util.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -26,11 +25,10 @@ public class DownloadServiceImpl implements DownloadService {
 
     // 下载
     @Override
-    public Result download(String id, String filePath, HttpServletRequest req, HttpServletResponse res) {
-        log.info("id:"+id+"---filePath:" +filePath);
+    public void download(String id, String filePath, HttpServletRequest req, HttpServletResponse res) {
         res.setCharacterEncoding(utf8);
         File file = new File(filePath);
-        if (!file.exists()) return Result.fail(404,"文件不存在!");
+        if (!file.exists()) log.info("文件不存在!");
         try(
                 BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
                 BufferedOutputStream bos = new BufferedOutputStream(res.getOutputStream());
@@ -45,12 +43,11 @@ public class DownloadServiceImpl implements DownloadService {
                 bos.write(b, 0, len);
                 bos.flush();
             }
-            bis.close();
-            String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/";
-            return Result.ok("获取成功！",url);
+//            bis.close();
+//            String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/" + filePath;
         }catch (Exception e){
             e.printStackTrace();
-            return Result.fail("服务端出现异常！",e.getMessage());
+//            return Result.fail("服务端出现异常！",e.getMessage());
         }
     }
 
