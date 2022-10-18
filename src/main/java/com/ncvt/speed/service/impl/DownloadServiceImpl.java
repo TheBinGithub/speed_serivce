@@ -27,10 +27,9 @@ public class DownloadServiceImpl implements DownloadService {
     // 下载
     @Override
     public Result download(String id, String filePath, HttpServletRequest req, HttpServletResponse res) {
-        log.info("id:"+id+"filePath:" +filePath);
+        log.info("id:"+id+"---filePath:" +filePath);
         res.setCharacterEncoding(utf8);
         File file = new File(filePath);
-        log.info("file:"+file);
         if (!file.exists()) return Result.fail(404,"文件不存在!");
         try(
                 BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
@@ -47,7 +46,7 @@ public class DownloadServiceImpl implements DownloadService {
                 bos.flush();
             }
             bis.close();
-            String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/"+ filePath;
+            String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/";
             return Result.ok("获取成功！",url);
         }catch (Exception e){
             e.printStackTrace();
