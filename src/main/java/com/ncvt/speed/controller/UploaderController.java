@@ -2,6 +2,7 @@ package com.ncvt.speed.controller;
 
 import com.ncvt.speed.entity.FileEntity;
 import com.ncvt.speed.params.UploaderParams;
+import com.ncvt.speed.service.FileService;
 import com.ncvt.speed.service.UploaderService;
 import com.ncvt.speed.util.Result;
 import io.swagger.annotations.Api;
@@ -23,9 +24,11 @@ public class UploaderController {
     @Resource
     private UploaderService uploaderService;
 
+    @Resource
+    private FileService fileService;
+
     @ApiOperation(value = "分片上传")
     @PostMapping("/upload/{id}")
-
     @ApiImplicitParams({
         @ApiImplicitParam(name = "shunk", required = true),
         @ApiImplicitParam(name = "shunks", required = true),
@@ -45,6 +48,12 @@ public class UploaderController {
     @PostMapping("/endUpload/{id}")
     public Result endUpload(@PathVariable String id, @RequestBody UploaderParams uploaderParams){
         return uploaderService.endUpload(id, uploaderParams);
+    }
+
+    @ApiOperation(value = "hast校验")
+    @GetMapping("/hash/{userId}/{hash}")
+    public Result hashCheck(@PathVariable String userId, @PathVariable String hash){
+        return fileService.hashCheck(userId, hash);
     }
 
 }

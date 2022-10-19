@@ -5,8 +5,11 @@ import com.ncvt.speed.util.Result;
 
 public interface FileService {
 
-    // 查询
+    // 查询用户文件
     Result queryFileByUserId(String userId);
+
+    // hash校验
+    Result hashCheck(String userId, String hash);
 
     // 添加
     Result addFile(FileEntity file, String msg);

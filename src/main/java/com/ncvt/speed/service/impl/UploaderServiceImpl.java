@@ -40,6 +40,11 @@ public class UploaderServiceImpl implements UploaderService {
         String originName = fileEntity.getFileName();
         // 判断文件名不能为空
         if (originName == null) return Result.fail(400,"文件名不能为空！");
+
+        if (fileEntity.getWay() == 1){
+            return Result.ok(203,"秒传！");
+        }
+
         // new一个临时目录的File对象
         File temppath1 = new File(temppath+id,originName);
         // 不存在则创建
@@ -151,6 +156,8 @@ public class UploaderServiceImpl implements UploaderService {
             return Result.fail("取消上传出现未知异常！",e.getMessage());
         }
     }
+
+
 
 
 }

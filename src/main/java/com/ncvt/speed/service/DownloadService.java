@@ -10,6 +10,6 @@ public interface DownloadService {
 
     void downloadByFile(String id, String filePath, HttpServletRequest req, HttpServletResponse res);
 
-    Result downloadByUrl(String id, String fileName, HttpServletRequest req);
+    Result downloadByUrl(String id, String fileName, HttpServletRequest req, HttpServletResponse res);
 
 }

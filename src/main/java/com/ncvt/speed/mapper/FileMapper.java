@@ -2,12 +2,16 @@ package com.ncvt.speed.mapper;
 
 import com.ncvt.speed.entity.FileEntity;
 
+import java.io.File;
 import java.util.List;
 
 public interface FileMapper {
 
-    // 查询
+    // 查询用户文件
     List<FileEntity> queryFile(String userId);
+
+    // 查询hash
+    List<FileEntity> queryHash(String userId, String hash);
 
     // 添加
     Integer addFile(FileEntity file);

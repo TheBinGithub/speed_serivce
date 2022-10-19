@@ -28,17 +28,16 @@ public class DownloadController {
     @JsonBackReference
     public void downloadByFile(@PathVariable String id, @PathVariable String filePath,HttpServletRequest req, HttpServletResponse res){
         String s = filePath.replace("@", "\\");
-        log.info("download... "+s);
-
+        log.info("download " + s + "...");
         downloadService.downloadByFile(id, s, req, res);
     }
 
     @ApiOperation(value = "下载(返回地址)")
     @GetMapping("/downloads/{id}/{fileName}")
     @ResponseBody
-    public Result downloadByUrl(@PathVariable String id, @PathVariable String fileName,HttpServletRequest req){
-        log.info("download... "+fileName);
-        return downloadService.downloadByUrl(id, fileName, req);
+    public Result downloadByUrl(@PathVariable String id, @PathVariable String fileName,HttpServletRequest req, HttpServletResponse res){
+        log.info("download " + fileName + "...");
+        return downloadService.downloadByUrl(id, fileName, req, res);
     }
 
 }

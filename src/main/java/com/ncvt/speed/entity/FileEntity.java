@@ -18,6 +18,7 @@ public class FileEntity {
     private Long uploadTime;
 
     // 非数据库字段
+    private Integer way;  // 上传方式 0分片上传, 1秒传
     private Integer shunk;
     private Integer shunks;
 

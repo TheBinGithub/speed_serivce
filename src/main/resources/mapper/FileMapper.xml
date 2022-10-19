@@ -14,10 +14,17 @@
         <result column="file_path" property="filePath"></result>
         <result column="file_size" property="fileSize"></result>
         <result column="hash" property="hash"></result>
+        <result column="belong" property="belong"></result>
+        <result column="upload_time" property="uploadTime"></result>
     </resultMap>
 
     <select id="queryFile" resultMap="FileRMap">
         SELECT * FROM tb_file WHERE user_id =#{userId}
+    </select>
+
+    <!-- hash校验 -->
+    <select id="queryHash" resultMap="FileRMap">
+        SELECT * FROM tb_file WHERE user_id=#{userId} AND hash=#{hash}
     </select>
 
     <!-- keyProperty="userId" 设置主键字段对应的实体类 -->

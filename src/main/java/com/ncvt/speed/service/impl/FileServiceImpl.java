@@ -20,7 +20,20 @@ public class FileServiceImpl implements FileService {
     public Result queryFileByUserId(String userId) {
         try {
             List<FileEntity> lists = fileMapper.queryFile(userId);
-            if (lists == null) return Result.ok("无结果");
+            if (lists.size() == 0) return Result.ok("无结果");
+            return Result.ok("查询成功！",lists);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.fail("服务端异常！");
+        }
+    }
+
+    // hash校验
+    @Override
+    public Result hashCheck(String userId, String hash) {
+        try {
+            List<FileEntity> lists = fileMapper.queryHash(userId, hash);
+            if (lists.size() == 0) return Result.ok("无结果");
             return Result.ok("查询成功！",lists);
         }catch (Exception e){
             e.printStackTrace();
