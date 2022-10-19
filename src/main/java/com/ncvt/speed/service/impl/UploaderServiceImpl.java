@@ -40,11 +40,8 @@ public class UploaderServiceImpl implements UploaderService {
         String originName = fileEntity.getFileName();
         // 判断文件名不能为空
         if (originName == null) return Result.fail(400,"文件名不能为空！");
-
-        if (fileEntity.getWay() == 1){
-            return Result.ok(203,"秒传！");
-        }
-
+        // 判断上传类型
+        if (fileEntity.getWay() == 1) return Result.ok(203,"秒传！");
         // new一个临时目录的File对象
         File temppath1 = new File(temppath+id,originName);
         // 不存在则创建

@@ -2,6 +2,7 @@ package com.ncvt.speed.controller;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.ncvt.speed.entity.FileEntity;
 import com.ncvt.speed.params.DownloadParams;
 import com.ncvt.speed.service.DownloadService;
 import com.ncvt.speed.util.Result;
@@ -26,10 +27,10 @@ public class DownloadController {
     @ApiOperation(value = "下载(返回文件流)")
     @GetMapping("/download/{id}/{filePath}")
     @JsonBackReference
-    public void downloadByFile(@PathVariable String id, @PathVariable String filePath,HttpServletRequest req, HttpServletResponse res){
+    public void downloadByFile(@PathVariable String id, @PathVariable String filePath, FileEntity fileEntity, HttpServletRequest req, HttpServletResponse res){
         String s = filePath.replace("@", "\\");
         log.info("download " + s + "...");
-        downloadService.downloadByFile(id, s, req, res);
+        downloadService.downloadByFile(id, s, fileEntity, req, res);
     }
 
     @ApiOperation(value = "下载(返回地址)")

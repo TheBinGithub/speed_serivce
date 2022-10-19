@@ -1,5 +1,6 @@
 package com.ncvt.speed.service.impl;
 
+import com.ncvt.speed.entity.FileEntity;
 import com.ncvt.speed.service.DownloadService;
 import com.ncvt.speed.util.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,7 @@ public class DownloadServiceImpl implements DownloadService {
 
     // 下载,file
     @Override
-    public void downloadByFile(String id, String filePath, HttpServletRequest req, HttpServletResponse res) {
+    public void downloadByFile(String id, String filePath, FileEntity fileEntity,HttpServletRequest req, HttpServletResponse res) {
         res.setCharacterEncoding(utf8);
         File file = new File(filePath);
         if (!file.exists()) {
@@ -38,7 +39,6 @@ public class DownloadServiceImpl implements DownloadService {
         ) {
             res.reset();
             res.setContentType("application/octet-stream");
-
             res.addHeader("Access-Control-Allow-Origin", req.getHeader("origin"));
             res.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
             res.addHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -66,6 +66,11 @@ public class DownloadServiceImpl implements DownloadService {
         try {
             res.reset();
             res.setContentType("application/octet-stream");
+            res.addHeader("Access-Control-Allow-Origin", req.getHeader("origin"));
+            res.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+            res.addHeader("Access-Control-Allow-Headers", "Content-Type");
+            res.addHeader("Access-Control-Allow-Credentials","true");
+
             File file = new File(path+id,fileName);
             if (!file.exists()) return Result.ok(404,"文件不存在！");
             String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/file/" + id + "/" + file.getName();
