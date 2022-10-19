@@ -118,7 +118,9 @@ public class UploaderServiceImpl implements UploaderService {
                     String[] sName = fileEntity.getFileName().split("\\.");
                     fileEntity.setFileType(sName[sName.length - 1]);
                     fileEntity.setFilePath(endFile.getPath());
+                    fileEntity.setBelong(f.getPath());
                     fileEntity.setFileSize(endFile.length());
+                    fileEntity.setUploadTime(endFile.lastModified());
                     return fileService.addFile(fileEntity,"path: "+endFile.getPath());
                 }
                 return Result.ok(201,"分片成功！");

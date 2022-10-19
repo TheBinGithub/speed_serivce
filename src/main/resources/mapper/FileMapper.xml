@@ -29,9 +29,11 @@
             file_type,
             file_path,
             file_size,
-            hash
+            hash,
+            belong,
+            upload_time
         ) VALUES (
-                     #{userId},#{duYou},#{fileName},#{fileType},#{filePath},#{fileSize},#{hash}
+                     #{userId},#{duYou},#{fileName},#{fileType},#{filePath},#{fileSize},#{hash},#{belong},#{uploadTime}
                  )
     </insert>
 

@@ -62,13 +62,13 @@ public class DownloadServiceImpl implements DownloadService {
 
     // 下载,url
     @Override
-    public Result downloadByUrl(String id, String fileName, HttpServletRequest req, HttpServletResponse res) {
+    public Result downloadByUrl(String id, String fileName, HttpServletRequest req) {
         try {
             File file = new File(path+id,fileName);
             if (!file.exists()) return Result.ok(404,"文件不存在！");
             String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/file/" + id + "/" + file.getName();
-            System.out.println(url);
-            return Result.ok("成功！","url:"+url);
+            log.info(url);
+            return Result.ok("成功！",url);
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！",e.getMessage());

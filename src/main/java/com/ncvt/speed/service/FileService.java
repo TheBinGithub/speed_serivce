@@ -6,7 +6,7 @@ import com.ncvt.speed.util.Result;
 public interface FileService {
 
     // 查询
-    Result queryFileByUser(String userId);
+    Result queryFileByUserId(String userId);
 
     // 添加
     Result addFile(FileEntity file, String msg);

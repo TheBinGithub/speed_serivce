@@ -14,6 +14,8 @@ public class FileEntity {
     private String filePath;
     private Long fileSize;
     private String hash;
+    private String belong;
+    private Long uploadTime;
 
     // 非数据库字段
     private Integer shunk;
