@@ -53,7 +53,7 @@ public class UploaderServiceImpl implements UploaderService {
                 BufferedInputStream bis = new BufferedInputStream(MFile.getInputStream())
             ){
                 // 不存在则开始上传
-                byte[] b = new byte[1024 * 1024 * 10];
+                byte[] b = new byte[1024 * 1024 * 8];
                 int len = 0;
 //                long s = System.currentTimeMillis();
                 // 使用缓冲流边读边写
@@ -94,7 +94,7 @@ public class UploaderServiceImpl implements UploaderService {
                             BufferedOutputStream endBos = new BufferedOutputStream(new FileOutputStream(endFile,true));
                             BufferedInputStream endBis = new BufferedInputStream(new FileInputStream(iFile))
                         ) {
-                            byte[] b1 = new byte[1024 * 1024 * 10];
+                            byte[] b1 = new byte[1024 * 1024 * 8];
                             int len1 = 0;
                             // 使用缓冲流边读边写，已开启追加
                             while ((len1 = endBis.read(b1)) != -1){

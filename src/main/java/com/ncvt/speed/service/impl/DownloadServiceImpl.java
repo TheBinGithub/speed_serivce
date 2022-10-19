@@ -23,18 +23,21 @@ public class DownloadServiceImpl implements DownloadService {
 
     private static final String utf8 = "utf-8";
 
-    // 下载
+    // 下载,file
     @Override
-    public void download(String id, String filePath, HttpServletRequest req, HttpServletResponse res) {
+    public void downloadByFile(String id, String filePath, HttpServletRequest req, HttpServletResponse res) {
         res.setCharacterEncoding(utf8);
         File file = new File(filePath);
-        if (!file.exists()) log.info("文件不存在!");
+        if (!file.exists()) {
+            log.info("文件不存在!");
+            return;
+        }
         try(
                 BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
                 BufferedOutputStream bos = new BufferedOutputStream(res.getOutputStream());
         ) {
             res.reset();
-            res.setContentType("application/x-download");
+            res.setContentType("application/octet-stream");
 
             res.addHeader("Access-Control-Allow-Origin", req.getHeader("origin"));
             res.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
@@ -43,7 +46,7 @@ public class DownloadServiceImpl implements DownloadService {
 
             String fileName1 = URLEncoder.encode(file.getName(),utf8);
             res.addHeader("Content-Disposition","attachment;filename=" + fileName1);
-            byte[] b = new byte[1024 * 1024 * 10];
+            byte[] b = new byte[1024 * 1024 * 8];
             int len = 0;
             while ((len = bis.read(b)) != -1){
                 bos.write(b, 0, len);
@@ -54,6 +57,21 @@ public class DownloadServiceImpl implements DownloadService {
         }catch (Exception e){
             e.printStackTrace();
 //            return Result.fail("服务端出现异常！",e.getMessage());
+        }
+    }
+
+    // 下载,url
+    @Override
+    public Result downloadByUrl(String id, String fileName, HttpServletRequest req, HttpServletResponse res) {
+        try {
+            File file = new File(path+id,fileName);
+            if (!file.exists()) return Result.ok(404,"文件不存在！");
+            String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/file/" + id + "/" + file.getName();
+            System.out.println(url);
+            return Result.ok("成功！","url:"+url);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.fail("服务端异常！",e.getMessage());
         }
     }
 
