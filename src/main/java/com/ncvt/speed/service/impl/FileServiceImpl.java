@@ -45,7 +45,7 @@ public class FileServiceImpl implements FileService {
     public Result queryFileByPath(String userId, String path) {
         try {
             FileEntity fileEntity = fileMapper.queryFileByPath(userId,path);;
-            return Result.ok("查询成功！");
+            return Result.ok("查询成功！",fileEntity);
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！");

@@ -1,6 +1,7 @@
 package com.ncvt.speed.controller;
 
 import com.ncvt.speed.entity.FileEntity;
+import com.ncvt.speed.params.NewFolderParms;
 import com.ncvt.speed.params.RenameParams;
 import com.ncvt.speed.service.FileService;
 import com.ncvt.speed.service.OperationFileService;
@@ -34,21 +35,18 @@ public class OperationFileController {
 
     @ApiOperation(value = "查询用户文件")
     @GetMapping("/file/{id}")
-    private Result queryFileByUserId(@PathVariable String id){
+    public Result queryFileByUserId(@PathVariable String id){
         log.info("queryFileByUserId: " + id);
         return fileService.queryFileByUserId(id);
     }
 
     @ApiOperation(value = "新建文件夹")
     @PostMapping("/folder/{id}")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "belong", required = true),
-        @ApiImplicitParam(name = "fileName", required = true)
-    })
-    private Result newFolder(@PathVariable String id, @RequestBody FileEntity fileEntity){
-        log.info("newFolder: " + id + "\\" + fileEntity.getFileName());
-        // 数据库添加记录
-        File file = new File(path+id,fileEntity.getFileName());
+    public Result newFolder(@PathVariable String id, @RequestBody NewFolderParms newFolderParms){
+        log.info("newFolder: " + id + "\\" + newFolderParms.getFilePath());
+        FileEntity fileEntity = new FileEntity();
+        fileEntity.setFileName(newFolderParms.getFilePath());
+        File file = new File(path,fileEntity.getFileName());
         if (file.exists()) {
             return Result.fail(400, "文件夹已存在！");
         }else {
@@ -61,20 +59,16 @@ public class OperationFileController {
         fileEntity.setFileSize(0L);
         Long timeStamp = System.currentTimeMillis();  //获取当前时间戳
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH");
-        String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));      // 时间戳转换成时间
+        String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));  // 时间戳转换成时间
         fileEntity.setUploadTime(sd);
         return fileService.addFile(fileEntity,"新建成功！");
     }
 
     @ApiOperation(value = "重命名")
     @PutMapping("/rename/{userId}")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "oldFilePath", required = true),
-            @ApiImplicitParam(name = "newFilePath", required = true)
-    })
-    private Result rename(@PathVariable String userId, @RequestBody RenameParams param){
+    public Result rename(@PathVariable String userId, @RequestBody RenameParams renameParams){
 
-        return operationFileService.rename(userId, param);
+        return operationFileService.rename(userId, renameParams);
     }
 
 }

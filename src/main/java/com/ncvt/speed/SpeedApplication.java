@@ -4,6 +4,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+// scanBasePackages = {"com.ncvt.speed.config"}
 @SpringBootApplication
 @MapperScan("com.ncvt.speed.mapper")
 public class SpeedApplication {
