@@ -9,10 +9,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -43,7 +40,7 @@ public class OperationFileController {
         @ApiImplicitParam(name = "belong", required = true),
         @ApiImplicitParam(name = "fileName", required = true)
     })
-    private Result newFolder(@PathVariable String id, FileEntity fileEntity){
+    private Result newFolder(@PathVariable String id, @RequestBody FileEntity fileEntity){
         log.info("newFolder: " + id);
         // 数据库添加记录
         File file = new File(path+id,fileEntity.getFileName());
