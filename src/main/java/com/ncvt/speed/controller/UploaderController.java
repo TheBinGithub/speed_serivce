@@ -33,7 +33,9 @@ public class UploaderController {
         @ApiImplicitParam(name = "shunk", required = true),
         @ApiImplicitParam(name = "shunks", required = true),
         @ApiImplicitParam(name = "fileName", required = true),
-        @ApiImplicitParam(name = "MFile", required = true)
+        @ApiImplicitParam(name = "MFile", required = true),
+        @ApiImplicitParam(name = "belong", required = true),
+        @ApiImplicitParam(name = "way", required = true)
     })
     public Result upload(@PathVariable String id,FileEntity fileEntity, MultipartFile MFile, HttpServletRequest req){
         // 此处MFile转为File, 好像速度都差不多？
