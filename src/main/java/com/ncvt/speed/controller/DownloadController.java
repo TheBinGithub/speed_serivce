@@ -38,7 +38,6 @@ public class DownloadController {
     @ResponseBody
     public Result downloadByUrl(@PathVariable String id, @PathVariable String fileName,HttpServletRequest req, HttpServletResponse res){
         String s = fileName.replace("@-.@", "\\");
-        log.info("download " + s + " ...");
         return downloadService.downloadByUrl(id, s, req, res);
     }
 
