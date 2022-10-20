@@ -15,7 +15,7 @@ public class FileEntity {
     private Long fileSize;
     private String hash;
     private String belong;
-    private Long uploadTime;
+    private String uploadTime;
 
     // 非数据库字段
     private Integer way;  // 上传方式 0分片上传, 1秒传

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80021
 File Encoding         : 65001
 
-Date: 2022-10-18 16:31:31
+Date: 2022-10-20 14:28:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -48,13 +48,14 @@ CREATE TABLE `tb_file` (
   `file_path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件的存放路径',
   `file_size` bigint DEFAULT NULL COMMENT '文件大小单位字节',
   `hash` varchar(255) DEFAULT NULL COMMENT '文件哈希值',
+  `belong` varchar(255) DEFAULT NULL,
+  `upload_time` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_file
 -- ----------------------------
-INSERT INTO `tb_file` VALUES ('26', '2', '0', '1a.txt', 'txt', 'E:\\bishe\\file\\2\\1a.txt', '42', null);
 
 -- ----------------------------
 -- Table structure for tb_share

@@ -14,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Service
 @Slf4j
@@ -74,12 +76,13 @@ public class UploaderServiceImpl implements UploaderService {
                 }
                 // 合并
                 if (shunk.intValue() == shunks.intValue()-1){
-                    // new一个最终文件存放目录的File对象
-                    File f = new File(path+id);
+                    // new一个最终文件存放目录的File对象(目录)
+                    File f = new File(path+fileEntity.getBelong());
                     // 存放目录不存在则new一个
                     if (!f.exists()) f.mkdirs();
-                    // new一个最终文件的File对象
-                    File endFile = new File(path+id,originName);
+                    // new一个最终文件的File对象(文件)
+//                    File endFile = new File(path+id+fileEntity.getBelong(),originName);
+                    File endFile = new File(f.getPath(), originName);
                     // 循环拿出分片
                     for (int i=0; i<shunks; i++){
                         // new一个当前取到的分片File对象
@@ -120,9 +123,11 @@ public class UploaderServiceImpl implements UploaderService {
                     String[] sName = fileEntity.getFileName().split("\\.");
                     fileEntity.setFileType(sName[sName.length - 1]);
                     fileEntity.setFilePath(endFile.getPath());
-                    fileEntity.setBelong(f.getPath());
                     fileEntity.setFileSize(endFile.length());
-                    fileEntity.setUploadTime(endFile.lastModified());
+                    Long timeStamp = System.currentTimeMillis();  //获取当前时间戳
+                    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH");
+                    String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));      // 时间戳转换成时间
+                    fileEntity.setUploadTime(sd);
                     return fileService.addFile(fileEntity,"path: "+endFile.getPath());
                 }
                 return Result.ok(201,"分片成功！");

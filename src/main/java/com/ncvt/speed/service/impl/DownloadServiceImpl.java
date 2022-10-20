@@ -26,7 +26,7 @@ public class DownloadServiceImpl implements DownloadService {
 
     // 下载,file
     @Override
-    public void downloadByFile(String id, String filePath, FileEntity fileEntity,HttpServletRequest req, HttpServletResponse res) {
+    public void downloadByFile(String id, String filePath, HttpServletRequest req, HttpServletResponse res) {
         res.setCharacterEncoding(utf8);
         File file = new File(filePath);
         if (!file.exists()) {
@@ -71,7 +71,9 @@ public class DownloadServiceImpl implements DownloadService {
             res.addHeader("Access-Control-Allow-Headers", "Content-Type");
             res.addHeader("Access-Control-Allow-Credentials","true");
 
-            File file = new File(path+id,fileName);
+            File file = new File(path,fileName);
+            log.info("download " + file.getPath() + " ...");
+            res.addHeader("Content-Disposition","attachment;filename=" + URLEncoder.encode(file.getName(),utf8));
             if (!file.exists()) return Result.ok(404,"文件不存在！");
             String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/file/" + id + "/" + file.getName();
             log.info(url);
@@ -81,5 +83,29 @@ public class DownloadServiceImpl implements DownloadService {
             return Result.fail("服务端异常！",e.getMessage());
         }
     }
+
+    @Override
+    public String downloadByUrls(String id, String fileName, HttpServletRequest req, HttpServletResponse res) {
+        try {
+            res.reset();
+            res.setContentType("application/octet-stream");
+            res.addHeader("Access-Control-Allow-Origin", req.getHeader("origin"));
+            res.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+            res.addHeader("Access-Control-Allow-Headers", "Content-Type");
+            res.addHeader("Access-Control-Allow-Credentials","true");
+
+            File file = new File(path,fileName);
+            log.info("download " + file.getPath() + " ...");
+            res.addHeader("Content-Disposition","attachment;filename=" + URLEncoder.encode(file.getName(),utf8));
+            if (!file.exists()) return "文件不存在！";
+            String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/file/" + id + "/" + file.getName();
+            log.info(url);
+            return url;
+        }catch (Exception e){
+            e.printStackTrace();
+            return e.getMessage();
+        }
+    }
+
 
 }

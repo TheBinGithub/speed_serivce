@@ -27,18 +27,29 @@ public class DownloadController {
     @ApiOperation(value = "下载(返回文件流)")
     @GetMapping("/download/{id}/{filePath}")
     @JsonBackReference
-    public void downloadByFile(@PathVariable String id, @PathVariable String filePath, FileEntity fileEntity, HttpServletRequest req, HttpServletResponse res){
+    public void downloadByFile(@PathVariable String id, @PathVariable String filePath, HttpServletRequest req, HttpServletResponse res){
         String s = filePath.replace("@", "\\");
         log.info("download " + s + "...");
-        downloadService.downloadByFile(id, s, fileEntity, req, res);
+        downloadService.downloadByFile(id, s, req, res);
     }
 
     @ApiOperation(value = "下载(返回地址)")
     @GetMapping("/downloads/{id}/{fileName}")
     @ResponseBody
     public Result downloadByUrl(@PathVariable String id, @PathVariable String fileName,HttpServletRequest req, HttpServletResponse res){
-        log.info("download " + fileName + "...");
-        return downloadService.downloadByUrl(id, fileName, req, res);
+        String s = fileName.replace("@", "\\");
+        log.info("download " + s + " ...");
+        return downloadService.downloadByUrl(id, s, req, res);
+    }
+
+    @ApiOperation(value = "下载1(返回地址1)")
+//  ,produces="application/octet-stream,charset=utf-8"
+    @GetMapping(value="/downloading/{id}/{fileName}")
+    @ResponseBody
+    public String downloadByUrls(@PathVariable String id, @PathVariable String fileName,HttpServletRequest req, HttpServletResponse res){
+        String s = fileName.replace("@", "\\");
+        log.info("download " + s + " ...");
+        return downloadService.downloadByUrls(id, s, req, res);
     }
 
 }
