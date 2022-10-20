@@ -94,7 +94,7 @@ public class DownloadServiceImpl implements DownloadService {
             res.addHeader("Access-Control-Allow-Headers", "Content-Type");
             res.addHeader("Access-Control-Allow-Credentials","true");
 
-            File file = new File(path,fileName);
+            File file = new File(path+id,fileName);
             log.info("download " + file.getPath() + " ...");
             res.addHeader("Content-Disposition","attachment;filename=" + URLEncoder.encode(file.getName(),utf8));
             if (!file.exists()) return "文件不存在！";
