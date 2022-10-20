@@ -11,6 +11,12 @@ public interface FileService {
     // hash校验
     Result hashCheck(String userId, String hash);
 
+    // 根据id和path查询
+    Result queryFileByPath(String userId, String path);
+
+    // 重命名
+    Result modifyFile(FileEntity fileEntity);
+
     // 添加
     Result addFile(FileEntity file, String msg);
 

@@ -42,6 +42,30 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public Result queryFileByPath(String userId, String path) {
+        try {
+            FileEntity fileEntity = fileMapper.queryFileByPath(userId,path);;
+            return Result.ok("查询成功！");
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.fail("服务端异常！");
+        }
+    }
+
+    // 重命名
+    @Override
+    public Result modifyFile(FileEntity fileEntity) {
+        try {
+            Integer result = fileMapper.modifyFile(fileEntity);
+            if (result != 1) return Result.fail(400,"修改失败！");
+            return Result.ok("修改成功！");
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.fail("服务端异常！");
+        }
+    }
+
+    @Override
     public Result addFile(FileEntity file, String msg) {
         try {
             int result = fileMapper.addFile(file);

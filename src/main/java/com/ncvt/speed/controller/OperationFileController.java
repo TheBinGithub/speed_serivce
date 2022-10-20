@@ -1,7 +1,9 @@
 package com.ncvt.speed.controller;
 
 import com.ncvt.speed.entity.FileEntity;
+import com.ncvt.speed.params.RenameParams;
 import com.ncvt.speed.service.FileService;
+import com.ncvt.speed.service.OperationFileService;
 import com.ncvt.speed.util.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -27,6 +29,9 @@ public class OperationFileController {
     @Resource
     private FileService fileService;
 
+    @Resource
+    private OperationFileService operationFileService;
+
     @ApiOperation(value = "查询用户文件")
     @GetMapping("/file/{id}")
     private Result queryFileByUserId(@PathVariable String id){
@@ -41,9 +46,14 @@ public class OperationFileController {
         @ApiImplicitParam(name = "fileName", required = true)
     })
     private Result newFolder(@PathVariable String id, @RequestBody FileEntity fileEntity){
-        log.info("newFolder: " + id);
+        log.info("newFolder: " + id + "\\" + fileEntity.getFileName());
         // 数据库添加记录
         File file = new File(path+id,fileEntity.getFileName());
+        if (file.exists()) {
+            return Result.fail(400, "文件夹已存在！");
+        }else {
+            file.mkdirs();
+        }
         fileEntity.setUserId(id);
         fileEntity.setDuYou(false);
         fileEntity.setFileType("folder");
@@ -54,6 +64,17 @@ public class OperationFileController {
         String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));      // 时间戳转换成时间
         fileEntity.setUploadTime(sd);
         return fileService.addFile(fileEntity,"新建成功！");
+    }
+
+    @ApiOperation(value = "重命名")
+    @PutMapping("/rename/{userId}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "oldFilePath", required = true),
+            @ApiImplicitParam(name = "newFilePath", required = true)
+    })
+    private Result rename(@PathVariable String userId, @RequestBody RenameParams param){
+
+        return operationFileService.rename(userId, param);
     }
 
 }
