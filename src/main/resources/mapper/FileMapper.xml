@@ -31,6 +31,10 @@
     <select id="queryFileByPath" resultMap="FileRMap">
         SELECT * FROM tb_file WHERE user_id=#{userId} AND file_path=#{filePath}
     </select>
+    <!-- 根据id和belong查询 -->
+    <select id="queryFileByBelong" resultMap="FileRMap">
+        SELECT * FROM tb_file WHERE user_id=#{userId} AND belong=#{belong}
+    </select>
     <!-- 重命名 -->
     <update id="modifyFile">
         UPDATE tb_file SET user_id=#{userId}, du_you=#{duYou},file_name=#{fileName},file_type=#{fileType},file_path=#{filePath},file_size=#{fileSize},hash=#{hash},belong=#{belong},upload_time=#{uploadTime} WHERE file_id=#{fileId}

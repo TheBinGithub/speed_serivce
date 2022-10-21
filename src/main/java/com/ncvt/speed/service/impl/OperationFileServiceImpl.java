@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.util.List;
 
 @Service
 public class OperationFileServiceImpl implements OperationFileService {
@@ -37,6 +38,18 @@ public class OperationFileServiceImpl implements OperationFileService {
                 return Result.ok("修改成功！");
             }
             return Result.fail("修改出现未知异常！");
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.fail("服务端异常！",e.getMessage());
+        }
+    }
+
+    @Override
+    public Result queryFileByBelong(String userId, String belong) {
+        try {
+            List<FileEntity> fileEntityList = fileMapper.queryFileByBelong(userId, belong);
+            if (fileEntityList.size() == 0) return Result.ok(404,"数据库无数据！");
+            return Result.ok("查询成功！",fileEntityList);
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！",e.getMessage());

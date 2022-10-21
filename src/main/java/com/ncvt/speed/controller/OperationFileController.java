@@ -1,6 +1,7 @@
 package com.ncvt.speed.controller;
 
 import com.ncvt.speed.entity.FileEntity;
+import com.ncvt.speed.params.ContentsParams;
 import com.ncvt.speed.params.NewFolderParms;
 import com.ncvt.speed.params.RenameParams;
 import com.ncvt.speed.service.FileService;
@@ -18,6 +19,7 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 @Api(tags = "文件操作模块")
 @RestController
@@ -33,11 +35,18 @@ public class OperationFileController {
     @Resource
     private OperationFileService operationFileService;
 
-    @ApiOperation(value = "查询用户文件")
+    @ApiOperation(value = "查询用户所有目录(文件)")
     @GetMapping("/file/{id}")
     public Result queryFileByUserId(@PathVariable String id){
         log.info("queryFileByUserId: " + id);
         return fileService.queryFileByUserId(id);
+    }
+
+    @ApiOperation(value = "查询指定目录下的目录(文件)")
+    @GetMapping("/contents/{userId}")
+    public Result queryContents(@PathVariable String userId, @RequestBody ContentsParams contentsParams){
+        log.info("queryContents: " + contentsParams.getBelong());
+        return operationFileService.queryFileByBelong(userId, contentsParams.getBelong());
     }
 
     @ApiOperation(value = "新建文件夹")

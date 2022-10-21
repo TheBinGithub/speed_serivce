@@ -16,6 +16,9 @@ public interface FileMapper {
     // 根据id和path查询
     FileEntity queryFileByPath(String userId, String filePath);
 
+    // 根据id和belong查询
+    List<FileEntity> queryFileByBelong(String userId, String belong);
+
     // 修改记录
     Integer modifyFile(FileEntity fileEntity);
 
