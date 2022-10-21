@@ -125,7 +125,7 @@ public class UploaderServiceImpl implements UploaderService {
                     fileEntity.setFilePath(endFile.getPath());
                     fileEntity.setFileSize(endFile.length());
                     Long timeStamp = System.currentTimeMillis();  //获取当前时间戳
-                    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH");
+                    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
                     String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));      // 时间戳转换成时间
                     fileEntity.setUploadTime(sd);
                     return fileService.addFile(fileEntity,"path: "+endFile.getPath());

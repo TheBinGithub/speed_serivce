@@ -45,23 +45,23 @@ public class OperationFileController {
     public Result newFolder(@PathVariable String id, @RequestBody NewFolderParms newFolderParms){
         log.info("newFolder: " + id + "\\" + newFolderParms.getFilePath());
         FileEntity fileEntity = new FileEntity();
-        fileEntity.setFileName(newFolderParms.getFilePath());
+
         File file = new File(path,fileEntity.getFileName());
         if (file.exists()) {
             return Result.fail(400, "文件夹已存在！");
         }else {
             file.mkdirs();
         }
-        String s1 = newFolderParms.getFilePath().replace("\\", "@");
-        String[] s = s1.split("@");
-        fileEntity.setBelong(s[s.length - 1]);
+
+        fileEntity.setFileName(newFolderParms.getFileName());
+        fileEntity.setBelong(newFolderParms.getFilePath());
         fileEntity.setUserId(id);
         fileEntity.setDuYou(false);
         fileEntity.setFileType("folder");
         fileEntity.setFilePath(file.getPath());
         fileEntity.setFileSize(0L);
         Long timeStamp = System.currentTimeMillis();  //获取当前时间戳
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH");
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:ss");
         String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));  // 时间戳转换成时间
         fileEntity.setUploadTime(sd);
         return fileService.addFile(fileEntity,"新建成功！");
