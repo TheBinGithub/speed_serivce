@@ -52,6 +52,9 @@ public class OperationFileController {
         }else {
             file.mkdirs();
         }
+        String s1 = newFolderParms.getFilePath().replace("\\", "@");
+        String[] s = s1.split("@");
+        fileEntity.setBelong(s[s.length - 1]);
         fileEntity.setUserId(id);
         fileEntity.setDuYou(false);
         fileEntity.setFileType("folder");
