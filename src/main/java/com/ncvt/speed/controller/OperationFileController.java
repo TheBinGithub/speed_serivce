@@ -45,15 +45,14 @@ public class OperationFileController {
     public Result newFolder(@PathVariable String id, @RequestBody NewFolderParms newFolderParms){
         log.info("newFolder: " + id + "\\" + newFolderParms.getFilePath());
         FileEntity fileEntity = new FileEntity();
-
-        File file = new File(path,fileEntity.getFileName());
+        fileEntity.setFileName(newFolderParms.getFileName());
+        File file = new File(path,newFolderParms.getFilePath());
         if (file.exists()) {
             return Result.fail(400, "文件夹已存在！");
         }else {
             file.mkdirs();
         }
 
-        fileEntity.setFileName(newFolderParms.getFileName());
         fileEntity.setBelong(newFolderParms.getFilePath());
         fileEntity.setUserId(id);
         fileEntity.setDuYou(false);
