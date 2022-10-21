@@ -53,7 +53,15 @@ public class OperationFileController {
             file.mkdirs();
         }
 
-        fileEntity.setBelong(newFolderParms.getFilePath());
+        String s1 = newFolderParms.getFilePath().replace("\\", "@");
+        String[] sList = s1.split("@");
+
+        String belong = "";
+        for (int i=0; i < sList.length - 1; i++){
+            belong += sList[i]+"\\";
+        }
+
+        fileEntity.setBelong(belong);
         fileEntity.setUserId(id);
         fileEntity.setDuYou(false);
         fileEntity.setFileType("folder");
