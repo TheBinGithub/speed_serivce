@@ -12,7 +12,7 @@ public interface FileService {
     Result hashCheck(String userId, String hash);
 
     // 根据id和path查询
-    Result queryFileByName(String userId, String fileName);
+    Result queryFileByName(String fileId, String userId, String fileName);
 
     // 重命名
     Result modifyFile(FileEntity fileEntity);

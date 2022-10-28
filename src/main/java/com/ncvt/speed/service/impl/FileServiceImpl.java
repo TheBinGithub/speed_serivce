@@ -47,9 +47,9 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public Result queryFileByName(String userId, String fileName) {
+    public Result queryFileByName(String fileId, String userId, String fileName) {
         try {
-            FileEntity fileEntity = fileMapper.queryFileByName(userId,fileName);;
+            FileEntity fileEntity = fileMapper.queryFileByName(fileId,userId,fileName);;
             return Result.ok("查询成功！",fileEntity);
         }catch (Exception e){
             e.printStackTrace();

@@ -20,4 +20,6 @@ public class RenameParams {
     private String belong;
     @ApiModelProperty(required = true, value = "type", example = "txt")
     private String type;
+    @ApiModelProperty(required = true, value = "type", example = "txt")
+    private String fileId;
 }

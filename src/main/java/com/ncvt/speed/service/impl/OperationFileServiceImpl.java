@@ -35,7 +35,7 @@ public class OperationFileServiceImpl implements OperationFileService {
             File oldFile = new File(path,o);
             File newFile = new File(path,n);
             boolean result = oldFile.renameTo(newFile);
-            FileEntity fileEntity = fileMapper.queryFileByName(userId,param.getOldName());
+            FileEntity fileEntity = fileMapper.queryFileByName(param.getFileId(),userId,param.getOldName());
             if (fileEntity == null) return Result.fail(404,"数据库无记录！");
             fileEntity.setFileName(param.getNewName());
             Integer result1 = fileMapper.modifyFile(fileEntity);
