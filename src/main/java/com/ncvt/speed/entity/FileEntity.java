@@ -14,12 +14,13 @@ public class FileEntity {
     private String filePath;
     private Long fileSize;
     private String hash;
-    private String belong;
+    private Integer belongId;
     private String uploadTime;
 
     // 非数据库字段
     private Integer way;  // 上传方式 0分片上传, 1秒传
     private Integer shunk;
     private Integer shunks;
+    private String belong;
 
 }

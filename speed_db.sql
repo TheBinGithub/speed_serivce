@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80021
 File Encoding         : 65001
 
-Date: 2022-10-20 14:28:44
+Date: 2022-10-28 17:33:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -36,22 +36,36 @@ INSERT INTO `tb_account` VALUES ('1575320222104588297', '823ABDA8EEDDECCED52CFAE
 INSERT INTO `tb_account` VALUES ('1575320222104588298', '04E40ABF04504A2EECA58590A087A7B1', '123', 'BC30444D-BBD4-4BBD-AF8C-76BDED2CE8BC');
 
 -- ----------------------------
+-- Table structure for tb_belong
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_belong`;
+CREATE TABLE `tb_belong` (
+  `belong_id` int NOT NULL AUTO_INCREMENT,
+  `belong` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`belong_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_belong
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for tb_file
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_file`;
 CREATE TABLE `tb_file` (
   `file_id` int NOT NULL AUTO_INCREMENT COMMENT '文件id',
   `user_id` int DEFAULT NULL,
-  `du_you` double DEFAULT NULL,
+  `file_path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件的存放路径',
+  `belong_id` int DEFAULT NULL,
   `file_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件名称',
   `file_type` varchar(225) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件类型0未知1文本2视频3图片4文档5压缩包6文件夹',
-  `file_path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件的存放路径',
   `file_size` bigint DEFAULT NULL COMMENT '文件大小单位字节',
-  `hash` varchar(255) DEFAULT NULL COMMENT '文件哈希值',
-  `belong` varchar(255) DEFAULT NULL,
-  `upload_time` varchar(255) DEFAULT NULL,
+  `upload_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `hash` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '1' COMMENT '文件哈希值',
+  `du_you` double DEFAULT NULL,
   PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_file

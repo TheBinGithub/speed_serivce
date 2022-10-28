@@ -14,12 +14,12 @@
         <result column="file_path" property="filePath"></result>
         <result column="file_size" property="fileSize"></result>
         <result column="hash" property="hash"></result>
-        <result column="belong" property="belong"></result>
+        <result column="belong_id" property="belongId"></result>
         <result column="upload_time" property="uploadTime"></result>
     </resultMap>
 
     <select id="queryFile" resultMap="FileRMap">
-        SELECT * FROM tb_file WHERE user_id =#{userId}
+        SELECT user_id,b.belong,file_id,file_name,file_size,file_type,upload_time FROM tb_file as t,tb_belong as b WHERE t.belong_id=b.belong_id AND user_id =#{userId}
     </select>
 
     <!-- hash校验 -->
@@ -27,9 +27,9 @@
         SELECT * FROM tb_file WHERE user_id=#{userId} AND hash=#{hash}
     </select>
 
-    <!-- 根据id和path查询 -->
-    <select id="queryFileByPath" resultMap="FileRMap">
-        SELECT * FROM tb_file WHERE user_id=#{userId} AND file_path=#{filePath}
+    <!-- 根据id和name查询 -->
+    <select id="queryFileByName" resultMap="FileRMap">
+        SELECT * FROM tb_file WHERE user_id=#{userId} AND file_name=#{fileName}
     </select>
     <!-- 根据id和belong查询 -->
     <select id="queryFileByBelong" resultMap="FileRMap">
@@ -37,7 +37,7 @@
     </select>
     <!-- 重命名 -->
     <update id="modifyFile">
-        UPDATE tb_file SET user_id=#{userId}, du_you=#{duYou},file_name=#{fileName},file_type=#{fileType},file_path=#{filePath},file_size=#{fileSize},hash=#{hash},belong=#{belong},upload_time=#{uploadTime} WHERE file_id=#{fileId}
+        UPDATE tb_file SET user_id=#{userId}, du_you=#{duYou},file_name=#{fileName},file_type=#{fileType},file_path=#{filePath},file_size=#{fileSize},hash=#{hash},belong_id=#{belongId},upload_time=#{uploadTime} WHERE file_id=#{fileId}
     </update>
 
     <!-- keyProperty="userId" 设置主键字段对应的实体类 -->
@@ -50,10 +50,10 @@
             file_path,
             file_size,
             hash,
-            belong,
+            belong_id,
             upload_time
         ) VALUES (
-                     #{userId},#{duYou},#{fileName},#{fileType},#{filePath},#{fileSize},#{hash},#{belong},#{uploadTime}
+                     #{userId},#{duYou},#{fileName},#{fileType},#{filePath},#{fileSize},#{hash},#{belongId},#{uploadTime}
                  )
     </insert>
 

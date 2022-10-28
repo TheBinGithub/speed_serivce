@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ncvt.speed.mapper.BelongMapper">
+
+    <resultMap id="BelongRMap" type="com.ncvt.speed.entity.BelongEntity">
+        <result column="belong_id" property="belongId"></result>
+        <result column="belong" property="belong"></result>
+    </resultMap>
+
+    <!-- id查询 -->
+    <select id="queryBelongById" resultMap="BelongRMap">
+        SELECT * FROM tb_belong WHERE belong_id=#{belongId}
+    </select>
+
+    <!-- belong查询 -->
+    <select id="queryBelongByBelong" resultMap="BelongRMap">
+        SELECT * FROM tb_belong WHERE belong=#{belong}
+    </select>
+
+    <!-- keyProperty="userId" 把自增的主键返回到传入的参数类的属性 -->
+    <!-- 新增 -->
+    <insert id="addBelong" useGeneratedKeys="true" keyProperty="belongId">
+        INSERT INTO tb_belong(
+            belong
+        ) VALUES (
+                     #{belong}
+                 )
+    </insert>
+
+    <!-- 修改 -->
+    <update id="modifyBelong">
+        UPDATE tb_belong set belong = #{belong} where belong_id = #{belongId}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="deleteBelong">
+        delete from tb_belong where belong_id = #{belongId}
+    </delete>
+
+</mapper>

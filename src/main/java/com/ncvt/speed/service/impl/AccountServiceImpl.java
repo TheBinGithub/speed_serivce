@@ -4,6 +4,7 @@ import com.ncvt.speed.entity.AccountEntity;
 import com.ncvt.speed.mapper.AccountMapper;
 import com.ncvt.speed.params.AccountParams;
 import com.ncvt.speed.service.AccountService;
+import com.ncvt.speed.util.Md5;
 import com.ncvt.speed.util.Result;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -16,17 +17,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Resource
     private AccountMapper accountMapper;
-
-    // md5算法加密处理
-    private String getMd5Password(String password,String salt){
-
-        // md5加密算法,三次
-        for (int i=0;i<3;i++){
-            password = DigestUtils.md5DigestAsHex((salt+password+salt).getBytes()).toUpperCase();
-        }
-
-        return password;
-    }
 
     // 查询单个
     @Override
@@ -41,7 +31,7 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
-    // 添加
+    // 注册
     @Override
     public Object accountAddition(AccountParams accountParams) {
 
@@ -58,7 +48,7 @@ public class AccountServiceImpl implements AccountService {
             String salt = UUID.randomUUID().toString().toUpperCase();
             accountParams.setSalt(salt);
 
-            accountParams.setPassword(getMd5Password(accountParams.getPassword(),salt));
+            accountParams.setPassword(Md5.getMd5Password(accountParams.getPassword(),salt));
 
             Integer result = accountMapper.accountAddition(accountParams);
             if (result != 1) return Result.fail("注册过程出现未知异常！");
@@ -85,7 +75,7 @@ public class AccountServiceImpl implements AccountService {
                 return Result.fail(404,"账号不存在！");
             }
 
-            if (accountEntity.getPassword().equals(getMd5Password(passwprd,accountEntity.getSalt()))){
+            if (accountEntity.getPassword().equals(Md5.getMd5Password(passwprd,accountEntity.getSalt()))){
                 return Result.ok("登录成功！",accountEntity);
             }
             return Result.fail(400,"密码错误！");

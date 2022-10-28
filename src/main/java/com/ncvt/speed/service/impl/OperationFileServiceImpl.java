@@ -1,6 +1,8 @@
 package com.ncvt.speed.service.impl;
 
+import com.ncvt.speed.entity.BelongEntity;
 import com.ncvt.speed.entity.FileEntity;
+import com.ncvt.speed.mapper.BelongMapper;
 import com.ncvt.speed.mapper.FileMapper;
 import com.ncvt.speed.params.RenameParams;
 import com.ncvt.speed.service.OperationFileService;
@@ -21,24 +23,46 @@ public class OperationFileServiceImpl implements OperationFileService {
     @Resource
     private FileMapper fileMapper;
 
+    @Resource
+    private BelongMapper belongMapper;
+
     // 重命名
     @Override
     public Result rename(String userId, RenameParams param) {
         try {
-            File oldFile = new File(path,param.getOldFilePath());
-            File newFile = new File(path,param.getNewFilePath());
+            String o = param.getBelong()+param.getOldName();
+            String n = param.getBelong()+param.getNewName();
+            File oldFile = new File(path,o);
+            File newFile = new File(path,n);
             boolean result = oldFile.renameTo(newFile);
-            FileEntity fileEntity = fileMapper.queryFileByPath(userId,oldFile.getPath());
-            if (fileEntity == null) return Result.fail("数据库无记录！");
-            String s1 = param.getNewFilePath().replace("\\", "@");
-            String[] s = s1.split("@");
-            fileEntity.setFileName(s[s.length - 1]);
-            fileEntity.setFilePath(newFile.getPath());
+            FileEntity fileEntity = fileMapper.queryFileByName(userId,param.getOldName());
+            if (fileEntity == null) return Result.fail(404,"数据库无记录！");
+            fileEntity.setFileName(param.getNewName());
             Integer result1 = fileMapper.modifyFile(fileEntity);
-            if (result && result1 == 1){
-                return Result.ok("修改成功！");
+            Integer result2 = 99;
+            System.out.println("o:"+o);
+            System.out.println("n"+n);
+            if (param.getType().equals("folder")){
+                BelongEntity belong = belongMapper.queryBelongByBelong(o);
+                if (belong != null){
+                    belong.setBelong(n);
+                    result2 = belongMapper.modifyBelong(belong);
+                }
             }
-            return Result.fail("修改出现未知异常！");
+            System.out.println("result2:"+result2);
+            if (result2 == 99){
+                if (result && result1 == 1){
+                    return Result.ok("修改成功！");
+                }
+                return Result.fail("修改出现未知异常！");
+            }else {
+                if (result && result1 == 1 && result2 == 1){
+                    return Result.ok("修改成功！");
+                }
+                return Result.fail("修改belong出现未知异常！");
+            }
+
+
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！",e.getMessage());

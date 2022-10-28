@@ -13,8 +13,8 @@ public interface FileMapper {
     // 查询hash
     List<FileEntity> queryHash(String userId, String hash);
 
-    // 根据id和path查询
-    FileEntity queryFileByPath(String userId, String filePath);
+    // 根据id和fileName查询
+    FileEntity queryFileByName(String userId, String fileName);
 
     // 根据id和belong查询
     List<FileEntity> queryFileByBelong(String userId, String belong);

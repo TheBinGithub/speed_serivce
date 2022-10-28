@@ -1,6 +1,8 @@
 package com.ncvt.speed.service.impl;
 
+import com.ncvt.speed.entity.BelongEntity;
 import com.ncvt.speed.entity.FileEntity;
+import com.ncvt.speed.mapper.BelongMapper;
 import com.ncvt.speed.mapper.FileMapper;
 import com.ncvt.speed.service.FileService;
 import com.ncvt.speed.util.Result;
@@ -14,6 +16,9 @@ public class FileServiceImpl implements FileService {
 
     @Resource
     private FileMapper fileMapper;
+
+    @Resource
+    private BelongMapper belongMapper;
 
     // 根据用户id查询文件位置
     @Override
@@ -42,9 +47,9 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public Result queryFileByPath(String userId, String path) {
+    public Result queryFileByName(String userId, String fileName) {
         try {
-            FileEntity fileEntity = fileMapper.queryFileByPath(userId,path);;
+            FileEntity fileEntity = fileMapper.queryFileByName(userId,fileName);;
             return Result.ok("查询成功！",fileEntity);
         }catch (Exception e){
             e.printStackTrace();
@@ -65,9 +70,20 @@ public class FileServiceImpl implements FileService {
         }
     }
 
+    // 新增
     @Override
     public Result addFile(FileEntity file, String msg) {
         try {
+            BelongEntity belong = belongMapper.queryBelongByBelong(file.getBelong());
+            System.out.println("belong:"+file.getBelong());
+            if (belong != null) {
+                file.setBelongId(belong.getBelongId());
+            }else {
+                BelongEntity addBelong = new BelongEntity();
+                addBelong.setBelong(file.getBelong());
+                belongMapper.addBelong(addBelong);
+                file.setBelongId(addBelong.getBelongId());
+            }
             int result = fileMapper.addFile(file);
             if (result == 0) return Result.fail(300,"数据库新增出现未知异常！");
             return Result.ok("合并成功，数据库记录已添加 ！",msg);

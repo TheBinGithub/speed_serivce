@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
@@ -58,7 +59,7 @@ public class OperationFileController {
     @ApiOperation(value = "新建文件夹")
     @PostMapping("/folder/{id}")
     public Result newFolder(@PathVariable String id, @RequestBody NewFolderParms newFolderParms){
-        log.info("newFolder: " + id + "\\" + newFolderParms.getFilePath());
+        log.info("newFolder: " + newFolderParms.getFilePath());
         FileEntity fileEntity = new FileEntity();
         fileEntity.setFileName(newFolderParms.getFileName());
         File file = new File(path,newFolderParms.getFilePath());
@@ -70,22 +71,20 @@ public class OperationFileController {
 
         String s1 = newFolderParms.getFilePath().replace("\\", "@");
         String[] sList = s1.split("@");
-
         String belong = "";
         for (int i=0; i < sList.length - 1; i++){
             belong += sList[i]+"\\";
         }
-
         fileEntity.setBelong(belong);
         fileEntity.setUserId(id);
         fileEntity.setDuYou(false);
         fileEntity.setFileType("folder");
-        fileEntity.setFilePath(file.getPath());
         fileEntity.setFileSize(0L);
         Long timeStamp = System.currentTimeMillis();  //获取当前时间戳
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:ss");
         String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));  // 时间戳转换成时间
         fileEntity.setUploadTime(sd);
+
         return fileService.addFile(fileEntity,"新建成功！");
     }
 

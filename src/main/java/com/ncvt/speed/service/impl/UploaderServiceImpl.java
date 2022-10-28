@@ -1,9 +1,11 @@
 package com.ncvt.speed.service.impl;
 
 import com.ncvt.speed.entity.FileEntity;
+import com.ncvt.speed.mapper.BelongMapper;
 import com.ncvt.speed.params.UploaderParams;
 import com.ncvt.speed.service.FileService;
 import com.ncvt.speed.service.UploaderService;
+import com.ncvt.speed.util.Md5;
 import com.ncvt.speed.util.RecursiveDeletion;
 import com.ncvt.speed.util.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -29,6 +32,9 @@ public class UploaderServiceImpl implements UploaderService {
 
     @Resource
     private FileService fileService;
+
+    @Resource
+    private BelongMapper belongMapper;
 
     // 分片上传
     @Override
@@ -45,7 +51,8 @@ public class UploaderServiceImpl implements UploaderService {
         // 判断上传类型
         if (fileEntity.getWay() == 1) return Result.ok(203,"秒传！");
         // new一个临时目录的File对象
-        File temppath1 = new File(temppath+id,originName);
+        String salt = UUID.randomUUID().toString().toUpperCase();
+        File temppath1 = new File(temppath+id, Md5.getMd5Password(originName,salt));
         // 不存在则创建
         if (!temppath1.exists()) temppath1.mkdirs();
         // new一个分片文件的File对象
@@ -122,7 +129,7 @@ public class UploaderServiceImpl implements UploaderService {
                     // 需要注意的是像【.】【|】【+】【*】等都是转义字符，在作为参数时，需要加入“\\”,
                     String[] sName = fileEntity.getFileName().split("\\.");
                     fileEntity.setFileType(sName[sName.length - 1]);
-                    fileEntity.setFilePath(endFile.getPath());
+//                    fileEntity.setFilePath(endFile.getPath());
                     fileEntity.setFileSize(endFile.length());
                     Long timeStamp = System.currentTimeMillis();  //获取当前时间戳
                     SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
