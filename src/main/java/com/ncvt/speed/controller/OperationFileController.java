@@ -42,13 +42,19 @@ public class OperationFileController {
         return fileService.queryFileByUserId(id);
     }
 
+    @ApiOperation(value = "添加收藏")
+    @GetMapping("/collect/{id}")
+    public Result addCollect(@PathVariable String id){
+        log.info("queryFileByUserId: " + id);
+        return null;
+    }
+
     @ApiOperation(value = "查询指定目录下的目录(文件)")
     @GetMapping("/contents/{userId}")
     public Result queryContents(@PathVariable String userId, @RequestBody ContentsParams contentsParams){
         log.info("queryContents: " + contentsParams.getBelong());
         return operationFileService.queryFileByBelong(userId, contentsParams.getBelong());
     }
-
     @ApiOperation(value = "新建文件夹")
     @PostMapping("/folder/{id}")
     public Result newFolder(@PathVariable String id, @RequestBody NewFolderParms newFolderParms){

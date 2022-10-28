@@ -75,7 +75,7 @@ public class DownloadServiceImpl implements DownloadService {
             log.info("download " + file.getPath() + " ...");
             res.addHeader("Content-Disposition","attachment;filename=" + URLEncoder.encode(file.getName(),utf8));
             if (!file.exists()) return Result.ok(404,"文件不存在！");
-            String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/file/" + id + "/" + file.getName();
+            String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/file/" + fileName;
             log.info(url);
             return Result.ok("成功！",url);
         }catch (Exception e){
@@ -98,7 +98,7 @@ public class DownloadServiceImpl implements DownloadService {
             log.info("download " + file.getPath() + " ...");
             res.addHeader("Content-Disposition","attachment;filename=" + URLEncoder.encode(file.getName(),utf8));
             if (!file.exists()) return "文件不存在！";
-            String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/file/" + id + "/" + file.getName();
+            String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/file/" + file.getAbsolutePath();
             log.info(url);
             return url;
         }catch (Exception e){
