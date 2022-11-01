@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80021
 File Encoding         : 65001
 
-Date: 2022-10-28 17:33:07
+Date: 2022-11-01 14:36:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,14 +28,6 @@ CREATE TABLE `tb_account` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1575320222104588299 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of tb_account
--- ----------------------------
-INSERT INTO `tb_account` VALUES ('1575320222104588295', '7C6449D0789AF37D0AAC20095F9B553A', '22', 'B61D1DBF-3265-487D-B305-47B29F1B74B3');
-INSERT INTO `tb_account` VALUES ('1575320222104588296', 'F405DFE6AFEBE2B600C7F6D5311F53F0', 'd', 'E58FA7D1-B13A-4F5B-828C-7D10138A9259');
-INSERT INTO `tb_account` VALUES ('1575320222104588297', '823ABDA8EEDDECCED52CFAE557B79753', 'dafran', 'E9E07892-0B4D-4886-88D7-6D2CE281E5CB');
-INSERT INTO `tb_account` VALUES ('1575320222104588298', '04E40ABF04504A2EECA58590A087A7B1', '123', 'BC30444D-BBD4-4BBD-AF8C-76BDED2CE8BC');
-
--- ----------------------------
 -- Table structure for tb_belong
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_belong`;
@@ -43,11 +35,18 @@ CREATE TABLE `tb_belong` (
   `belong_id` int NOT NULL AUTO_INCREMENT,
   `belong` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`belong_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of tb_belong
+-- Table structure for tb_delete
 -- ----------------------------
+DROP TABLE IF EXISTS `tb_delete`;
+CREATE TABLE `tb_delete` (
+  `delete_id` int NOT NULL,
+  `delete_time` datetime DEFAULT NULL,
+  `delete_path` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`delete_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for tb_file
@@ -64,12 +63,9 @@ CREATE TABLE `tb_file` (
   `upload_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `hash` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '1' COMMENT '文件哈希值',
   `du_you` double DEFAULT NULL,
+  `delete_id` int DEFAULT NULL COMMENT '逻辑删除id(默认0不删除，其他则为绑定回收站表)',
   PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of tb_file
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for tb_share
@@ -85,10 +81,6 @@ CREATE TABLE `tb_share` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of tb_share
--- ----------------------------
-
--- ----------------------------
 -- Table structure for tb_user
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_user`;
@@ -99,7 +91,3 @@ CREATE TABLE `tb_user` (
   `used_space` int NOT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of tb_user
--- ----------------------------
