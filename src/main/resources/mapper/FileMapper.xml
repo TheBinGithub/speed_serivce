@@ -44,6 +44,10 @@
     <update id="logicalDeletionFile">
         update tb_file set delete_id=#{deleteId} where file_id=#{fileId}
     </update>
+    <!-- 移动 -->
+    <update id="movement">
+        update tb_file set belong_id=#{belongId} where file_id=#{fileId}
+    </update>
     <!-- keyProperty="userId" 设置主键字段对应的实体类 -->
     <insert id="addFile" useGeneratedKeys="true">
         INSERT INTO tb_file(
@@ -55,9 +59,10 @@
             file_size,
             hash,
             belong_id,
-            upload_time
+            upload_time,
+            delete_id
         ) VALUES (
-                     #{userId},#{duYou},#{fileName},#{fileType},#{filePath},#{fileSize},#{hash},#{belongId},#{uploadTime}
+                     #{userId},#{duYou},#{fileName},#{fileType},#{filePath},#{fileSize},#{hash},#{belongId},#{uploadTime},#{deleteId}
                  )
     </insert>
 

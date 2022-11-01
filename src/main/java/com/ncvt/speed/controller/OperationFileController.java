@@ -46,12 +46,6 @@ public class OperationFileController {
         return null;
     }
 
-    @ApiOperation(value = "加入回收站")
-    @PostMapping("/recycler/{userId}")
-    public Result addRecycler(@PathVariable String userId, @RequestBody RecyclerParams params){
-        return operationFileService.addRecycler(userId, params);
-    }
-
     @ApiOperation(value = "查询指定目录下的目录(文件)")
     @GetMapping("/contents/{userId}/{belongId}")
     public Result queryContents(@PathVariable String userId, @PathVariable String belongId){

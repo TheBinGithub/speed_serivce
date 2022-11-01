@@ -17,10 +17,13 @@ public interface FileMapper {
     FileEntity queryFileByName(String fileId,String userId, String fileName);
 
     // 根据id和belong查询
-    List<FileEntity> queryFileByBelong(String userId, String belong);
+    List<FileEntity> queryFileByBelong(String userId, String belongId);
 
     // 修改记录
     Integer modifyFile(FileEntity fileEntity);
+
+    // 移动
+    Integer movement(String fileId, String belongId);
 
     // 逻辑删除
     Integer logicalDeletionFile(Integer fileId, Integer deleteId);

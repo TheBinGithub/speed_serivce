@@ -6,6 +6,7 @@ import com.ncvt.speed.entity.FileEntity;
 import com.ncvt.speed.mapper.BelongMapper;
 import com.ncvt.speed.mapper.DeleteMapper;
 import com.ncvt.speed.mapper.FileMapper;
+import com.ncvt.speed.params.MovementParams;
 import com.ncvt.speed.params.RecyclerParams;
 import com.ncvt.speed.params.RenameParams;
 import com.ncvt.speed.service.OperationFileService;
@@ -66,6 +67,22 @@ public class OperationFileServiceImpl implements OperationFileService {
                 return Result.fail("修改belong出现未知异常！");
             }
 
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.fail("服务端异常！",e.getMessage());
+        }
+    }
+
+    // 移动
+    @Override
+    public Result movement(MovementParams params){
+        try {
+            int result = fileMapper.movement(params.getFileId(),params.getBelongId());
+            if (result == 1){
+                return Result.ok("移动成功！");
+            }else {
+                return Result.fail("移动出现未知异常！");
+            }
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！",e.getMessage());
