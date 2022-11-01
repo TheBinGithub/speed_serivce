@@ -8,5 +8,4 @@ public class DownloadParams {
     private String id;
     private String file;
 
-
 }
