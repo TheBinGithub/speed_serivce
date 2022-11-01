@@ -1,9 +1,12 @@
 package com.ncvt.speed.service.impl;
 
 import com.ncvt.speed.entity.BelongEntity;
+import com.ncvt.speed.entity.DeleteEntity;
 import com.ncvt.speed.entity.FileEntity;
 import com.ncvt.speed.mapper.BelongMapper;
+import com.ncvt.speed.mapper.DeleteMapper;
 import com.ncvt.speed.mapper.FileMapper;
+import com.ncvt.speed.params.RecyclerParams;
 import com.ncvt.speed.params.RenameParams;
 import com.ncvt.speed.service.OperationFileService;
 import com.ncvt.speed.util.Result;
@@ -25,6 +28,9 @@ public class OperationFileServiceImpl implements OperationFileService {
 
     @Resource
     private BelongMapper belongMapper;
+
+    @Resource
+    private DeleteMapper deleteMapper;
 
     // 重命名
     @Override
@@ -67,11 +73,32 @@ public class OperationFileServiceImpl implements OperationFileService {
     }
 
     @Override
-    public Result queryFileByBelong(String userId, String belong) {
+    public Result queryFileByBelong(String userId, String belongId) {
         try {
-            List<FileEntity> fileEntityList = fileMapper.queryFileByBelong(userId, belong);
+            List<FileEntity> fileEntityList = fileMapper.queryFileByBelong(userId, belongId);
             if (fileEntityList.size() == 0) return Result.ok(404,"数据库无数据！");
             return Result.ok("查询成功！",fileEntityList);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.fail("服务端异常！",e.getMessage());
+        }
+    }
+
+    // 加入回收站
+    @Override
+    public Result addRecycler(String userId, RecyclerParams params) {
+        try {
+            Long timeStamp = System.currentTimeMillis();  //获取当前时间戳
+            DeleteEntity deleteEntity = new DeleteEntity();
+            deleteEntity.setFileId(params.getFileId());
+            deleteEntity.setDeleteTime(timeStamp);
+            int dResult = deleteMapper.addDelete(deleteEntity);
+            int fResult = fileMapper.logicalDeletionFile(params.getFileId(), deleteEntity.getFileId());
+            if (dResult == 1 && fResult == 1) {
+                return Result.ok("添加收回站成功！");
+            }else {
+                return Result.fail(400,"添加回收站出现未知异常！");
+            }
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！",e.getMessage());

@@ -8,6 +8,6 @@ public class DeleteEntity {
     private Integer deteleId;
     private Integer fileId;
     private Long deleteTime;
-    
+
 
 }
