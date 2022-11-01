@@ -130,6 +130,7 @@ public class UploaderServiceImpl implements UploaderService {
                     // 数据库添加记录
                     fileEntity.setUserId(id);
                     fileEntity.setDuYou(false);
+                    fileEntity.setFilePath(fileEntity.getBelong()+fileEntity.getFileName());
                     // 需要注意的是像【.】【|】【+】【*】等都是转义字符，在作为参数时，需要加入“\\”,
                     String[] sName = fileEntity.getFileName().split("\\.");
                     fileEntity.setFileType(sName[sName.length - 1]);

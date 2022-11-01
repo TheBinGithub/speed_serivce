@@ -11,6 +11,7 @@ import com.ncvt.speed.params.RecyclerParams;
 import com.ncvt.speed.params.RenameParams;
 import com.ncvt.speed.service.OperationFileService;
 import com.ncvt.speed.util.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import java.io.File;
 import java.util.List;
 
 @Service
+@Slf4j
 public class OperationFileServiceImpl implements OperationFileService {
 
     @Value("${file-save-path}")
@@ -93,15 +95,17 @@ public class OperationFileServiceImpl implements OperationFileService {
     @Override
     public Result queryFileByBelong(String userId, String belong) {
         try {
-            BelongEntity belongEntity = belongMapper.queryBelongByBelong(belong);
+            String cbelong = belong.replace("@-.@","\\");
+            log.info("queryFileByBelong:"+cbelong);
+            BelongEntity belongEntity = belongMapper.queryBelongByBelong(cbelong);
             if (belongEntity == null) return Result.ok(404,"数据库无记录");
             List<FileEntity> fileEntityList = fileMapper.queryFileByBelong(userId, belongEntity.getBelongId());
             for (FileEntity file : fileEntityList){
                 String b1 = file.getBelong();
-                String b2 = b1.replace("//","@-.@");
+                String b2 = b1.replace("\\","@-.@");
+                b2 +=file.getFileName()+"@-.@";
                 file.setCBelong(b2);
             }
-
             if (fileEntityList.size() == 0) return Result.ok(404,"数据库无数据！");
             return Result.ok("查询成功！",fileEntityList);
         }catch (Exception e){
@@ -149,7 +153,13 @@ public class OperationFileServiceImpl implements OperationFileService {
     @Override
     public Result restores(String fileId){
         try {
-            return Result.ok("测试中");
+            int fResult = fileMapper.logicalDeletionFile(fileId,0L);
+            int dResult = deleteMapper.dDelete(fileId);
+            if (fResult == 1 && dResult == 1){
+                return Result.ok("还原成功！");
+            }else {
+                return Result.fail(400,"还原过程出现未知异常！");
+            }
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！",e.getMessage());

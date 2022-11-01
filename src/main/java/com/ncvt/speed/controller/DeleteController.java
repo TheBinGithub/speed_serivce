@@ -31,6 +31,14 @@ public class DeleteController {
         return operationFileService.queryRecycler(userId);
     }
 
+    @ApiOperation(value = "回收站还原")
+    @PutMapping("/recycler/{userId}")
+    public Result restores(@PathVariable String userId,@RequestBody String fileId){
+        log.info("restores:"+fileId);
+        return operationFileService.restores(fileId);
+    }
+
+
 
 
 }

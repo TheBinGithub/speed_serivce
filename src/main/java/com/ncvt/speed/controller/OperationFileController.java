@@ -1,6 +1,7 @@
 package com.ncvt.speed.controller;
 
 import com.ncvt.speed.entity.FileEntity;
+import com.ncvt.speed.params.MovementParams;
 import com.ncvt.speed.params.NewFolderParams;
 import com.ncvt.speed.params.RecyclerParams;
 import com.ncvt.speed.params.RenameParams;
@@ -49,7 +50,6 @@ public class OperationFileController {
     @ApiOperation(value = "查询指定目录下的目录(文件)")
     @GetMapping("/contents/{userId}/{belong}")
     public Result queryContents(@PathVariable String userId, @PathVariable String belong){
-        log.info("queryContents: " + belong);
         return operationFileService.queryFileByBelong(userId, belong);
     }
 
@@ -91,6 +91,13 @@ public class OperationFileController {
     public Result rename(@PathVariable String userId, @RequestBody RenameParams renameParams){
 
         return operationFileService.rename(userId, renameParams);
+    }
+
+    @ApiOperation(value = "文件移动")
+    @PutMapping("/movement/{userId}")
+    public Result movement(@PathVariable String userId, @RequestBody MovementParams params){
+
+        return operationFileService.movement(params);
     }
 
 }

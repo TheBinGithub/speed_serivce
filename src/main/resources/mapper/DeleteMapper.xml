@@ -24,7 +24,7 @@
     </insert>
 
     <delete id="dDelete">
-        delete from tb_delete where delete_id=#{deleteId}
+        delete from tb_delete where file_id=#{fileId}
     </delete>
 
     <select id="queryRecycler" resultMap="DeleteRMap">

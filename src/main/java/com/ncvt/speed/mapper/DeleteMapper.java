@@ -8,7 +8,7 @@ public interface DeleteMapper {
 
     Integer addDelete(DeleteEntity deleteEntity);
 
-    Integer dDelete(Integer deleteId);
+    Integer dDelete(String fileId);
 
     List<DeleteEntity> queryRecyclerByUserId(String userId);
 

@@ -29,7 +29,7 @@ public interface FileMapper {
     Integer movement(String fileId, String belongId);
 
     // 逻辑删除
-    Integer logicalDeletionFile(Integer fileId, Integer deleteId);
+    Integer logicalDeletionFile(String fileId, Long deleteId);
 
     // 添加
     Integer addFile(FileEntity file);

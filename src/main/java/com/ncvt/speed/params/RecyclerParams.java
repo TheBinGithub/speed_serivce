@@ -7,6 +7,6 @@ import lombok.Data;
 public class RecyclerParams {
 
     @ApiModelProperty(value = "文件id", example = "85", required = true)
-    private Integer fileId;
+    private String fileId;
 
 }
