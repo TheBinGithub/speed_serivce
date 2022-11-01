@@ -34,7 +34,7 @@
     </select>
     <!-- 根据id和belong查询 -->
     <select id="queryFileByBelong" resultMap="FileRMap">
-        SELECT b.belong,file_name,file_type FROM tb_file as f,tb_belong as b WHERE f.belong_id=b.belong_id AND user_id=#{userId} AND f.belong_id=#{belongId}
+        SELECT f.belong_id,b.belong,file_name,file_type FROM tb_file as f,tb_belong as b WHERE f.belong_id=b.belong_id AND user_id=#{userId} AND f.belong_id=#{belongId}
     </select>
     <!-- 查询回收站的 -->
     <select id="queryD" resultMap="FileRMap">

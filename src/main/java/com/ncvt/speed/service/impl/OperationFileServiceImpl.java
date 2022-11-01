@@ -100,13 +100,13 @@ public class OperationFileServiceImpl implements OperationFileService {
             BelongEntity belongEntity = belongMapper.queryBelongByBelong(cbelong);
             if (belongEntity == null) return Result.ok(404,"数据库无记录");
             List<FileEntity> fileEntityList = fileMapper.queryFileByBelong(userId, belongEntity.getBelongId());
+            if (fileEntityList.size() == 0) return Result.ok(404,"数据库无数据！");
             for (FileEntity file : fileEntityList){
                 String b1 = file.getBelong();
                 String b2 = b1.replace("\\","@-.@");
                 b2 +=file.getFileName()+"@-.@";
                 file.setCBelong(b2);
             }
-            if (fileEntityList.size() == 0) return Result.ok(404,"数据库无数据！");
             return Result.ok("查询成功！",fileEntityList);
         }catch (Exception e){
             e.printStackTrace();

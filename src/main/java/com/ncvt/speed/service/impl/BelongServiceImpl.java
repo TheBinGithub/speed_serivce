@@ -19,4 +19,15 @@ public class BelongServiceImpl implements BelongService {
       return false;
     }
 
+    @Override
+    public boolean addBelon(BelongEntity entity) {
+        try {
+            int result = belongMapper.addBelong(entity);
+            return result == 1;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

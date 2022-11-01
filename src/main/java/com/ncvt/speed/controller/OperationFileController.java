@@ -1,10 +1,12 @@
 package com.ncvt.speed.controller;
 
+import com.ncvt.speed.entity.BelongEntity;
 import com.ncvt.speed.entity.FileEntity;
 import com.ncvt.speed.params.MovementParams;
 import com.ncvt.speed.params.NewFolderParams;
 import com.ncvt.speed.params.RecyclerParams;
 import com.ncvt.speed.params.RenameParams;
+import com.ncvt.speed.service.BelongService;
 import com.ncvt.speed.service.FileService;
 import com.ncvt.speed.service.OperationFileService;
 import com.ncvt.speed.util.Result;
@@ -32,6 +34,9 @@ public class OperationFileController {
 
     @Resource
     private OperationFileService operationFileService;
+
+    @Resource
+    private BelongService belongService;
 
     @ApiOperation(value = "查询用户所有目录(文件)")
     @GetMapping("/file/{id}")
@@ -82,6 +87,11 @@ public class OperationFileController {
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:ss");
         String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));  // 时间戳转换成时间
         fileEntity.setUploadTime(sd);
+
+        BelongEntity b = new BelongEntity();
+        b.setBelong(belong+newFolderParams.getFileName()+"\\");
+        boolean result = belongService.addBelon(b);
+        if (!result) return Result.fail("第二次新增belong出现未知异常！");
 
         return fileService.addFile(fileEntity,"新建成功！");
     }
