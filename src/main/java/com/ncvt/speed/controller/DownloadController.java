@@ -2,8 +2,6 @@ package com.ncvt.speed.controller;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.ncvt.speed.entity.FileEntity;
-import com.ncvt.speed.params.DownloadParams;
 import com.ncvt.speed.service.DownloadService;
 import com.ncvt.speed.util.Result;
 import io.swagger.annotations.Api;

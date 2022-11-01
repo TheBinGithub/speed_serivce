@@ -1,7 +1,5 @@
 package com.ncvt.speed.service;
 
-import com.ncvt.speed.entity.FileEntity;
-import com.ncvt.speed.params.DownloadParams;
 import com.ncvt.speed.util.Result;
 
 import javax.servlet.http.HttpServletRequest;
