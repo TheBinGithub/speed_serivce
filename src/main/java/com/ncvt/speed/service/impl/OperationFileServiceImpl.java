@@ -91,9 +91,10 @@ public class OperationFileServiceImpl implements OperationFileService {
 
     // 查询指定belong下
     @Override
-    public Result queryFileByBelong(String userId, String belongId) {
+    public Result queryFileByBelong(String userId, String belong) {
         try {
-            List<FileEntity> fileEntityList = fileMapper.queryFileByBelong(userId, belongId);
+            BelongEntity belongEntity = belongMapper.queryBelongByBelong(belong);
+            List<FileEntity> fileEntityList = fileMapper.queryFileByBelong(userId, belongEntity.getBelongId());
             if (fileEntityList.size() == 0) return Result.ok(404,"数据库无数据！");
             return Result.ok("查询成功！",fileEntityList);
         }catch (Exception e){
@@ -113,10 +114,21 @@ public class OperationFileServiceImpl implements OperationFileService {
             int dResult = deleteMapper.addDelete(deleteEntity);
             int fResult = fileMapper.logicalDeletionFile(params.getFileId(), deleteEntity.getFileId());
             if (dResult == 1 && fResult == 1) {
-                return Result.ok("添加收回站成功！");
+                return Result.ok("添加回收站成功！");
             }else {
                 return Result.fail(400,"添加回收站出现未知异常！");
             }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.fail("服务端异常！",e.getMessage());
+        }
+    }
+
+    // 回收站还原
+    @Override
+    public Result restores(String fileId){
+        try {
+            return Result.ok("测试中");
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！",e.getMessage());

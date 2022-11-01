@@ -19,4 +19,7 @@ public interface OperationFileService {
     // 加入回收站
     Result addRecycler(String userId, RecyclerParams params);
 
+    // 回收站还原
+    Result restores(String fileId);
+
 }

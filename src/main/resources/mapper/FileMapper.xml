@@ -34,7 +34,7 @@
     </select>
     <!-- 根据id和belong查询 -->
     <select id="queryFileByBelong" resultMap="FileRMap">
-        SELECT * FROM tb_file WHERE user_id=#{userId} AND belong_id=#{belongId}
+        SELECT b.belong,file_name,file_type FROM tb_file as f,tb_belong as b WHERE f.belong_id=b.belong_id user_id=#{userId} AND belong_id=#{belongId}
     </select>
     <!-- 重命名 -->
     <update id="modifyFile">
