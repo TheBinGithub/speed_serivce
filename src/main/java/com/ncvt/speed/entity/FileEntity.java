@@ -16,6 +16,7 @@ public class FileEntity {
     private String hash;
     private Integer belongId;
     private String uploadTime;
+    private Integer deleteId;
 
     // 非数据库字段
     private Integer way;  // 上传方式 0分片上传, 1秒传

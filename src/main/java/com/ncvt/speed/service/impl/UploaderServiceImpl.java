@@ -139,6 +139,7 @@ public class UploaderServiceImpl implements UploaderService {
                     SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
                     String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));      // 时间戳转换成时间
                     fileEntity.setUploadTime(sd);
+                    fileEntity.setDeleteId(0);
                     return fileService.addFile(fileEntity,"path: "+endFile.getPath());
                 }
                 return Result.ok(201,"分片成功！");

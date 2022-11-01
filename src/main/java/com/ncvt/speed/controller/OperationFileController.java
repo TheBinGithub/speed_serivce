@@ -51,10 +51,12 @@ public class OperationFileController {
     }
 
     @ApiOperation(value = "查询指定目录下的目录(文件)")
-    @GetMapping("/contents/{userId}")
-    public Result queryContents(@PathVariable String userId, @RequestBody ContentsParams contentsParams){
-        log.info("queryContents: " + contentsParams.getBelong());
-        return operationFileService.queryFileByBelong(userId, contentsParams.getBelong());
+    @GetMapping("/contents/{userId}/{belong}")
+    public Result queryContents(@PathVariable String userId, @PathVariable String belong){
+        log.info("queryContents: " + belong);
+        String b = belong.replace("@-.@","\\");
+        System.out.println(b);
+        return operationFileService.queryFileByBelong(userId, b);
     }
     @ApiOperation(value = "新建文件夹")
     @PostMapping("/folder/{id}")

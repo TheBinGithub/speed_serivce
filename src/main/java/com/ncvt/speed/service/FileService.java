@@ -17,6 +17,8 @@ public interface FileService {
     // 重命名
     Result modifyFile(FileEntity fileEntity);
 
+    // 逻辑删除
+
     // 添加
     Result addFile(FileEntity file, String msg);
 

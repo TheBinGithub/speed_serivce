@@ -16,10 +16,11 @@
         <result column="hash" property="hash"></result>
         <result column="belong_id" property="belongId"></result>
         <result column="upload_time" property="uploadTime"></result>
+        <result column="delete_id" property="deleteId"></result>
     </resultMap>
 
     <select id="queryFile" resultMap="FileRMap">
-        SELECT user_id,b.belong,file_id,file_name,file_size,file_type,upload_time FROM tb_file as t,tb_belong as b WHERE t.belong_id=b.belong_id AND user_id =#{userId}
+        SELECT user_id,b.belong,file_id,file_name,file_size,file_type,upload_time FROM tb_file as t,tb_belong as b WHERE t.belong_id=b.belong_id AND user_id =#{userId} ORDER BY file_type
     </select>
 
     <!-- hash校验 -->
@@ -29,7 +30,7 @@
 
     <!-- 根据id和name查询 -->
     <select id="queryFileByName" resultMap="FileRMap">
-        SELECT * FROM tb_file WHERE file_id=#{fileId} AND file_name=#{fileName}
+        SELECT * FROM tb_file WHERE file_id=#{fileId}
     </select>
     <!-- 根据id和belong查询 -->
     <select id="queryFileByBelong" resultMap="FileRMap">
@@ -37,9 +38,12 @@
     </select>
     <!-- 重命名 -->
     <update id="modifyFile">
-        UPDATE tb_file SET user_id=#{userId}, du_you=#{duYou},file_name=#{fileName},file_type=#{fileType},file_path=#{filePath},file_size=#{fileSize},hash=#{hash},belong_id=#{belongId},upload_time=#{uploadTime} WHERE file_id=#{fileId}
+        UPDATE tb_file SET user_id=#{userId}, du_you=#{duYou},file_name=#{fileName},file_type=#{fileType},file_path=#{filePath},file_size=#{fileSize},hash=#{hash},belong_id=#{belongId},upload_time=#{uploadTime},delete_Id=#{deleteId} WHERE file_id=#{fileId}
     </update>
-
+    <!-- 逻辑删除 -->
+    <update id="logicalDeletionFile">
+        update tb_file set delete_id=#{deleteId} where file_id=#{fileId}
+    </update>
     <!-- keyProperty="userId" 设置主键字段对应的实体类 -->
     <insert id="addFile" useGeneratedKeys="true">
         INSERT INTO tb_file(

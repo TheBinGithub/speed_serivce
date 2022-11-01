@@ -40,12 +40,10 @@ public class OperationFileServiceImpl implements OperationFileService {
             fileEntity.setFileName(param.getNewName());
             Integer result1 = fileMapper.modifyFile(fileEntity);
             Integer result2 = 99;
-            System.out.println("o:"+o);
-            System.out.println("n"+n);
             if (param.getType().equals("folder")){
-                BelongEntity belong = belongMapper.queryBelongByBelong(o);
+                BelongEntity belong = belongMapper.queryBelongByBelong(o+"\\");
                 if (belong != null){
-                    belong.setBelong(n);
+                    belong.setBelong(n+"\\");
                     result2 = belongMapper.modifyBelong(belong);
                 }
             }
@@ -61,7 +59,6 @@ public class OperationFileServiceImpl implements OperationFileService {
                 }
                 return Result.fail("修改belong出现未知异常！");
             }
-
 
         }catch (Exception e){
             e.printStackTrace();
