@@ -96,6 +96,11 @@ public class OperationFileServiceImpl implements OperationFileService {
             BelongEntity belongEntity = belongMapper.queryBelongByBelong(belong);
             if (belongEntity == null) return Result.ok(404,"数据库无记录");
             List<FileEntity> fileEntityList = fileMapper.queryFileByBelong(userId, belongEntity.getBelongId());
+            for (FileEntity file : fileEntityList){
+                String b1 = file.getBelong();
+                String b2 = b1.replace("//","@-.@");
+                file.setCBelong(b2);
+            }
 
             if (fileEntityList.size() == 0) return Result.ok(404,"数据库无数据！");
             return Result.ok("查询成功！",fileEntityList);
