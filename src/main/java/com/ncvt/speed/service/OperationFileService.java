@@ -14,7 +14,10 @@ public interface OperationFileService {
     Result movement(MovementParams params);
 
     // 根据id和belong查询
-    Result queryFileByBelong(String userId, String belongId);
+    Result queryFileByBelong(String userId, String belong);
+
+    // 查询回收站
+    Result queryRecycler(String userId);
 
     // 加入回收站
     Result addRecycler(String userId, RecyclerParams params);

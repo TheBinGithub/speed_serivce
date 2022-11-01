@@ -5,7 +5,8 @@ import lombok.Data;
 @Data
 public class DeleteEntity {
 
-    private Integer deteleId;
+    private Integer deleteId;
+    private String userId;
     private Integer fileId;
     private Long deleteTime;
 

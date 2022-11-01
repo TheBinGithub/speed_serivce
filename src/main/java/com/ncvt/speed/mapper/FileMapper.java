@@ -22,6 +22,9 @@ public interface FileMapper {
     // 修改记录
     Integer modifyFile(FileEntity fileEntity);
 
+    //查询回收站的
+    List<FileEntity> queryD(String userId);
+
     // 移动
     Integer movement(String fileId, String belongId);
 

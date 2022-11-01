@@ -10,4 +10,6 @@ public interface DeleteMapper {
 
     Integer dDelete(Integer deleteId);
 
+    List<DeleteEntity> queryRecyclerByUserId(String userId);
+
 }

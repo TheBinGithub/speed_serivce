@@ -94,9 +94,24 @@ public class OperationFileServiceImpl implements OperationFileService {
     public Result queryFileByBelong(String userId, String belong) {
         try {
             BelongEntity belongEntity = belongMapper.queryBelongByBelong(belong);
+            if (belongEntity == null) return Result.ok(404,"数据库无记录");
             List<FileEntity> fileEntityList = fileMapper.queryFileByBelong(userId, belongEntity.getBelongId());
+
             if (fileEntityList.size() == 0) return Result.ok(404,"数据库无数据！");
             return Result.ok("查询成功！",fileEntityList);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.fail("服务端异常！",e.getMessage());
+        }
+    }
+
+    // 查询回收站
+    @Override
+    public Result queryRecycler(String userId) {
+        try {
+            List<FileEntity> list = fileMapper.queryD(userId);
+            if (list.size() == 0) return Result.ok(404,"数据库无记录！");
+            return Result.ok("查询成功！",list);
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！",e.getMessage());
@@ -109,10 +124,11 @@ public class OperationFileServiceImpl implements OperationFileService {
         try {
             Long timeStamp = System.currentTimeMillis();  //获取当前时间戳
             DeleteEntity deleteEntity = new DeleteEntity();
+            deleteEntity.setUserId(userId);
             deleteEntity.setFileId(params.getFileId());
             deleteEntity.setDeleteTime(timeStamp);
             int dResult = deleteMapper.addDelete(deleteEntity);
-            int fResult = fileMapper.logicalDeletionFile(params.getFileId(), deleteEntity.getFileId());
+            int fResult = fileMapper.logicalDeletionFile(params.getFileId(), deleteEntity.getDeleteId());
             if (dResult == 1 && fResult == 1) {
                 return Result.ok("添加回收站成功！");
             }else {

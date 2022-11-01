@@ -47,10 +47,10 @@ public class OperationFileController {
     }
 
     @ApiOperation(value = "查询指定目录下的目录(文件)")
-    @GetMapping("/contents/{userId}/{belongId}")
-    public Result queryContents(@PathVariable String userId, @PathVariable String belongId){
-        log.info("queryContents: " + belongId);
-        return operationFileService.queryFileByBelong(userId, belongId);
+    @GetMapping("/contents/{userId}/{belong}")
+    public Result queryContents(@PathVariable String userId, @PathVariable String belong){
+        log.info("queryContents: " + belong);
+        return operationFileService.queryFileByBelong(userId, belong);
     }
 
     @ApiOperation(value = "新建文件夹")

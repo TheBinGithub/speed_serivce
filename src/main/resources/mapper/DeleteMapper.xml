@@ -7,6 +7,7 @@
 
     <resultMap id="DeleteRMap" type="com.ncvt.speed.entity.DeleteEntity">
         <result column="delete_id" property="deleteId"></result>
+        <result column="user_id" property="userId"></result>
         <result column="file_id" property="fileId"></result>
         <result column="delete_time" property="deleteTime"></result>
     </resultMap>
@@ -15,14 +16,19 @@
     <insert id="addDelete" useGeneratedKeys="true" keyProperty="deleteId">
         INSERT INTO tb_delete(
             file_id,
+            user_id,
             delete_time
         ) VALUES (
-                     #{fileId},#{deleteTime}
+                     #{fileId},#{userId},#{deleteTime}
                  )
     </insert>
 
     <delete id="dDelete">
         delete from tb_delete where delete_id=#{deleteId}
     </delete>
+
+    <select id="queryRecycler" resultMap="DeleteRMap">
+        SELECT * FROM tb_delete WHERE user_id=#{userId}
+    </select>
 
 </mapper>

@@ -23,5 +23,6 @@ public class FileEntity {
     private Integer shunk;
     private Integer shunks;
     private String belong;
+    private String cBelong;
 
 }
