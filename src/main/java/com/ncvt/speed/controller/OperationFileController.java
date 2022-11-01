@@ -77,6 +77,7 @@ public class OperationFileController {
         fileEntity.setDuYou(false);
         fileEntity.setFileType("folder");
         fileEntity.setFileSize(0L);
+        fileEntity.setDeleteId(0);
         Long timeStamp = System.currentTimeMillis();  //获取当前时间戳
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:ss");
         String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));  // 时间戳转换成时间
