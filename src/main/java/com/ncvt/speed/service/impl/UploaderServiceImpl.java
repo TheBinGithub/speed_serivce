@@ -36,12 +36,12 @@ public class UploaderServiceImpl implements UploaderService {
     @Resource
     private BelongMapper belongMapper;
 
-    private String salt = "";
-
     // 分片上传
     @Override
     public Result upload(String id, FileEntity fileEntity, MultipartFile MFile, HttpServletRequest req) {
 
+        // 判断上传类型
+        if (fileEntity.getWay() == 1) return Result.ok(203,"秒传！");
 //        Integer shunk = Integer.valueOf(req.getParameter("chunk"));
         if (MFile == null) return Result.fail(400,"请上传文件");
         // 取出所需参数
@@ -50,15 +50,8 @@ public class UploaderServiceImpl implements UploaderService {
         String originName = fileEntity.getFileName();
         // 判断文件名不能为空
         if (originName == null) return Result.fail(400,"文件名不能为空！");
-        // 判断上传类型
-        if (fileEntity.getWay() == 1) return Result.ok(203,"秒传！");
         // new一个临时目录的File对象
-        File temppath1 = null;
-        if (shunk == 0){
-            salt = UUID.randomUUID().toString().toUpperCase();
-        }
-        temppath1 = new File(temppath+id, Md5.getMd5Password(originName,salt));
-
+        File temppath1 = new File(temppath+id, fileEntity.getHash());
         // 不存在则创建
         if (!temppath1.exists()) temppath1.mkdirs();
         // new一个分片文件的File对象

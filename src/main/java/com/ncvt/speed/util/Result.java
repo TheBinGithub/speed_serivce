@@ -16,7 +16,7 @@ public class Result {
     }
 
     public static Result ok(Integer code, String msg) {
-        return Result.builder().code(code).code(200).msg(msg).build();
+        return Result.builder().code(code).msg(msg).build();
     }
 
     public static Result ok(String msg, Object data) {
