@@ -37,7 +37,6 @@ public class UploaderServiceImpl implements UploaderService {
     private BelongMapper belongMapper;
 
     private String salt = "";
-    private Integer i=0;
 
     // 分片上传
     @Override
@@ -54,12 +53,12 @@ public class UploaderServiceImpl implements UploaderService {
         // 判断上传类型
         if (fileEntity.getWay() == 1) return Result.ok(203,"秒传！");
         // new一个临时目录的File对象
+        File temppath1 = null;
         if (shunk == 0){
-            System.out.println("i:"+i);
-            i++;
             salt = UUID.randomUUID().toString().toUpperCase();
         }
-        File temppath1 = new File(temppath+id, Md5.getMd5Password(originName,salt));
+        temppath1 = new File(temppath+id, Md5.getMd5Password(originName,salt));
+
         // 不存在则创建
         if (!temppath1.exists()) temppath1.mkdirs();
         // new一个分片文件的File对象
@@ -101,7 +100,7 @@ public class UploaderServiceImpl implements UploaderService {
                     for (int i=0; i<shunks; i++){
                         // new一个当前取到的分片File对象
                         File iFile = new File(temppath1,i+"_"+originName);
-                        log.info("取出分片"+iFile.getPath());
+//                        log.info("取出分片"+iFile.getPath());
                         // 分片不存在则return
                         if (!iFile.exists()) return Result.ok(404,"合并时，分片不存在："+iFile.getPath());
                         // 如果取到的分片不存在则休眠1000ms后继续判断
@@ -131,20 +130,8 @@ public class UploaderServiceImpl implements UploaderService {
                     boolean result = temppath1.delete();
                     if (!result) return Result.fail("删除临时目录出现异常！");
                     // 数据库添加记录
-                    fileEntity.setUserId(id);
-                    fileEntity.setDuYou(0);
-                    fileEntity.setFilePath((fileEntity.getBelong()+fileEntity.getFileName()).replace("\\","@-.@"));
-                    // 需要注意的是像【.】【|】【+】【*】等都是转义字符，在作为参数时，需要加入“\\”,
-                    String[] sName = fileEntity.getFileName().split("\\.");
-                    fileEntity.setFileType(sName[sName.length - 1]);
-//                    fileEntity.setFilePath(endFile.getPath());
-                    fileEntity.setFileSize(endFile.length());
-                    Long timeStamp = System.currentTimeMillis();  //获取当前时间戳
-                    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                    String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));      // 时间戳转换成时间
-                    fileEntity.setUploadTime(sd);
-                    fileEntity.setDeleteId(0);
-                    return fileService.addFile(fileEntity,"path: "+endFile.getPath());
+                    FileEntity fileEntity1 = FileEntity.getFE(id,endFile,fileEntity);
+                    return fileService.addFile(fileEntity1,"path: "+endFile.getPath());
                 }
                 return Result.ok(201,"分片成功！");
             }catch (Exception e){
@@ -156,6 +143,7 @@ public class UploaderServiceImpl implements UploaderService {
             return Result.ok(202,"该分片已存在！");
         }
     }
+
 
     // 取消上传
     @Override
