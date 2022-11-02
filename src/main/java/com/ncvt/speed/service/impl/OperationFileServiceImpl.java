@@ -124,12 +124,12 @@ public class OperationFileServiceImpl implements OperationFileService {
             if (list.size() == 0) return Result.ok(404,"数据库无记录！");
             Long nTime = System.currentTimeMillis();  //获取当前时间戳
             for (FileEntity entity : list){
-                Long dTime = entity.getDeleteTime();
+                Long dTime = entity.getDelete_time();
                 SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 String sd1 = sdf1.format(new Date(Long.parseLong(String.valueOf(dTime))));
                 entity.setTime(sd1);
 
-                Long l = dTime - nTime;
+                Long l = nTime - dTime;
                 SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
                 String sd2 = sdf2.format(new Date(Long.parseLong(String.valueOf(l))));
                 entity.setSurplusTime(sd2);

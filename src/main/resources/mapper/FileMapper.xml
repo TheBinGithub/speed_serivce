@@ -42,9 +42,9 @@
     </select>
     <!-- 查询回收站的 -->
     <select id="queryD" resultMap="FileRMap">
-        SELECT user_id,file_id,file_name,file_size,file_type,upload_time,d.deleteTime
+        SELECT f.user_id,f.file_id,file_name,file_size,file_type,upload_time,d.delete_time
         FROM tb_file as f,tb_delete as d
-        WHERE f.delete_id=d.delet_id AND user_id =#{userId} AND delete_id!=0 ORDER BY file_type
+        WHERE f.delete_id=d.delete_id AND f.user_id =#{userId} AND f.delete_id!=0 ORDER BY file_type
     </select>
     <!-- 根据belong批量修改 -->
 <!--    <update id="modifyFileByBelong">-->
