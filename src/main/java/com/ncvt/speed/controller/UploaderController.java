@@ -35,7 +35,7 @@ public class UploaderController {
         @ApiImplicitParam(name = "fileName", required = true, value = "文件名"),
         @ApiImplicitParam(name = "MFile", required = true, value = "文件"),
         @ApiImplicitParam(name = "belong", required = true, value = "属于"),
-        @ApiImplicitParam(name = "way", required = true, value = "上传方式(0分片上传,1秒传)"),
+        @ApiImplicitParam(name = "way", required = true, value = "上传方式(0切100片上传,1秒传,2每片切10m)"),
         @ApiImplicitParam(name = "hash", required = true, value = "哈希值")
     })
     public Result upload(@PathVariable String id,FileEntity fileEntity, MultipartFile MFile, HttpServletRequest req){

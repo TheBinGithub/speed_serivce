@@ -35,14 +35,12 @@ public class FileEntity {
     public static FileEntity getFE(String userId, File endFile, FileEntity fileEntity){
         fileEntity.setUserId(userId);
         fileEntity.setDuYou(0);
-        if (endFile != null){
-            fileEntity.setFilePath((fileEntity.getBelong()+fileEntity.getFileName()).replace("\\","@-.@"));
-        }
+        if (fileEntity.getFilePath() == null) fileEntity.setFilePath((fileEntity.getBelong()+fileEntity.getFileName()).replace("\\","@-.@"));
         // 需要注意的是像【.】【|】【+】【*】等都是转义字符，在作为参数时，需要加入“\\”,
         String[] sName = fileEntity.getFileName().split("\\.");
         fileEntity.setFileType(sName[sName.length - 1]);
 //                    fileEntity.setFilePath(endFile.getPath());
-        fileEntity.setFileSize(endFile.length());
+        if (endFile != null) fileEntity.setFileSize(endFile.length());
         Long timeStamp = System.currentTimeMillis();  //获取当前时间戳
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));      // 时间戳转换成时间

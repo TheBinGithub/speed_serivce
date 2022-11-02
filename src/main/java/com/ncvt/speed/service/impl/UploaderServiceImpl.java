@@ -51,6 +51,7 @@ public class UploaderServiceImpl implements UploaderService {
         Integer shunk = fileEntity.getShunk();
         Integer shunks = fileEntity.getShunks();
         String originName = fileEntity.getFileName();
+
         // 判断文件名不能为空
         if (originName == null) return Result.fail(400,"文件名不能为空！");
         // new一个临时目录的File对象
@@ -127,9 +128,9 @@ public class UploaderServiceImpl implements UploaderService {
                     if (!result) return Result.fail("删除临时目录出现异常！");
                     // 数据库添加记录
                     FileEntity fileEntity1 = FileEntity.getFE(id,endFile,fileEntity);
-                    return fileService.addFile(fileEntity1,"path: "+endFile.getPath());
+                    return fileService.addFile(fileEntity1,"100%");
                 }
-                return Result.ok(201,"分片成功！");
+                return Result.ok(201,"分片成功！",String.format("%.2f", (shunk/shunks)*100)+"%");
             }catch (Exception e){
                 e.printStackTrace();
                 return Result.fail("服务端异常！",e.getMessage());

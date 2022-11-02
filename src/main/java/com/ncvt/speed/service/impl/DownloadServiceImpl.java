@@ -73,7 +73,7 @@ public class DownloadServiceImpl implements DownloadService {
 
             File file = new File(path,fileName);
             log.info("download " + file.getPath() + " ...");
-            res.addHeader("Content-Disposition","attachment;filename=" + URLEncoder.encode(file.getName(),utf8));
+//            res.addHeader("Content-Disposition","attachment;filename=" + URLEncoder.encode(file.getName(),utf8));
             if (!file.exists()) return Result.ok(404,"文件不存在！");
             String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/file/" + fileName;
             log.info(url);
