@@ -35,7 +35,9 @@ public class FileEntity {
     public static FileEntity getFE(String userId, File endFile, FileEntity fileEntity){
         fileEntity.setUserId(userId);
         fileEntity.setDuYou(0);
-        fileEntity.setFilePath((fileEntity.getBelong()+fileEntity.getFileName()).replace("\\","@-.@"));
+        if (endFile != null){
+            fileEntity.setFilePath((fileEntity.getBelong()+fileEntity.getFileName()).replace("\\","@-.@"));
+        }
         // 需要注意的是像【.】【|】【+】【*】等都是转义字符，在作为参数时，需要加入“\\”,
         String[] sName = fileEntity.getFileName().split("\\.");
         fileEntity.setFileType(sName[sName.length - 1]);

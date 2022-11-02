@@ -41,7 +41,10 @@ public class UploaderServiceImpl implements UploaderService {
     public Result upload(String id, FileEntity fileEntity, MultipartFile MFile, HttpServletRequest req) {
 
         // 判断上传类型
-        if (fileEntity.getWay() == 1) return Result.ok(203,"秒传！");
+        if (fileEntity.getWay() == 1) {
+            FileEntity f2 = FileEntity.getFE(id,null,fileEntity);
+            return fileService.addFile(f2,"秒传成功！");
+        }
 //        Integer shunk = Integer.valueOf(req.getParameter("chunk"));
         if (MFile == null) return Result.fail(400,"请上传文件");
         // 取出所需参数
