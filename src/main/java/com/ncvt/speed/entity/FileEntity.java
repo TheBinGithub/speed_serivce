@@ -8,7 +8,7 @@ public class FileEntity {
 
     private Integer fileId;
     private String userId;
-    private boolean duYou;
+    private Integer duYou;
     private String fileName;
     private String fileType;
     private String filePath;
@@ -24,5 +24,8 @@ public class FileEntity {
     private Integer shunks;
     private String belong;
     private String cBelong;
+    private Long deleteTime;  // 加入回收站时间
+    private String surplusTime;  // 回收站保存剩余时间
+    private String time;
 
 }

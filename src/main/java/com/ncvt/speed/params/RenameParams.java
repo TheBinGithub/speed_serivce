@@ -16,10 +16,10 @@ public class RenameParams {
     private String oldName;
     @ApiModelProperty(required = true, value = "新的目录或文件名", example = "新图片名.jpg")
     private String newName;
-    @ApiModelProperty(required = true, value = "belong", example = "2/我的图片")
+    @ApiModelProperty(required = true, value = "属于", example = "2/我的图片")
     private String belong;
-    @ApiModelProperty(required = true, value = "type", example = "txt")
+    @ApiModelProperty(required = true, value = "类型", example = "txt")
     private String type;
-    @ApiModelProperty(required = true, value = "64", example = "64")
+    @ApiModelProperty(required = true, value = "文件id", example = "64")
     private String fileId;
 }

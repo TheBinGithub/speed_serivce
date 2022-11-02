@@ -129,8 +129,8 @@ public class UploaderServiceImpl implements UploaderService {
                     if (!result) return Result.fail("删除临时目录出现异常！");
                     // 数据库添加记录
                     fileEntity.setUserId(id);
-                    fileEntity.setDuYou(false);
-                    fileEntity.setFilePath(fileEntity.getBelong()+fileEntity.getFileName());
+                    fileEntity.setDuYou(0);
+                    fileEntity.setFilePath((fileEntity.getBelong()+fileEntity.getFileName()).replace("\\","@-.@"));
                     // 需要注意的是像【.】【|】【+】【*】等都是转义字符，在作为参数时，需要加入“\\”,
                     String[] sName = fileEntity.getFileName().split("\\.");
                     fileEntity.setFileType(sName[sName.length - 1]);

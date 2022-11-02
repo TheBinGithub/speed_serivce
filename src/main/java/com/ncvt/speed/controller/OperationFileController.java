@@ -79,7 +79,7 @@ public class OperationFileController {
         }
         fileEntity.setBelong(belong);
         fileEntity.setUserId(id);
-        fileEntity.setDuYou(false);
+        fileEntity.setDuYou(0);
         fileEntity.setFileType("folder");
         fileEntity.setFileSize(0L);
         fileEntity.setDeleteId(0);

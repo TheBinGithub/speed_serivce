@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -98,9 +100,9 @@ public class OperationFileServiceImpl implements OperationFileService {
             String cbelong = belong.replace("@-.@","\\");
             log.info("queryFileByBelong:"+cbelong);
             BelongEntity belongEntity = belongMapper.queryBelongByBelong(cbelong);
-            if (belongEntity == null) return Result.ok(404,"数据库无记录");
+            if (belongEntity == null) return Result.ok(404,"无法找到数据库记录");
             List<FileEntity> fileEntityList = fileMapper.queryFileByBelong(userId, belongEntity.getBelongId());
-            if (fileEntityList.size() == 0) return Result.ok(404,"此目录下暂无文件,返回当前目录的belongId",belongEntity.getBelongId());
+            if (fileEntityList.size() == 0) return Result.ok(201,"此目录下暂无文件,返回当前目录的belongId",belongEntity.getBelongId());
             for (FileEntity file : fileEntityList){
                 String b1 = file.getBelong();
                 String b2 = b1.replace("\\","@-.@");
@@ -120,6 +122,19 @@ public class OperationFileServiceImpl implements OperationFileService {
         try {
             List<FileEntity> list = fileMapper.queryD(userId);
             if (list.size() == 0) return Result.ok(404,"数据库无记录！");
+            Long nTime = System.currentTimeMillis();  //获取当前时间戳
+            for (FileEntity entity : list){
+                Long dTime = entity.getDeleteTime();
+                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                String sd1 = sdf1.format(new Date(Long.parseLong(String.valueOf(dTime))));
+                entity.setTime(sd1);
+
+                Long l = dTime - nTime;
+                SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
+                String sd2 = sdf2.format(new Date(Long.parseLong(String.valueOf(l))));
+                entity.setSurplusTime(sd2);
+
+            }
             return Result.ok("查询成功！",list);
         }catch (Exception e){
             e.printStackTrace();
