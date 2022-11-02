@@ -20,7 +20,7 @@
     </resultMap>
 
     <select id="queryFile" resultMap="FileRMap">
-        SELECT user_id,f.belong_id,file_id,file_name,file_size,file_type,upload_time,b.belong
+        SELECT file_path,user_id,f.belong_id,file_id,file_name,file_size,file_type,upload_time,b.belong
         FROM tb_file as f,tb_belong as b
         WHERE f.belong_id=b.belong_id AND user_id =#{userId} AND delete_id=0 ORDER BY file_type
     </select>
@@ -46,6 +46,10 @@
         FROM tb_file as f,tb_belong as b
         WHERE f.belong_id=b.belong_id AND user_id =#{userId} AND delete_id!=0 ORDER BY file_type
     </select>
+    <!-- 根据belong批量修改 -->
+<!--    <update id="modifyFileByBelong">-->
+<!--        UPDATE tb_file SET -->
+<!--    </update>-->
     <!-- 重命名 -->
     <update id="modifyFile">
         UPDATE tb_file SET user_id=#{userId}, du_you=#{duYou},file_name=#{fileName},file_type=#{fileType},file_path=#{filePath},file_size=#{fileSize},hash=#{hash},belong_id=#{belongId},upload_time=#{uploadTime},delete_Id=#{deleteId} WHERE file_id=#{fileId}

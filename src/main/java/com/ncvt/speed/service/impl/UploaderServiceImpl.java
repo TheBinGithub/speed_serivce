@@ -37,6 +37,7 @@ public class UploaderServiceImpl implements UploaderService {
     private BelongMapper belongMapper;
 
     private String salt = "";
+    private Integer i=0;
 
     // 分片上传
     @Override
@@ -54,7 +55,9 @@ public class UploaderServiceImpl implements UploaderService {
         if (fileEntity.getWay() == 1) return Result.ok(203,"秒传！");
         // new一个临时目录的File对象
         if (shunk == 0){
-             salt = UUID.randomUUID().toString().toUpperCase();
+            System.out.println("i:"+i);
+            i++;
+            salt = UUID.randomUUID().toString().toUpperCase();
         }
         File temppath1 = new File(temppath+id, Md5.getMd5Password(originName,salt));
         // 不存在则创建

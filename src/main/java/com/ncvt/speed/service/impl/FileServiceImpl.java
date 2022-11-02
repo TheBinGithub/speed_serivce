@@ -9,6 +9,7 @@ import com.ncvt.speed.util.Result;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,7 +27,15 @@ public class FileServiceImpl implements FileService {
         try {
             List<FileEntity> lists = fileMapper.queryFile(userId);
             if (lists.size() == 0) return Result.ok("无结果");
-            return Result.ok("查询成功！",lists);
+            List<FileEntity> list = new ArrayList<>();
+            for (FileEntity file : lists){
+                if (file.getFileType().equals("folder")){
+                    list.add(0,file);
+                }else {
+                    list.add(file);
+                }
+            }
+            return Result.ok("查询成功！",list);
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！");

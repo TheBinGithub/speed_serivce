@@ -146,6 +146,11 @@ public class OperationFileServiceImpl implements OperationFileService {
     @Override
     public Result addRecycler(String userId, RecyclerParams params) {
         try {
+            boolean b = params.getType().equals("folder");
+            log.info("是否文件夹："+b);
+            if (params.getType().equals("folder")){
+
+            }
             Long timeStamp = System.currentTimeMillis();  //获取当前时间戳
             DeleteEntity deleteEntity = new DeleteEntity();
             deleteEntity.setUserId(userId);
