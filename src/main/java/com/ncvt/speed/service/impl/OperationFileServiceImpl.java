@@ -58,19 +58,13 @@ public class OperationFileServiceImpl implements OperationFileService {
                     result2 = belongMapper.modifyBelong(belong);
                 }
             }
-            System.out.println("result2:"+result2);
             if (result2 == 99){
-                if (result && result1 == 1){
-                    return Result.ok("修改成功！");
-                }
+                if (result && result1 == 1) return Result.ok("修改成功！");
                 return Result.fail("修改出现未知异常！");
             }else {
-                if (result && result1 == 1 && result2 == 1){
-                    return Result.ok("修改成功！");
-                }
+                if (result && result1 == 1 && result2 == 1) return Result.ok("修改成功！");
                 return Result.fail("修改belong出现未知异常！");
             }
-
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！",e.getMessage());

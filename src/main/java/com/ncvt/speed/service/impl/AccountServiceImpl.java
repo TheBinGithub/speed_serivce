@@ -34,27 +34,15 @@ public class AccountServiceImpl implements AccountService {
     // 注册
     @Override
     public Object accountAddition(AccountParams accountParams) {
-
         try {
-
-            if (accountParams.getUserName() ==null || accountParams.getPassword() == null){
-                return Result.fail(400,"账号或密码不能为空");
-            }
-
-            if(accountMapper.queryOneAccount(accountParams.getUserName()) != null){
-                return Result.fail(400,"用户名已存在！");
-            }
-
+            if (accountParams.getUserName() ==null || accountParams.getPassword() == null) return Result.fail(400,"账号或密码不能为空");
+            if(accountMapper.queryOneAccount(accountParams.getUserName()) != null) return Result.fail(400,"用户名已存在！");
             String salt = UUID.randomUUID().toString().toUpperCase();
             accountParams.setSalt(salt);
-
             accountParams.setPassword(Md5.getMd5Password(accountParams.getPassword(),salt));
-
             Integer result = accountMapper.accountAddition(accountParams);
             if (result != 1) return Result.fail("注册过程出现未知异常！");
-
             return Result.ok("注册成功！",accountParams);
-
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！");
@@ -63,23 +51,13 @@ public class AccountServiceImpl implements AccountService {
 
     // 登录
     @Override
-    public Object login(String userName, String passwprd) {
-
+    public Object login(String userName, String password) {
         try {
-            if (userName == null || passwprd == null){
-                return Result.fail(400,"账号或密码不能为空！");
-            }
+            if (userName == null || password == null) return Result.fail(400,"账号或密码不能为空！");
             AccountEntity accountEntity = accountMapper.queryOneAccount(userName);
-
-            if (accountEntity == null){
-                return Result.fail(404,"账号不存在！");
-            }
-
-            if (accountEntity.getPassword().equals(Md5.getMd5Password(passwprd,accountEntity.getSalt()))){
-                return Result.ok("登录成功！",accountEntity);
-            }
+            if (accountEntity == null) return Result.fail(404,"账号不存在！");
+            if (accountEntity.getPassword().equals(Md5.getMd5Password(password,accountEntity.getSalt()))) return Result.ok("登录成功！",accountEntity);
             return Result.fail(400,"密码错误！");
-
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！");

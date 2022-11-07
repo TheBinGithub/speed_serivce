@@ -130,7 +130,8 @@ public class UploaderServiceImpl implements UploaderService {
                     FileEntity fileEntity1 = FileEntity.getFE(id,endFile,fileEntity);
                     return fileService.addFile(fileEntity1,"100%");
                 }
-                return Result.ok(201,"分片成功！",String.format("%.2f", (shunk/shunks)*100)+"%");
+//                String.format("%.2f", (shunk/shunks)*100)+"%"
+                return Result.ok(201,"分片成功！","null");
             }catch (Exception e){
                 e.printStackTrace();
                 return Result.fail("服务端异常！",e.getMessage());
