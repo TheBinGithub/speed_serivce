@@ -49,18 +49,19 @@ public class AccountServiceImpl implements AccountService {
         try {
             if (accountParams.getUserName() ==null || accountParams.getPassword() == null) return Result.fail(400,"账号或密码不能为空");
             if(accountMapper.queryOneAccount(accountParams.getUserName()) != null) return Result.fail(400,"用户名已存在！");
+
+            BelongEntity belong = new BelongEntity();
+            belong.setBelong(accountParams.getUserId());
+            int result1 = belongMapper.addBelong(belong);
+            if (result1 != 1) return Result.fail("添加belong数据出现未知异常！");
+            accountParams.setBelongId(belong.getBelongId());
+
             String salt = UUID.randomUUID().toString().toUpperCase();
             accountParams.setSalt(salt);
             accountParams.setPassword(Md5.getMd5Password(accountParams.getPassword(),salt));
             int result = accountMapper.accountAddition(accountParams);
             if (result != 1) return Result.fail("注册过程出现未知异常！");
-
-            BelongEntity belong = new BelongEntity();
-            belong.setBelong(accountParams.getUserId());
-            int result1 = belongMapper.addBelong(belong);
-            if (result1 != 1) return Result.fail("注册成功，但添加belong数据出现未知异常！");
-            accountParams.setBelongId(belong.getBelongId());
-
+            
             return Result.ok("注册成功！",accountParams);
         }catch (Exception e){
             e.printStackTrace();

@@ -21,9 +21,10 @@
         INSERT INTO tb_account(
             user_name,
             password,
-            salt
+            salt,
+            belong_id
         ) VALUES (
-                     #{userName},#{password},#{salt}
+                     #{userName},#{password},#{salt},#{belongId}
                  )
     </insert>
 
