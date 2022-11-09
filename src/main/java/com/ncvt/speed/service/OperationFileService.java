@@ -13,6 +13,9 @@ public interface OperationFileService {
     // 移动
     Result movement(MovementParams params);
 
+    // 新建文件夹
+    Result addFolder(String userId, String folderName, String belongId);
+
     // 根据id和belong查询
     Result queryFileByBelong(String userId, String belong);
 

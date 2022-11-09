@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class BelongEntity {
 
-    private Integer belongId;
+    private String belongId;
     private String belong;
 
 }

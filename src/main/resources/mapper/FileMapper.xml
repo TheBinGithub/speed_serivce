@@ -35,10 +35,15 @@
         SELECT * FROM tb_file WHERE file_id=#{fileId}
     </select>
     <!-- 根据id和belong查询 -->
+<!--    <select id="queryFileByBelong" resultMap="FileRMap">-->
+<!--        SELECT f.belong_id,b.belong,file_name,file_type-->
+<!--        FROM tb_file as f,tb_belong as b-->
+<!--        WHERE f.belong_id=b.belong_id AND user_id=#{userId} AND f.belong_id=#{belongId}-->
+<!--    </select>-->
     <select id="queryFileByBelong" resultMap="FileRMap">
-        SELECT f.belong_id,b.belong,file_name,file_type
-        FROM tb_file as f,tb_belong as b
-        WHERE f.belong_id=b.belong_id AND user_id=#{userId} AND f.belong_id=#{belongId}
+        SELECT belong_id,folder_belong_id,file_name,file_type
+        FROM tb_file
+        WHERE belong_id=#{belongId}
     </select>
     <!-- 查询回收站的 -->
     <select id="queryD" resultMap="FileRMap">
@@ -52,7 +57,7 @@
 <!--    </update>-->
     <!-- 重命名 -->
     <update id="modifyFile">
-        UPDATE tb_file SET user_id=#{userId}, du_you=#{duYou},file_name=#{fileName},file_type=#{fileType},file_path=#{filePath},file_size=#{fileSize},hash=#{hash},belong_id=#{belongId},upload_time=#{uploadTime},delete_Id=#{deleteId} WHERE file_id=#{fileId}
+        UPDATE tb_file SET file_name=#{fileName} WHERE file_id=#{fileId}
     </update>
     <!-- 逻辑删除 -->
     <update id="logicalDeletionFile">

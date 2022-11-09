@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 public class FileEntity {
 
-    private Integer fileId;
+    private String fileId;
     private String userId;
     private Integer duYou;
     private String fileName;
@@ -18,9 +18,10 @@ public class FileEntity {
     private String filePath;
     private Long fileSize;
     private String hash;
-    private Integer belongId;
+    private String belongId;
     private String uploadTime;
     private Integer deleteId;
+    private String folderBelongId;
 
     // 非数据库字段
     private Integer way;  // 上传方式 0分片上传, 1秒传
@@ -48,5 +49,6 @@ public class FileEntity {
         fileEntity.setDeleteId(0);
         return fileEntity;
     }
+
 
 }

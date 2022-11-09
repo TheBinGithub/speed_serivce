@@ -1,9 +1,15 @@
 package com.ncvt.speed.service.impl;
 
 import com.ncvt.speed.entity.AccountEntity;
+import com.ncvt.speed.entity.BelongEntity;
+import com.ncvt.speed.entity.FileEntity;
 import com.ncvt.speed.mapper.AccountMapper;
+import com.ncvt.speed.mapper.BelongMapper;
+import com.ncvt.speed.mapper.FileMapper;
 import com.ncvt.speed.params.AccountParams;
 import com.ncvt.speed.service.AccountService;
+import com.ncvt.speed.service.FileService;
+import com.ncvt.speed.service.OperationFileService;
 import com.ncvt.speed.util.Md5;
 import com.ncvt.speed.util.Result;
 import org.springframework.stereotype.Service;
@@ -17,6 +23,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Resource
     private AccountMapper accountMapper;
+
+    @Resource
+    private FileMapper fileMapper;
+
+    @Resource
+    private BelongMapper belongMapper;
 
     // 查询单个
     @Override
@@ -40,8 +52,15 @@ public class AccountServiceImpl implements AccountService {
             String salt = UUID.randomUUID().toString().toUpperCase();
             accountParams.setSalt(salt);
             accountParams.setPassword(Md5.getMd5Password(accountParams.getPassword(),salt));
-            Integer result = accountMapper.accountAddition(accountParams);
+            int result = accountMapper.accountAddition(accountParams);
             if (result != 1) return Result.fail("注册过程出现未知异常！");
+
+            BelongEntity belong = new BelongEntity();
+            belong.setBelong(accountParams.getUserId());
+            int result1 = belongMapper.addBelong(belong);
+            if (result1 != 1) return Result.fail("注册成功，但添加belong数据出现未知异常！");
+            accountParams.setBelongId(belong.getBelongId());
+
             return Result.ok("注册成功！",accountParams);
         }catch (Exception e){
             e.printStackTrace();

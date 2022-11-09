@@ -6,10 +6,12 @@ import lombok.Data;
 @Data
 public class AccountParams {
 
+    private String userId;
     @ApiModelProperty(value = "用户名", example = "admin", required = true)
     private String userName;
     @ApiModelProperty(value = "密码", example = "admin123", required = true)
     private String password;
     private String salt;
+    private String belongId;
 
 }

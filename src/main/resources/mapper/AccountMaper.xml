@@ -17,7 +17,7 @@
     </select>
 
     <!-- keyProperty="userId" 设置主键字段对应的实体类 -->
-    <insert id="accountAddition" useGeneratedKeys="true">
+    <insert id="accountAddition" useGeneratedKeys="true" keyProperty="userId">
         INSERT INTO tb_account(
             user_name,
             password,

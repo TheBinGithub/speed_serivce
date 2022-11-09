@@ -58,42 +58,48 @@ public class OperationFileController {
         return operationFileService.queryFileByBelong(userId, belong);
     }
 
+//    @ApiOperation(value = "新建文件夹")
+//    @PostMapping("/folder/{id}")
+//    public Result newFolder(@PathVariable String id, @RequestBody NewFolderParams newFolderParams){
+//        log.info("newFolder: " + newFolderParams.getFilePath());
+//        FileEntity fileEntity = new FileEntity();
+//        fileEntity.setFileName(newFolderParams.getFileName());
+//        File file = new File(path, newFolderParams.getFilePath());
+//        if (file.exists()) {
+//            return Result.fail(400, "文件夹已存在！");
+//        }else {
+//            file.mkdirs();
+//        }
+//
+//        String s1 = newFolderParams.getFilePath().replace("\\", "@");
+//        String[] sList = s1.split("@");
+//        String belong = "";
+//        for (int i=0; i < sList.length - 1; i++){
+//            belong += sList[i]+"\\";
+//        }
+//        fileEntity.setBelong(belong);
+//        fileEntity.setUserId(id);
+//        fileEntity.setDuYou(0);
+//        fileEntity.setFileType("folder");
+//        fileEntity.setFileSize(0L);
+//        fileEntity.setDeleteId(0);
+//        Long timeStamp = System.currentTimeMillis();  //获取当前时间戳
+//        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:ss");
+//        String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));  // 时间戳转换成时间
+//        fileEntity.setUploadTime(sd);
+//
+//        BelongEntity b = new BelongEntity();
+//        b.setBelong(belong+newFolderParams.getFileName()+"\\");
+//        boolean result = belongService.addBelon(b);
+//        if (!result) return Result.fail("第二次新增belong出现未知异常！");
+//
+//        return fileService.addFile(fileEntity,"新建成功！");
+//    }
     @ApiOperation(value = "新建文件夹")
     @PostMapping("/folder/{id}")
     public Result newFolder(@PathVariable String id, @RequestBody NewFolderParams newFolderParams){
-        log.info("newFolder: " + newFolderParams.getFilePath());
-        FileEntity fileEntity = new FileEntity();
-        fileEntity.setFileName(newFolderParams.getFileName());
-        File file = new File(path, newFolderParams.getFilePath());
-        if (file.exists()) {
-            return Result.fail(400, "文件夹已存在！");
-        }else {
-            file.mkdirs();
-        }
-
-        String s1 = newFolderParams.getFilePath().replace("\\", "@");
-        String[] sList = s1.split("@");
-        String belong = "";
-        for (int i=0; i < sList.length - 1; i++){
-            belong += sList[i]+"\\";
-        }
-        fileEntity.setBelong(belong);
-        fileEntity.setUserId(id);
-        fileEntity.setDuYou(0);
-        fileEntity.setFileType("folder");
-        fileEntity.setFileSize(0L);
-        fileEntity.setDeleteId(0);
-        Long timeStamp = System.currentTimeMillis();  //获取当前时间戳
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:ss");
-        String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));  // 时间戳转换成时间
-        fileEntity.setUploadTime(sd);
-
-        BelongEntity b = new BelongEntity();
-        b.setBelong(belong+newFolderParams.getFileName()+"\\");
-        boolean result = belongService.addBelon(b);
-        if (!result) return Result.fail("第二次新增belong出现未知异常！");
-
-        return fileService.addFile(fileEntity,"新建成功！");
+        log.info("newFolder: " + newFolderParams.getFileName());
+        return operationFileService.addFolder(id, newFolderParams.getFileName(), newFolderParams.getBelongId());
     }
 
     @ApiOperation(value = "重命名")
