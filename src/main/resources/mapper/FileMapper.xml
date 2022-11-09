@@ -17,12 +17,13 @@
         <result column="belong_id" property="belongId"></result>
         <result column="upload_time" property="uploadTime"></result>
         <result column="delete_id" property="deleteId"></result>
+        <result column="folder_belong_id" property="folderBelongId"></result>
     </resultMap>
 
     <select id="queryFile" resultMap="FileRMap">
-        SELECT file_path,user_id,f.belong_id,file_id,file_name,file_size,file_type,upload_time,b.belong
-        FROM tb_file as f,tb_belong as b
-        WHERE f.belong_id=b.belong_id AND user_id =#{userId} AND delete_id=0 ORDER BY file_type
+        SELECT file_path,user_id,belong_id,file_id,file_name,file_size,file_type,upload_time,
+        FROM tb_file
+        WHERE user_id =#{userId} AND delete_id=0 ORDER BY file_type
     </select>
 
     <!-- hash校验 -->

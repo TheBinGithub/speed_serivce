@@ -54,14 +54,14 @@ public class AccountServiceImpl implements AccountService {
             belong.setBelong(accountParams.getUserId());
             int result1 = belongMapper.addBelong(belong);
             if (result1 != 1) return Result.fail("添加belong数据出现未知异常！");
-            accountParams.setBelongId(belong.getBelongId());
+            accountParams.setBelongId(belong.getBelongId()+"\\");
 
             String salt = UUID.randomUUID().toString().toUpperCase();
             accountParams.setSalt(salt);
             accountParams.setPassword(Md5.getMd5Password(accountParams.getPassword(),salt));
             int result = accountMapper.accountAddition(accountParams);
             if (result != 1) return Result.fail("注册过程出现未知异常！");
-            
+
             return Result.ok("注册成功！",accountParams);
         }catch (Exception e){
             e.printStackTrace();

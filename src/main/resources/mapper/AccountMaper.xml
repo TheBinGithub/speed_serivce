@@ -10,6 +10,7 @@
         <result column="user_name" property="userName"></result>
         <result column="password" property="password"></result>
         <result column="salt" property="salt"></result>
+        <result column="belong_id" property="belongId"></result>
     </resultMap>
 
     <select id="queryOneAccount" resultMap="UserRMap">
