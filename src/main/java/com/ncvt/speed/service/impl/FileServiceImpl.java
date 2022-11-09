@@ -28,8 +28,12 @@ public class FileServiceImpl implements FileService {
             List<FileEntity> lists = fileMapper.queryFile(userId);
             if (lists.size() == 0) return Result.ok(404,"无结果");
             for (FileEntity file : lists){
-                file.setBelongId(file.getBelongId().replace("\\","@-.@"));
-                file.setCBelong(file.getBelongId()+file.getFolderBelongId()+"@-.@");
+                if (file.getBelongId() != null){
+                    file.setBelongId((file.getBelongId()).replace("\\","@-.@"));
+                    file.setCBelong(file.getBelongId()+file.getFolderBelongId()+"@-.@");
+                }else {
+                    file.setCBelong(file.getFolderBelongId()+"@-.@");
+                }
             }
 
             List<FileEntity> list = new ArrayList<>();

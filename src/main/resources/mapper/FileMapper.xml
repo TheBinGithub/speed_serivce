@@ -21,7 +21,7 @@
     </resultMap>
 
     <select id="queryFile" resultMap="FileRMap">
-        SELECT file_path,user_id,belong_id,file_id,file_name,file_size,file_type,upload_time
+        SELECT file_path,user_id,belong_id,file_id,file_name,file_size,file_type,upload_time,folder_belong_id
         FROM tb_file
         WHERE user_id =#{userId} AND delete_id=0 ORDER BY file_type
     </select>
