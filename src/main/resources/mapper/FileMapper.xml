@@ -21,7 +21,7 @@
     </resultMap>
 
     <select id="queryFile" resultMap="FileRMap">
-        SELECT file_path,user_id,belong_id,file_id,file_name,file_size,file_type,upload_time,
+        SELECT file_path,user_id,belong_id,file_id,file_name,file_size,file_type,upload_time
         FROM tb_file
         WHERE user_id =#{userId} AND delete_id=0 ORDER BY file_type
     </select>
@@ -34,6 +34,10 @@
     <!-- 根据id和name查询 -->
     <select id="queryFileByName" resultMap="FileRMap">
         SELECT * FROM tb_file WHERE file_id=#{fileId}
+    </select>
+    <!-- 根据belongId和fileName查询 -->
+    <select id="queryFileByFileName" resultMap="FileRMap">
+        SELECT file_id FROM tb_file WHERE belong_id=#{belongId} and file_name=#{fileName}
     </select>
     <!-- 根据id和belong查询 -->
 <!--    <select id="queryFileByBelong" resultMap="FileRMap">-->
@@ -80,9 +84,10 @@
             hash,
             belong_id,
             upload_time,
-            delete_id
+            delete_id,
+            folder_belong_id
         ) VALUES (
-                     #{userId},#{duYou},#{fileName},#{fileType},#{filePath},#{fileSize},#{hash},#{belongId},#{uploadTime},#{deleteId}
+                     #{userId},#{duYou},#{fileName},#{fileType},#{filePath},#{fileSize},#{hash},#{belongId},#{uploadTime},#{deleteId},#{folderBelongId}
                  )
     </insert>
 

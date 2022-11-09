@@ -27,6 +27,10 @@ public class FileServiceImpl implements FileService {
         try {
             List<FileEntity> lists = fileMapper.queryFile(userId);
             if (lists.size() == 0) return Result.ok(404,"无结果");
+            for (FileEntity file : lists){
+                file.setBelongId(file.getBelongId().replace("\\","@-.@"));
+                file.setCBelong(file.getBelongId()+file.getFolderBelongId()+"@-.@");
+            }
 
             List<FileEntity> list = new ArrayList<>();
             for (FileEntity file : lists){

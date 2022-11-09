@@ -123,6 +123,10 @@ public class OperationFileServiceImpl implements OperationFileService {
     @Override
     public Result addFolder(String userId, String folderName, String belongId) {
         try {
+
+            List<FileEntity> f = fileMapper.queryFileByFileName(belongId,folderName);
+            if (f.size() != 0) return Result.fail(400,"当前目录已存在");
+
             FileEntity fileEntity = new FileEntity();
             fileEntity.setFileName(folderName);
             fileEntity.setUserId(userId);
@@ -140,7 +144,7 @@ public class OperationFileServiceImpl implements OperationFileService {
             int result = belongMapper.addBelong(b);
 
             fileEntity.setFolderBelongId(b.getBelongId());
-            fileEntity.setBelong(belongId.replace("@-.@","\\") + b.getBelong() + "\\");
+            fileEntity.setBelongId(belongId.replace("@-.@","\\"));
             if (result != 1) return Result.fail("belong出现未知异常！");
 
             int result1 = fileMapper.addFile(fileEntity);
@@ -152,7 +156,6 @@ public class OperationFileServiceImpl implements OperationFileService {
             e.printStackTrace();
             return Result.fail("服务端异常！",e.getMessage());
         }
-
     }
 
     // 查询指定belong下

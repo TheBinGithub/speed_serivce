@@ -16,6 +16,9 @@ public interface FileMapper {
     // 根据id和fileName查询
     FileEntity queryFileByName(String fileId,String userId, String fileName);
 
+    // 根据belongId和fileName查询
+    List<FileEntity> queryFileByFileName(String belongId, String fileName);
+
     // 根据id和belong查询
     List<FileEntity> queryFileByBelong(String userId, String belongId);
 

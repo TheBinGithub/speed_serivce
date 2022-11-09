@@ -87,12 +87,13 @@ public class UploaderServiceImpl implements UploaderService {
                 // 合并
                 if (shunk.intValue() == shunks.intValue()-1){
                     // new一个最终文件存放目录的File对象(目录)
-                    File f = new File(path+fileEntity.getBelong());
+                    File f = new File(path+id);
                     // 存放目录不存在则new一个
                     if (!f.exists()) f.mkdirs();
                     // new一个最终文件的File对象(文件)
 //                    File endFile = new File(path+id+fileEntity.getBelong(),originName);
-                    File endFile = new File(f.getPath(), originName);
+                    String salt = UUID.randomUUID().toString().toUpperCase();
+                    File endFile = new File(f.getPath(), Md5.getMd5Password(originName,salt));
                     // 循环拿出分片
                     for (int i=0; i<shunks; i++){
                         // new一个当前取到的分片File对象
@@ -127,7 +128,9 @@ public class UploaderServiceImpl implements UploaderService {
                     boolean result = temppath1.delete();
                     if (!result) return Result.fail("删除临时目录出现异常！");
                     // 数据库添加记录
+                    fileEntity.setFilePath(endFile.getAbsolutePath().replace("\\","@-.@"));
                     FileEntity fileEntity1 = FileEntity.getFE(id,endFile,fileEntity);
+                    fileEntity1.setFolderBelongId("0");
                     return fileService.addFile(fileEntity1,"100%");
                 }
 //                String.format("%.2f", (shunk/shunks)*100)+"%"
