@@ -93,7 +93,8 @@ public class UploaderServiceImpl implements UploaderService {
                     // new一个最终文件的File对象(文件)
 //                    File endFile = new File(path+id+fileEntity.getBelong(),originName);
                     String salt = UUID.randomUUID().toString().toUpperCase();
-                    File endFile = new File(f.getPath(), Md5.getMd5Password(originName,salt));
+                    String[] type = fileEntity.getFileName().split("\\.");
+                    File endFile = new File(f.getPath(), Md5.getMd5Password(originName,salt)+"."+type[type.length - 1]);
                     // 循环拿出分片
                     for (int i=0; i<shunks; i++){
                         // new一个当前取到的分片File对象
@@ -128,7 +129,8 @@ public class UploaderServiceImpl implements UploaderService {
                     boolean result = temppath1.delete();
                     if (!result) return Result.fail("删除临时目录出现异常！");
                     // 数据库添加记录
-                    fileEntity.setFilePath(endFile.getAbsolutePath().replace("\\","@-.@"));
+                    fileEntity.setFilePath(id+"@-.@"+endFile.getName());
+                    fileEntity.setBelongId(fileEntity.getBelongId().replace("@-.@","\\"));
                     FileEntity fileEntity1 = FileEntity.getFE(id,endFile,fileEntity);
                     fileEntity1.setFolderBelongId("0");
                     return fileService.addFile(fileEntity1,"100%");

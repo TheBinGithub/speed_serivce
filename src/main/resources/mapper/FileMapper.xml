@@ -28,7 +28,7 @@
 
     <!-- hash校验 -->
     <select id="queryHash" resultMap="FileRMap">
-        SELECT * FROM tb_file WHERE user_id=#{userId} AND hash=#{hash}
+        SELECT file_id FROM tb_file WHERE user_id=#{userId} AND hash=#{hash}
     </select>
 
     <!-- 根据id和name查询 -->
@@ -46,7 +46,7 @@
 <!--        WHERE f.belong_id=b.belong_id AND user_id=#{userId} AND f.belong_id=#{belongId}-->
 <!--    </select>-->
     <select id="queryFileByBelong" resultMap="FileRMap">
-        SELECT belong_id,folder_belong_id,file_name,file_type
+        SELECT belong_id,folder_belong_id,file_name,file_type,upload_time
         FROM tb_file
         WHERE belong_id=#{belongId}
     </select>

@@ -39,6 +39,7 @@ public class FileEntity {
         if (fileEntity.getFilePath() == null) fileEntity.setFilePath((fileEntity.getBelong()+fileEntity.getFileName()).replace("\\","@-.@"));
         // 需要注意的是像【.】【|】【+】【*】等都是转义字符，在作为参数时，需要加入“\\”,
         String[] sName = fileEntity.getFileName().split("\\.");
+
         fileEntity.setFileType(sName[sName.length - 1]);
 //                    fileEntity.setFilePath(endFile.getPath());
         if (endFile != null) fileEntity.setFileSize(endFile.length());

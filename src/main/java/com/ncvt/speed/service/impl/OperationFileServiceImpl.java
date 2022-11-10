@@ -80,21 +80,23 @@ public class OperationFileServiceImpl implements OperationFileService {
             fileEntity.setFileId(param.getFileId());
             fileEntity.setFileName(param.getNewName());
             int result = fileMapper.modifyFile(fileEntity);
+
             if (param.getType().equals("folder")){
                 BelongEntity belong = new BelongEntity();
                 belong.setBelongId(param.getFolderBelongId());
                 belong.setBelong(param.getNewName());
                 int result1 = belongMapper.modifyBelong(belong);
+
                 if (result1 == 1 && result == 1) {
-                    return Result.ok("重命名成功！");
+                    return Result.ok("文件夹重命名成功！");
                 }else {
-                    return Result.fail("重命名出现未知异常！");
+                    return Result.fail("文件夹重命名出现未知异常！");
                 }
             }
             if (result == 1) {
-                return Result.ok("重命名成功！");
+                return Result.ok("文件重命名成功！");
             }else {
-                return Result.fail("重命名出现未知异常！");
+                return Result.fail("文件重命名出现未知异常！");
             }
 
         }catch (Exception e){
@@ -188,13 +190,12 @@ public class OperationFileServiceImpl implements OperationFileService {
             String cbelong = belongId.replace("@-.@","\\");
             log.info("queryFileByBelong:"+cbelong);
             List<FileEntity> fileEntityList = fileMapper.queryFileByBelong(userId, cbelong);
-            if (fileEntityList.size() == 0) return Result.fail(404,"数据库无记录！");
-            if (fileEntityList.size() == 1) return Result.ok(201,"此目录下暂无文件,返回当前目录的belongId",(fileEntityList.get(0).getBelongId()+"\\"+fileEntityList.get(0).getFolderBelongId()).replace("\\","@-.@"));
+//            if (fileEntityList.size() == 0) return Result.fail(404,"数据库无记录！");
+            if (fileEntityList.size() == 0) return Result.ok(201,"此目录下暂无文件!");
             for (FileEntity file : fileEntityList){
-                String b1 = file.getBelong();
-                String b2 = b1.replace("\\","@-.@");
-                b2 +=file.getFileName()+"@-.@";
-                file.setCBelong(b2);
+                String b = file.getBelongId().replace("\\","@-.@");
+                b +=file.getFolderBelongId()+"@-.@";
+                file.setCBelong(b);
             }
             return Result.ok("查询成功！",fileEntityList);
         }catch (Exception e){

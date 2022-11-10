@@ -62,7 +62,7 @@ public class DownloadServiceImpl implements DownloadService {
 
     // 下载,url
     @Override
-    public Result downloadByUrl(String id, String fileName, HttpServletRequest req, HttpServletResponse res) {
+    public Result downloadByUrl(String id, String filePath, HttpServletRequest req, HttpServletResponse res) {
         try {
             res.reset();
             res.setContentType("application/octet-stream");
@@ -71,11 +71,11 @@ public class DownloadServiceImpl implements DownloadService {
             res.addHeader("Access-Control-Allow-Headers", "Content-Type");
             res.addHeader("Access-Control-Allow-Credentials","true");
 
-            File file = new File(path,fileName);
+            File file = new File(path,filePath);
             log.info("download " + file.getPath() + " ...");
 //            res.addHeader("Content-Disposition","attachment;filename=" + URLEncoder.encode(file.getName(),utf8));
             if (!file.exists()) return Result.ok(404,"文件不存在！");
-            String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/file/" + fileName;
+            String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/file/" + filePath;
             log.info(url);
             return Result.ok("成功！",url);
         }catch (Exception e){
