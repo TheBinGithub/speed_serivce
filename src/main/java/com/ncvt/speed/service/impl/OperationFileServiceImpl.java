@@ -109,7 +109,7 @@ public class OperationFileServiceImpl implements OperationFileService {
     @Override
     public Result movement(MovementParams params){
         try {
-            int result = fileMapper.movement(params.getFileId(),params.getBelongId());
+            int result = fileMapper.movement(params.getFileId(),params.getBelongId().replace("@-.@","\\"));
             if (result == 1){
                 return Result.ok("移动成功！");
             }else {

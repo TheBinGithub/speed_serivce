@@ -16,7 +16,7 @@ public class RenameParams {
     private String oldName;
     @ApiModelProperty(required = true, value = "新的目录或文件名", example = "新图片名.jpg")
     private String newName;
-    @ApiModelProperty(required = true, value = "属于id", example = "2@-.@")
+    @ApiModelProperty(required = true, value = "属于id(暂时没用到,随意上传)", example = "2@-.@")
     private String belongId;
     @ApiModelProperty(required = true, value = "类型", example = "txt")
     private String type;
