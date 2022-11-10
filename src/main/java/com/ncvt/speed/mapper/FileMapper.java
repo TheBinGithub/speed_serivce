@@ -31,8 +31,11 @@ public interface FileMapper {
     // 根据belong批量修改(批量逻辑删除)
     Integer modifyFileByBelong(List<String> list);
 
-    // 移动
-    Integer movement(String fileId, String belongId);
+    // 移动文件
+    Integer movement(String fileId, String nBelongId);
+
+    // 移动文件夹
+    Integer movementFolder(String fileId, String oBelongId, String cBelongId, String nBelongId);
 
     // 逻辑删除
     Integer logicalDeletionFile(String fileId, Long deleteId);

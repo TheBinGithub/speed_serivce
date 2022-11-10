@@ -46,7 +46,7 @@
 <!--        WHERE f.belong_id=b.belong_id AND user_id=#{userId} AND f.belong_id=#{belongId}-->
 <!--    </select>-->
     <select id="queryFileByBelong" resultMap="FileRMap">
-        SELECT belong_id,folder_belong_id,file_name,file_type,upload_time
+        SELECT file_id,belong_id,folder_belong_id,file_name,file_type,upload_time
         FROM tb_file
         WHERE belong_id=#{belongId}
     </select>
@@ -68,9 +68,21 @@
     <update id="logicalDeletionFile">
         update tb_file set delete_id=#{deleteId} where file_id=#{fileId}
     </update>
-    <!-- 移动 -->
+    <!-- 移动文件 -->
     <update id="movement">
-        update tb_file set belong_id=#{belongId} where file_id=#{fileId}
+        update tb_file set belong_id=#{nBelongId} where file_id=#{fileId}
+    </update>
+    <!--
+        <foreach collection="list" item="item" separator=",">
+        (#{item})
+        </foreach>
+    -->
+    <!-- 移动文件夹 -->
+    <update id="movementFolder">
+        update tb_file t set t.belong_id=#{nBelongId} where t.file_id in
+        (select * from
+          (select file_id from tb_file where belong_id=#{cBelongId}) as a
+        )
     </update>
     <!-- keyProperty="userId" 设置主键字段对应的实体类 -->
     <insert id="addFile" useGeneratedKeys="true">

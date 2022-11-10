@@ -109,12 +109,15 @@ public class OperationFileServiceImpl implements OperationFileService {
     @Override
     public Result movement(MovementParams params){
         try {
-            int result = fileMapper.movement(params.getFileId(),params.getBelongId().replace("@-.@","\\"));
-            if (result == 1){
-                return Result.ok("移动成功！");
-            }else {
-                return Result.fail("移动出现未知异常！");
+            if (params.getType().equals("folder")){
+                int result = fileMapper.movementFolder(params.getFileId(), params.getOldBelongId(), (params.getOldBelongId()+params.getFolderBelongId()+"@-.@").replace("@-.@","\\"), (params.getNewBelongId()+params.getFolderBelongId()+"@-.@").replace("@-.@","\\"));
+                int result1 = fileMapper.movement(params.getFileId(),params.getNewBelongId().replace("@-.@","\\"));
+                if (result == 0 && result1 != 1) return Result.fail("移动文件夹出现未知异常！");
+                return Result.ok("移动文件夹成功！");
             }
+            int result = fileMapper.movement(params.getFileId(),params.getNewBelongId().replace("@-.@","\\"));
+            if (result != 1) return Result.fail("移动文件出现未知异常！");
+            return Result.ok("移动文件成功！");
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！",e.getMessage());
@@ -191,7 +194,7 @@ public class OperationFileServiceImpl implements OperationFileService {
             log.info("queryFileByBelong:"+cbelong);
             List<FileEntity> fileEntityList = fileMapper.queryFileByBelong(userId, cbelong);
 //            if (fileEntityList.size() == 0) return Result.fail(404,"数据库无记录！");
-            if (fileEntityList.size() == 0) return Result.ok(201,"此目录下暂无文件!");
+            if (fileEntityList.size() == 0) return Result.ok(201,"此目录下暂无文件，返回当前文件夹的cBelong!",belongId);
             for (FileEntity file : fileEntityList){
                 String b = file.getBelongId().replace("\\","@-.@");
                 b +=file.getFolderBelongId()+"@-.@";
