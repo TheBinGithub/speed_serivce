@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -238,12 +240,26 @@ public class OperationFileServiceImpl implements OperationFileService {
     @Override
     public Result addRecycler(String userId, RecyclerParams params) {
         try {
-            boolean b = params.getType().equals("folder");
-            log.info("是否文件夹："+b);
-//            if (params.getType().equals("folder")){
-//
-//            }
             Long timeStamp = System.currentTimeMillis();  //获取当前时间戳
+            boolean b = params.getType().equals("folder");
+            if (params.getType().equals("folder")){
+                String s = params.getBelongId().replace("@-.@","\\\\");
+                List<FileEntity> fe = fileMapper.queryFileLikeBelongId(s);
+                List<DeleteEntity> des = new ArrayList<>();
+                if (fe.size() != 0) {
+                    for (FileEntity f : fe){
+                        DeleteEntity de = new DeleteEntity();
+                        de.setFileId(f.getFileId());
+                        de.setUserId(f.getUserId());
+                        de.setDeleteTime(timeStamp);
+                        des.add(de);
+                    }
+                }
+                int dResult = deleteMapper.addDeleteList(des);
+                int fResult = fileMapper.modifyFileByFileId(des);
+                if (dResult != fe.size() || fResult != fe.size()) return Result.fail("添加delete出现未知异常！");
+                return Result.ok("批量删除成功！","删除了"+fe.size()+"条");
+            }
             DeleteEntity deleteEntity = new DeleteEntity();
             deleteEntity.setUserId(userId);
             deleteEntity.setFileId(params.getFileId());

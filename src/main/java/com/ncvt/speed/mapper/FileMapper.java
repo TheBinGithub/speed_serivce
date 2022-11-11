@@ -1,5 +1,6 @@
 package com.ncvt.speed.mapper;
 
+import com.ncvt.speed.entity.DeleteEntity;
 import com.ncvt.speed.entity.FileEntity;
 import com.ncvt.speed.util.Result;
 
@@ -19,8 +20,11 @@ public interface FileMapper {
     // 根据belongId和fileName查询
     List<FileEntity> queryFileByFileName(String belongId, String fileName);
 
-    // 根据id和belong查询
+    // 根据id和belongId查询
     List<FileEntity> queryFileByBelong(String userId, String belongId);
+
+    // 根据belongId右侧模糊查询
+    List<FileEntity> queryFileLikeBelongId(String BelongId);
 
     // 修改记录
     Integer modifyFile(FileEntity fileEntity);
@@ -28,8 +32,8 @@ public interface FileMapper {
     // 查询回收站的
     List<FileEntity> queryD(String userId);
 
-    // 根据belong批量修改(批量逻辑删除)
-    Integer modifyFileByBelong(List<String> list);
+    // 根据fileId批量修改(批量逻辑删除)
+    Integer modifyFileByFileId(List<DeleteEntity> lists);
 
     // 移动文件
     Integer movement(String fileId, String nBelongId);

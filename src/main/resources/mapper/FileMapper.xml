@@ -50,16 +50,32 @@
         FROM tb_file
         WHERE belong_id=#{belongId}
     </select>
+    <!-- 查询文件夹下的所有数据 -->
+    <select id="queryFileLikeBelongId" resultMap="FileRMap">
+        <bind name="belongLike" value="belongId+'%'"/>
+        select file_id, user_id
+        from tb_file
+        where belong_id like #{belongLike}
+    </select>
     <!-- 查询回收站的 -->
     <select id="queryD" resultMap="FileRMap">
         SELECT f.user_id,f.file_id,file_name,file_size,file_type,upload_time,d.delete_time
         FROM tb_file as f,tb_delete as d
         WHERE f.delete_id=d.delete_id AND f.user_id =#{userId} AND f.delete_id!=0 ORDER BY file_type
     </select>
-    <!-- 根据belong批量修改 -->
-<!--    <update id="modifyFileByBelong">-->
-<!--        UPDATE tb_file SET -->
-<!--    </update>-->
+    <!-- 批量加入回收站 -->
+    <update id="modifyFileByFileId">
+        UPDATE tb_file SET delete_id=
+        case
+        <foreach collection="list" item="item" index="index">
+            when file_id= #{item.fileId} then #{item.deleteId}
+        </foreach>
+        end
+        where file_id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item.fileId}
+        </foreach>
+    </update>
     <!-- 重命名 -->
     <update id="modifyFile">
         UPDATE tb_file SET file_name=#{fileName} WHERE file_id=#{fileId}

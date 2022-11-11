@@ -22,6 +22,17 @@
                      #{fileId},#{userId},#{deleteTime}
                  )
     </insert>
+    <!-- 批量添加 -->
+    <insert id="addDeleteList" useGeneratedKeys="true" keyProperty="deleteId">
+        INSERT INTO tb_delete(
+            file_id,
+            user_id,
+            delete_time
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.fileId},#{item.userId},#{item.deleteTime})
+        </foreach>
+    </insert>
 
     <delete id="dDelete">
         delete from tb_delete where file_id=#{fileId}
