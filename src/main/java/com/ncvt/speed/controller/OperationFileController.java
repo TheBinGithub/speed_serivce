@@ -109,7 +109,7 @@ public class OperationFileController {
         return operationFileService.rename(userId, renameParams);
     }
 
-    @ApiOperation(value = "文件移动")
+    @ApiOperation(value = "目录(文件)移动")
     @PutMapping("/movement/{userId}")
     public Result movement(@PathVariable String userId, @RequestBody MovementParams params){
 

@@ -109,6 +109,7 @@ public class OperationFileServiceImpl implements OperationFileService {
     @Override
     public Result movement(MovementParams params){
         try {
+            if (params.getOldBelongId().equals(params.getNewBelongId())) return Result.fail(300,"无效文件移动！");
             if (params.getType().equals("folder")){
                 int result = fileMapper.movementFolder(params.getFileId(), params.getOldBelongId(), (params.getOldBelongId()+params.getFolderBelongId()+"@-.@").replace("@-.@","\\"), (params.getNewBelongId()+params.getFolderBelongId()+"@-.@").replace("@-.@","\\"));
                 int result1 = fileMapper.movement(params.getFileId(),params.getNewBelongId().replace("@-.@","\\"));

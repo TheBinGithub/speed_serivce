@@ -2,6 +2,7 @@ package com.ncvt.speed.service.impl;
 
 import com.ncvt.speed.entity.FileEntity;
 import com.ncvt.speed.mapper.BelongMapper;
+import com.ncvt.speed.mapper.FileMapper;
 import com.ncvt.speed.params.UploaderParams;
 import com.ncvt.speed.service.FileService;
 import com.ncvt.speed.service.UploaderService;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -34,16 +36,20 @@ public class UploaderServiceImpl implements UploaderService {
     private FileService fileService;
 
     @Resource
+    private FileMapper fileMapper;
+
+    @Resource
     private BelongMapper belongMapper;
 
     // 分片上传
     @Override
     public Result upload(String id, FileEntity fileEntity, MultipartFile MFile, HttpServletRequest req) {
 
-        // 判断上传类型
-        if (fileEntity.getWay() == 1) {
-            FileEntity f2 = FileEntity.getFE(id,null,fileEntity);
-            return fileService.addFile(f2,"秒传成功！");
+        // 判断是否秒传
+        List<FileEntity> hashs = fileMapper.queryHash(id,fileEntity.getHash());
+        if (hashs.size() != 0) {
+            hashs.get(0).setBelongId(fileEntity.getBelongId().replace("@-.@","\\"));
+            return fileService.addFile(hashs.get(0),"秒传成功！");
         }
 //        Integer shunk = Integer.valueOf(req.getParameter("chunk"));
         if (MFile == null) return Result.fail(400,"请上传文件");
