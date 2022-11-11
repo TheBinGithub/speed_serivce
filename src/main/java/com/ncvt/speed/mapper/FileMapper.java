@@ -35,6 +35,9 @@ public interface FileMapper {
     // 根据fileId批量修改(批量逻辑删除)
     Integer modifyFileByFileId(List<DeleteEntity> lists);
 
+    // 恢复文件
+    Integer restoresFile(List<String> fileIds);
+
     // 移动文件
     Integer movement(String fileId, String nBelongId);
 

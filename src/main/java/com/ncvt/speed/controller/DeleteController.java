@@ -36,8 +36,8 @@ public class DeleteController {
     @ApiOperation(value = "回收站还原")
     @PutMapping("/recycler/{userId}")
     public Result restores(@PathVariable String userId, @RequestBody RestoresParams params){
-        log.info("restores:"+params.getFileId());
-        return operationFileService.restores(params.getFileId());
+        log.info("restores:"+params.getFileIds());
+        return operationFileService.restores(params.getFileIds());
     }
 
 

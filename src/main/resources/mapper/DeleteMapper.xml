@@ -33,6 +33,13 @@
             (#{item.fileId},#{item.userId},#{item.deleteTime})
         </foreach>
     </insert>
+    <!-- 恢复文件 -->
+    <delete id="restoresDelete">
+        delete from tb_delete where file_id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
 
     <delete id="dDelete">
         delete from tb_delete where file_id=#{fileId}

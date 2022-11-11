@@ -279,15 +279,15 @@ public class OperationFileServiceImpl implements OperationFileService {
 
     // 回收站还原
     @Override
-    public Result restores(String fileId){
+    public Result restores(List<String> fileIds){
         try {
-            int fResult = fileMapper.logicalDeletionFile(fileId,0L);
-            int dResult = deleteMapper.dDelete(fileId);
-            if (fResult == 1 && dResult == 1){
-                return Result.ok("还原成功！");
-            }else {
-                return Result.fail(400,"还原过程出现未知异常！");
-            }
+            int fResult = fileMapper.restoresFile(fileIds);
+            int dResult = deleteMapper.restoresDelete(fileIds);
+            if ((fResult + dResult) != (fileIds.size() * 2)) return Result.fail(400,"还原过程出现未知异常！");
+//            int fResult = fileMapper.logicalDeletionFile(fileIds.get(0),0L);
+//            int dResult = deleteMapper.dDelete(fileIds.get(0));
+//            if (fResult != 1 || dResult != 1) return Result.fail(400,"还原过程出现未知异常！");
+            return Result.ok("还原成功！");
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！",e.getMessage());

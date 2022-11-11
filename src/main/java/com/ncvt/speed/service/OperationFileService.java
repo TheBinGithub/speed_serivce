@@ -5,6 +5,8 @@ import com.ncvt.speed.params.RecyclerParams;
 import com.ncvt.speed.params.RenameParams;
 import com.ncvt.speed.util.Result;
 
+import java.util.List;
+
 public interface OperationFileService {
 
     // 重命名
@@ -26,6 +28,6 @@ public interface OperationFileService {
     Result addRecycler(String userId, RecyclerParams params);
 
     // 回收站还原
-    Result restores(String fileId);
+    Result restores(List<String> fileId);
 
 }

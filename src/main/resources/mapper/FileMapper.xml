@@ -76,6 +76,14 @@
             #{item.fileId}
         </foreach>
     </update>
+    <!-- 恢复文件 -->
+    <update id="restoresFile">
+        UPDATE tb_file SET delete_id=0
+        where file_id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
     <!-- 重命名 -->
     <update id="modifyFile">
         UPDATE tb_file SET file_name=#{fileName} WHERE file_id=#{fileId}

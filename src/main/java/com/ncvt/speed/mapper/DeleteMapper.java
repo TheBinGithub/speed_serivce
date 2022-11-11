@@ -12,6 +12,9 @@ public interface DeleteMapper {
     // 批量添加
     Integer addDeleteList(List<DeleteEntity> lists);
 
+    // 恢复文件
+    Integer restoresDelete(List<String> fileIds);
+
     Integer dDelete(String fileId);
 
     List<DeleteEntity> queryRecyclerByUserId(String userId);
