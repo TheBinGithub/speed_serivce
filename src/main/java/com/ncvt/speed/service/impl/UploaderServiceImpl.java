@@ -38,9 +38,6 @@ public class UploaderServiceImpl implements UploaderService {
     @Resource
     private FileMapper fileMapper;
 
-    @Resource
-    private BelongMapper belongMapper;
-
     // 分片上传
     @Override
     public Result upload(String id, FileEntity fileEntity, MultipartFile MFile, HttpServletRequest req) {
@@ -152,7 +149,6 @@ public class UploaderServiceImpl implements UploaderService {
             return Result.ok(202,"该分片已存在！");
         }
     }
-
 
     // 取消上传
     @Override

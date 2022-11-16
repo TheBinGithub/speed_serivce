@@ -38,7 +38,7 @@ public class ZiFuLiu {
     // 3. 使用flush，把缓冲区的数据刷新到文件中
     // 4. close
     public static void FileWriteDome(){
-        // JDK7可以在try后加()，里面可以定义流对象
+        // JDK7版本之后可以在try()里定义流对象,用完会自动close
         try(FileWriter writer = new FileWriter("E:\\bishe\\copy\\b.txt")) {
             /*
               Write(char[] b)
@@ -48,7 +48,8 @@ public class ZiFuLiu {
               换行符： windows: \r\n, linux: /n, mac:/r
              */
             writer.write(97);
-            // writer.flush();  // 只刷新缓冲区，流对象可以继续使用。
+//            writer.flush();  // 只刷新缓冲区，流对象可以继续使用
+//            writer.close();  // 先flush一次再关闭流对象, 注意：需要处理close方法抛出的异常
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -9,6 +9,7 @@ import com.ncvt.speed.util.Result;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +19,7 @@ public class FileServiceImpl implements FileService {
     @Resource
     private FileMapper fileMapper;
 
-    @Resource
-    private BelongMapper belongMapper;
+    String separator = File.separator+File.separator;  // 获取文件名称分隔符, win \ ,linux/
 
     // 根据用户id查询文件位置
     @Override
@@ -29,7 +29,7 @@ public class FileServiceImpl implements FileService {
             if (lists.size() == 0) return Result.ok(404,"无结果");
             for (FileEntity file : lists){
                 if (file.getBelongId() != null){
-                    file.setBelongId((file.getBelongId()).replace("\\","@-.@"));
+                    file.setBelongId((file.getBelongId()).replace(separator,"@-.@"));
                     file.setCBelong(file.getBelongId()+file.getFolderBelongId()+"@-.@");
                 }else {
                     file.setCBelong(file.getFolderBelongId()+"@-.@");

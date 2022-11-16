@@ -1,6 +1,7 @@
 package com.ncvt.speed.controller;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 /**
  * 转换流,解决编码的问题,可以指定编码表
@@ -13,7 +14,7 @@ public class ZhuanHuanLiu {
     public static void show01(){
 
         try {
-            OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream("E:\\bishe\\copy\\g.txt"),"utf-8");
+            OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream("E:\\bishe\\copy\\g.txt"), StandardCharsets.UTF_8);
             osw.write(97);
             osw.close();
         } catch (Exception e) {

@@ -26,8 +26,8 @@ file-temp-path: E:\\bishe\\tempfile\\
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 # mybatis日志打印
-#  configuration:
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 
 

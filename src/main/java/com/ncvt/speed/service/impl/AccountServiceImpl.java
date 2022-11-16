@@ -24,12 +24,6 @@ public class AccountServiceImpl implements AccountService {
     @Resource
     private AccountMapper accountMapper;
 
-    @Resource
-    private FileMapper fileMapper;
-
-    @Resource
-    private BelongMapper belongMapper;
-
     // 查询单个
     @Override
     public Object queryOneAccount(String userName) {

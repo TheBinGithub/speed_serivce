@@ -27,9 +27,6 @@ import java.util.List;
 @Slf4j
 public class OperationFileServiceImpl implements OperationFileService {
 
-    @Value("${file-save-path}")
-    private String path;
-
     @Resource
     private FileMapper fileMapper;
 
@@ -73,34 +70,24 @@ public class OperationFileServiceImpl implements OperationFileService {
 //        }
 //    }
 
-// 重命名
+    // 重命名
     @Override
     public Result rename(String userId, RenameParams param) {
         try {
-
             FileEntity fileEntity = new FileEntity();
             fileEntity.setFileId(param.getFileId());
             fileEntity.setFileName(param.getNewName());
             int result = fileMapper.modifyFile(fileEntity);
-
             if (param.getType().equals("folder")){
                 BelongEntity belong = new BelongEntity();
                 belong.setBelongId(param.getFolderBelongId());
                 belong.setBelong(param.getNewName());
                 int result1 = belongMapper.modifyBelong(belong);
-
-                if (result1 == 1 && result == 1) {
-                    return Result.ok("文件夹重命名成功！");
-                }else {
-                    return Result.fail("文件夹重命名出现未知异常！");
-                }
+                if (result1 == 1 && result == 1) return Result.ok("文件夹重命名成功！");
+                return Result.fail("文件夹重命名出现未知异常！");
             }
-            if (result == 1) {
-                return Result.ok("文件重命名成功！");
-            }else {
-                return Result.fail("文件重命名出现未知异常！");
-            }
-
+            if (result == 1) return Result.ok("文件重命名成功！");
+            return Result.fail("文件重命名出现未知异常！");
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！",e.getMessage());
@@ -241,7 +228,6 @@ public class OperationFileServiceImpl implements OperationFileService {
     public Result addRecycler(String userId, RecyclerParams params) {
         try {
             Long timeStamp = System.currentTimeMillis();  //获取当前时间戳
-            boolean b = params.getType().equals("folder");
             if (params.getType().equals("folder")){
                 String s = params.getBelongId().replace("@-.@","\\\\");
                 List<FileEntity> fe = fileMapper.queryFileLikeBelongId(s);
@@ -266,11 +252,8 @@ public class OperationFileServiceImpl implements OperationFileService {
             deleteEntity.setDeleteTime(timeStamp);
             int dResult = deleteMapper.addDelete(deleteEntity);
             int fResult = fileMapper.logicalDeletionFile(params.getFileId(), deleteEntity.getDeleteId());
-            if (dResult == 1 && fResult == 1) {
-                return Result.ok("添加回收站成功！");
-            }else {
-                return Result.fail(400,"添加回收站出现未知异常！");
-            }
+            if (dResult != 1 || fResult != 1) return Result.fail(400,"添加回收站出现未知异常！");
+            return Result.ok("添加回收站成功！");
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！",e.getMessage());

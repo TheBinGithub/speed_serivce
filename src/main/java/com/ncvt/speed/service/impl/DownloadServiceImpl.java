@@ -77,7 +77,7 @@ public class DownloadServiceImpl implements DownloadService {
             if (!file.exists()) return Result.ok(404,"文件不存在！");
             String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/file/" + filePath;
             log.info(url);
-            return Result.ok("成功！",url);
+            return Result.ok("获取成功！",url);
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！",e.getMessage());
