@@ -100,7 +100,17 @@ public class OperationFileServiceImpl implements OperationFileService {
         try {
             if (params.getOldBelongId().equals(params.getNewBelongId())) return Result.fail(300,"无效文件移动！");
             if (params.getType().equals("folder")){
-                int result = fileMapper.movementFolder(params.getFileId(), params.getOldBelongId(), (params.getOldBelongId()+params.getFolderBelongId()+"@-.@").replace("@-.@","\\"), (params.getNewBelongId()+params.getFolderBelongId()+"@-.@").replace("@-.@","\\"));
+                String cBelong = (params.getOldBelongId()+params.getFolderBelongId()+"@-.@").replace("@-.@","\\\\");
+                List<FileEntity> lists = fileMapper.queryFileLikeBelongId(cBelong);
+                int result = -1;
+                if (lists.size() != 0){
+                    for (FileEntity list : lists){
+                        System.out.println("1:"+list.getBelongId());
+                        list.setBelongId(list.getBelongId().replace(params.getOldBelongId().replace("@-.@","\\"),params.getNewBelongId().replace("@-.@","\\")));
+                        System.out.println("2:"+list.getBelongId());
+                    }
+                    result = fileMapper.movementFolder(lists);
+                }
                 int result1 = fileMapper.movement(params.getFileId(),params.getNewBelongId().replace("@-.@","\\"));
                 if (result == 0 && result1 != 1) return Result.fail("移动文件夹出现未知异常！");
                 return Result.ok("移动文件夹成功！");

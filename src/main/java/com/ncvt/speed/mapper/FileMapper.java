@@ -42,7 +42,7 @@ public interface FileMapper {
     Integer movement(String fileId, String nBelongId);
 
     // 移动文件夹
-    Integer movementFolder(String fileId, String oBelongId, String cBelongId, String nBelongId);
+    Integer movementFolder(List<FileEntity> lists);
 
     // 逻辑删除
     Integer logicalDeletionFile(String fileId, Long deleteId);
