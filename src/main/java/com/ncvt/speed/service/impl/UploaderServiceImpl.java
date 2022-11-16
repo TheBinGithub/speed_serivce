@@ -45,7 +45,7 @@ public class UploaderServiceImpl implements UploaderService {
         // 判断是否秒传
         List<FileEntity> hashs = fileMapper.queryHash(id,fileEntity.getHash());
         if (hashs.size() != 0) {
-            hashs.get(0).setBelongId(fileEntity.getBelongId().replace("@-.@","\\"));
+            hashs.get(0).setBelongId(fileEntity.getBelongId());
             return fileService.addFile(hashs.get(0),"秒传成功！");
         }
 //        Integer shunk = Integer.valueOf(req.getParameter("chunk"));
@@ -133,7 +133,7 @@ public class UploaderServiceImpl implements UploaderService {
                     if (!result) return Result.fail("删除临时目录出现异常！");
                     // 数据库添加记录
                     fileEntity.setFilePath(id+"@-.@"+endFile.getName());
-                    fileEntity.setBelongId(fileEntity.getBelongId().replace("@-.@","\\"));
+                    fileEntity.setBelongId(fileEntity.getBelongId());
                     FileEntity fileEntity1 = FileEntity.getFE(id,endFile,fileEntity);
                     fileEntity1.setFolderBelongId("0");
                     return fileService.addFile(fileEntity1,"100%");

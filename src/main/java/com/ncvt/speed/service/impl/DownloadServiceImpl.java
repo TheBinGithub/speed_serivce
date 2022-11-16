@@ -24,6 +24,8 @@ public class DownloadServiceImpl implements DownloadService {
 
     private static final String utf8 = "utf-8";
 
+    String separator = File.separator;  // 获取文件名称分隔符, win \ ,linux/
+
     // 下载,file
     @Override
     public void downloadByFile(String id, String filePath, HttpServletRequest req, HttpServletResponse res) {

@@ -100,22 +100,21 @@ public class OperationFileServiceImpl implements OperationFileService {
         try {
             if (params.getOldBelongId().equals(params.getNewBelongId())) return Result.fail(300,"无效文件移动！");
             if (params.getType().equals("folder")){
-                String cBelong = (params.getOldBelongId()+params.getFolderBelongId()+"@-.@").replace("@-.@","\\\\");
+                String cBelong = (params.getOldBelongId()+params.getFolderBelongId()+"@-.@");
                 List<FileEntity> lists = fileMapper.queryFileLikeBelongId(cBelong);
                 int result = -1;
                 if (lists.size() != 0){
                     for (FileEntity list : lists){
-                        System.out.println("1:"+list.getBelongId());
-                        list.setBelongId(list.getBelongId().replace(params.getOldBelongId().replace("@-.@","\\"),params.getNewBelongId().replace("@-.@","\\")));
-                        System.out.println("2:"+list.getBelongId());
+                        if (params.getOldBelongId().equals("")) list.setBelongId(params.getNewBelongId()+list.getBelongId());
+                        list.setBelongId(list.getBelongId().replace(params.getOldBelongId(),params.getNewBelongId()));
                     }
                     result = fileMapper.movementFolder(lists);
                 }
-                int result1 = fileMapper.movement(params.getFileId(),params.getNewBelongId().replace("@-.@","\\"));
+                int result1 = fileMapper.movement(params.getFileId(),params.getNewBelongId());
                 if (result == 0 && result1 != 1) return Result.fail("移动文件夹出现未知异常！");
                 return Result.ok("移动文件夹成功！");
             }
-            int result = fileMapper.movement(params.getFileId(),params.getNewBelongId().replace("@-.@","\\"));
+            int result = fileMapper.movement(params.getFileId(),params.getNewBelongId());
             if (result != 1) return Result.fail("移动文件出现未知异常！");
             return Result.ok("移动文件成功！");
         }catch (Exception e){
@@ -149,7 +148,7 @@ public class OperationFileServiceImpl implements OperationFileService {
             int result = belongMapper.addBelong(b);
 
             fileEntity.setFolderBelongId(b.getBelongId());
-            fileEntity.setBelongId(belongId.replace("@-.@","\\"));
+            fileEntity.setBelongId(belongId);
             if (result != 1) return Result.fail("belong出现未知异常！");
 
             int result1 = fileMapper.addFile(fileEntity);
@@ -190,13 +189,12 @@ public class OperationFileServiceImpl implements OperationFileService {
     @Override
     public Result queryFileByBelong(String userId, String belongId) {
         try {
-            String cbelong = belongId.replace("@-.@","\\");
-            log.info("queryFileByBelong:"+cbelong);
-            List<FileEntity> fileEntityList = fileMapper.queryFileByBelong(userId, cbelong);
+            log.info("queryFileByBelong:"+belongId);
+            List<FileEntity> fileEntityList = fileMapper.queryFileByBelong(userId, belongId);
 //            if (fileEntityList.size() == 0) return Result.fail(404,"数据库无记录！");
             if (fileEntityList.size() == 0) return Result.ok(201,"此目录下暂无文件，返回当前文件夹的cBelong!",belongId);
             for (FileEntity file : fileEntityList){
-                String b = file.getBelongId().replace("\\","@-.@");
+                String b = file.getBelongId();
                 b +=file.getFolderBelongId()+"@-.@";
                 file.setCBelong(b);
             }
@@ -239,8 +237,7 @@ public class OperationFileServiceImpl implements OperationFileService {
         try {
             Long timeStamp = System.currentTimeMillis();  //获取当前时间戳
             if (params.getType().equals("folder")){
-                String s = params.getBelongId().replace("@-.@","\\\\");
-                List<FileEntity> fe = fileMapper.queryFileLikeBelongId(s);
+                List<FileEntity> fe = fileMapper.queryFileLikeBelongId(params.getBelongId());
                 List<DeleteEntity> des = new ArrayList<>();
                 if (fe.size() != 0) {
                     for (FileEntity f : fe){

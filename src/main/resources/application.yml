@@ -19,9 +19,9 @@ spring:
       matching-strategy: ant_path_matcher
 
 # 文件保存根目录
-file-save-path: E:\\bishe\\file\\
+file-save-path: \\bishe\\file\\
 # 文件分片上传临时目录
-file-temp-path: E:\\bishe\\tempfile\\
+file-temp-path: \\bishe\\tempfile\\
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 
 @Api(tags = "下载模块")
 @Controller
@@ -21,6 +22,8 @@ public class DownloadController {
 
     @Resource
     private DownloadService downloadService;
+
+    String separator = File.separator;  // 获取文件名称分隔符, win \ ,linux/
 
     @ApiOperation(value = "下载(返回文件流)")
     @GetMapping("/download/{id}/{filePath}")
@@ -35,7 +38,7 @@ public class DownloadController {
     @GetMapping("/downloads/{userId}/{filePath}")
     @ResponseBody
     public Result downloadByUrl(@PathVariable String userId, @PathVariable String filePath,HttpServletRequest req, HttpServletResponse res){
-        String s = filePath.replace("@-.@", "\\");
+        String s = filePath.replace("@-.@", separator);
         return downloadService.downloadByUrl(userId, s, req, res);
     }
 

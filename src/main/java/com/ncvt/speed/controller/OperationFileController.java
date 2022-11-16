@@ -105,14 +105,12 @@ public class OperationFileController {
     @ApiOperation(value = "重命名")
     @PutMapping("/rename/{userId}")
     public Result rename(@PathVariable String userId, @RequestBody RenameParams renameParams){
-
         return operationFileService.rename(userId, renameParams);
     }
 
     @ApiOperation(value = "目录(文件)移动")
     @PutMapping("/movement/{userId}")
     public Result movement(@PathVariable String userId, @RequestBody MovementParams params){
-
         return operationFileService.movement(params);
     }
 

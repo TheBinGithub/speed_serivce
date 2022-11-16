@@ -19,7 +19,6 @@ public class FileServiceImpl implements FileService {
     @Resource
     private FileMapper fileMapper;
 
-    String separator = File.separator+File.separator;  // 获取文件名称分隔符, win \ ,linux/
 
     // 根据用户id查询文件位置
     @Override
@@ -29,7 +28,6 @@ public class FileServiceImpl implements FileService {
             if (lists.size() == 0) return Result.ok(404,"无结果");
             for (FileEntity file : lists){
                 if (file.getBelongId() != null){
-                    file.setBelongId((file.getBelongId()).replace(separator,"@-.@"));
                     file.setCBelong(file.getBelongId()+file.getFolderBelongId()+"@-.@");
                 }else {
                     file.setCBelong(file.getFolderBelongId()+"@-.@");
