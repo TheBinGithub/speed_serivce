@@ -26,11 +26,17 @@ import java.util.UUID;
 @Slf4j
 public class UploaderServiceImpl implements UploaderService {
 
-    @Value("${file-save-path}")
-    private String path;
+//    @Value("${file-save-path}")
+//    private String path;
 
-    @Value("${file-temp-path}")
-    private String temppath;
+//    @Value("${file-temp-path}")
+//    private String temppath;
+
+    String separator = File.separator;  // 获取文件名称分隔符, win \ ,linux/
+
+    private String path = separator+"bishe"+separator+"file"+separator;
+
+    private String temppath = separator+"bishe"+separator+"temppath"+separator;
 
     @Resource
     private FileService fileService;

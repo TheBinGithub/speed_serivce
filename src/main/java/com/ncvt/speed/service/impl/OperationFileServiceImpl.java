@@ -105,8 +105,11 @@ public class OperationFileServiceImpl implements OperationFileService {
                 int result = -1;
                 if (lists.size() != 0){
                     for (FileEntity list : lists){
-                        if (params.getOldBelongId().equals("")) list.setBelongId(params.getNewBelongId()+list.getBelongId());
-                        list.setBelongId(list.getBelongId().replace(params.getOldBelongId(),params.getNewBelongId()));
+                        if (params.getOldBelongId().equals("")) {
+                            list.setBelongId(params.getNewBelongId()+list.getBelongId());
+                        }else {
+                            list.setBelongId(list.getBelongId().replace(params.getOldBelongId(),params.getNewBelongId()));
+                        }
                     }
                     result = fileMapper.movementFolder(lists);
                 }
