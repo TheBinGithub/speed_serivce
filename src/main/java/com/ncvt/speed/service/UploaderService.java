@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface UploaderService {
 
-    Result upload(String id, FileEntity fileEntity, MultipartFile MFile, HttpServletRequest req);
+    Result upload(String id, FileEntity fileEntity, MultipartFile MFile, HttpServletRequest req,Long s);
 
     Result endUpload(String id, UploaderParams uploaderParams);
 

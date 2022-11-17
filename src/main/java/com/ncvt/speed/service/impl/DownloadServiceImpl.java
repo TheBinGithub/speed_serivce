@@ -24,9 +24,9 @@ public class DownloadServiceImpl implements DownloadService {
 //
     private static final String utf8 = "utf-8";
 
-//    String separator = File.separator+File.separator;  // 获取文件名称分隔符, win \ ,linux/
-//
-//    private String path = "E:"+separator+"bishe"+separator+"file"+separator;
+    String separator = File.separator+File.separator;  // 获取文件名称分隔符, win \ ,linux/
+
+//    private String path = separator+"bishe"+separator+"file"+separator;
 
     // 下载,file
     @Override

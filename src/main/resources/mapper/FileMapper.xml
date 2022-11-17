@@ -55,7 +55,7 @@
         <bind name="belongLike" value="belongId+'%'"/>
         select file_id, user_id, belong_id
         from tb_file
-        where belong_id like #{belongLike}
+        where belong_id like #{belongLike} and belong_id=0
     </select>
     <!-- 查询回收站的 -->
     <select id="queryD" resultMap="FileRMap">

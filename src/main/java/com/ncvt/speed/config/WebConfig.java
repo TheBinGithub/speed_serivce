@@ -5,11 +5,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.io.File;
+
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
     @Value("${file-save-path}")
     String path;
+
+//    String separator = File.separator+File.separator;  // 获取文件名称分隔符, win \ ,linux/
+//    private String path = separator+"bishe"+separator+"file"+separator;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

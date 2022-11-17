@@ -40,11 +40,12 @@ public class UploaderController {
     })
     public Result upload(@PathVariable String id,FileEntity fileEntity, MultipartFile MFile, HttpServletRequest req){
         // 此处MFile转为File, 好像速度都差不多？
-//            long s1 = System.currentTimeMillis();
+        System.out.println("开始");
+        long s1 = System.currentTimeMillis();
 //            FileUtils.copyInputStreamToFile(MFile.getInputStream(),file);
 //            long e1 = System.currentTimeMillis();
 //            log.info("time1:"+(e1-s1)+"/ms");
-        return uploaderService.upload(id, fileEntity, MFile, req);
+        return uploaderService.upload(id, fileEntity, MFile, req, s1);
     }
 
     @ApiOperation(value = "取消上传")

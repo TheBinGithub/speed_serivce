@@ -34,9 +34,9 @@ public class UploaderServiceImpl implements UploaderService {
 
     String separator = File.separator+File.separator;  // 获取文件名称分隔符, win \ ,linux/
 
-//    private String path = "E:"+separator+"bishe"+separator+"file"+separator;
+//    private String path = separator+"bishe"+separator+"file"+separator;
 //
-//    private String temppath = "E:"+separator+"bishe"+separator+"temppath"+separator;
+//    private String temppath = separator+"bishe"+separator+"temppath"+separator;
 
     @Resource
     private FileService fileService;
@@ -46,12 +46,14 @@ public class UploaderServiceImpl implements UploaderService {
 
     // 分片上传
     @Override
-    public Result upload(String id, FileEntity fileEntity, MultipartFile MFile, HttpServletRequest req) {
+    public Result upload(String id, FileEntity fileEntity, MultipartFile MFile, HttpServletRequest req,Long s) {
 
         // 判断是否秒传
         List<FileEntity> hashs = fileMapper.queryHash(id,fileEntity.getHash());
         if (hashs.size() != 0) {
             hashs.get(0).setBelongId(fileEntity.getBelongId());
+            long e = System.currentTimeMillis();
+            System.out.println("time:"+(e-s)+"/ms");
             return fileService.addFile(hashs.get(0),"秒传成功！");
         }
 //        Integer shunk = Integer.valueOf(req.getParameter("chunk"));
@@ -67,6 +69,7 @@ public class UploaderServiceImpl implements UploaderService {
         File temppath1 = new File(temppath+id, fileEntity.getHash());
         // 不存在则创建
         if (!temppath1.exists()) temppath1.mkdirs();
+//        System.out.println("temppath1:"+temppath1.getAbsolutePath()+"  b:"+temppath1.exists());
         // new一个分片文件的File对象
         File shunkFile = new File(temppath1,shunk+"_"+originName);
         // 判断该分片是否存在
@@ -86,6 +89,7 @@ public class UploaderServiceImpl implements UploaderService {
                 }
                 // close
                 if (bos != null) bos.close();
+//                System.out.println("shunkFile:"+shunkFile.getAbsolutePath()+"  b:"+shunkFile.exists());
                 // 判断该分片是否上传完成
                 if (len != -1){
                     // 未完成则删除该分片残余数据
@@ -99,11 +103,13 @@ public class UploaderServiceImpl implements UploaderService {
                     File f = new File(path+id);
                     // 存放目录不存在则new一个
                     if (!f.exists()) f.mkdirs();
+//                    System.out.println("最终目录:"+f.getAbsolutePath()+"  b:"+f.exists());
                     // new一个最终文件的File对象(文件)
 //                    File endFile = new File(path+id+fileEntity.getBelong(),originName);
                     String salt = UUID.randomUUID().toString().toUpperCase();
                     String[] type = fileEntity.getFileName().split("\\.");
                     File endFile = new File(f.getPath(), Md5.getMd5Password(originName,salt)+"."+type[type.length - 1]);
+
                     // 循环拿出分片
                     for (int i=0; i<shunks; i++){
                         // new一个当前取到的分片File对象
@@ -133,6 +139,7 @@ public class UploaderServiceImpl implements UploaderService {
                             return Result.fail("合并出现异常！",endE.getMessage());
                         }
                     }
+//                    System.out.println("最终文件:"+endFile.getAbsolutePath()+"  b:"+endFile.exists());
                     // 删除临时目录
                     RecursiveDeletion.deleteFile(temppath1);
                     boolean result = temppath1.delete();
