@@ -5,6 +5,7 @@ import com.ncvt.speed.service.ShareService;
 import com.ncvt.speed.util.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Api(tags = "分享模块")
 @RestController
+@Slf4j
 public class ShareController {
 
     @Resource
@@ -23,6 +25,7 @@ public class ShareController {
     @ApiOperation(value = "添加分享")
     @PostMapping("/share/{userId}")
     public Result addShare(@PathVariable String userId, @RequestBody ShareParams shareParams, HttpServletRequest req){
+        log.info("addShare " + shareParams.getFileId());
         return shareService.addShare(userId, shareParams, req);
     }
 

@@ -1,4 +1,4 @@
-package com.ncvt.speed.controller;
+package com.ncvt.speed.util;
 
 import io.swagger.annotations.Api;
 
@@ -7,16 +7,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * study
+ */
 public class Uploader {
 
     // file 文件
     // directory 文件夹/目录
     // path 路径
 
-    //
-    String path = File.pathSeparator;  // 获取系统路径分隔符, win ; ,linux :
-    String separator = File.separator;  // 获取文件名称分隔符, win \ ,linux/
+    String path = File.pathSeparator;  // 获取系统路径分隔符, win ;  linux :
+    String separator = File.separator;  // 获取文件名称分隔符, win \  linux /
 
     private static void show01(String path){
         File f1 = new File(path);

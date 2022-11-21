@@ -2,6 +2,9 @@ package com.ncvt.speed.util;
 
 import java.io.File;
 
+/**
+ * 递归删除文件类
+ */
 public class RecursiveDeletion {
 
     public static void deleteFile(File file){

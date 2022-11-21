@@ -3,6 +3,9 @@ package com.ncvt.speed.util;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * 结果类
+ */
 @Data
 @Builder
 public class Result {

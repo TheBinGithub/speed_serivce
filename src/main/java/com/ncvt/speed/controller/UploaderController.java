@@ -40,23 +40,25 @@ public class UploaderController {
     })
     public Result upload(@PathVariable String id,FileEntity fileEntity, MultipartFile MFile, HttpServletRequest req){
         // 此处MFile转为File, 好像速度都差不多？
-        System.out.println("开始");
+//        FileUtils.copyInputStreamToFile(MFile.getInputStream(),file);
+//        long e1 = System.currentTimeMillis();
+//        log.info("time1:"+(e1-s1)+"/ms");
+        log.info("开始");
         long s1 = System.currentTimeMillis();
-//            FileUtils.copyInputStreamToFile(MFile.getInputStream(),file);
-//            long e1 = System.currentTimeMillis();
-//            log.info("time1:"+(e1-s1)+"/ms");
         return uploaderService.upload(id, fileEntity, MFile, req, s1);
     }
 
     @ApiOperation(value = "取消上传")
     @PostMapping("/endUpload/{id}")
     public Result endUpload(@PathVariable String id, @RequestBody UploaderParams uploaderParams){
+        log.info("endUpload: " + uploaderParams.getOriginName());
         return uploaderService.endUpload(id, uploaderParams);
     }
 
     @ApiOperation(value = "hast校验")
     @GetMapping("/hash/{userId}/{hash}")
     public Result hashCheck(@PathVariable String userId, @PathVariable String hash){
+        log.info("hashCheck: " + hash);
         return fileService.hashCheck(userId, hash);
     }
 

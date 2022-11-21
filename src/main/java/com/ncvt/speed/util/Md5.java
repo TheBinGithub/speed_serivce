@@ -2,6 +2,9 @@ package com.ncvt.speed.util;
 
 import org.springframework.util.DigestUtils;
 
+/**
+ * md5加密类
+ */
 public class Md5 {
 
     // md5算法加密处理

@@ -3,6 +3,9 @@ package com.ncvt.speed.util;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+/**
+ * 定时器
+ */
 @Component
 public class Timing {
 

@@ -1,4 +1,4 @@
-package com.ncvt.speed.controller;
+package com.ncvt.speed.util;
 
 import java.io.*;
 import java.util.Arrays;

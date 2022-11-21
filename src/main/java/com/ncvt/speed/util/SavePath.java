@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.io.File;
 
+/**
+ * 文件保存地址配置类
+ */
 @Data
 public class SavePath {
 
