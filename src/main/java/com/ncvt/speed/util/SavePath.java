@@ -7,7 +7,7 @@ import java.io.File;
 @Data
 public class SavePath {
 
-    static String separator = File.separator;  // 获取文件名称分隔符, win \ ,linux/
+    private static String separator = File.separator;  // 获取文件名称分隔符, win \ ,linux/
 
     public static String savePath(){
         return separator+"bishe"+separator+"file"+separator;
@@ -22,11 +22,11 @@ public class SavePath {
 //    static String separator = File.separator+File.separator;  // 获取文件名称分隔符, win \ ,linux/
 //
 //    public static String savePath(){
-//        return separator+"D:"+separator+"bishe"+separator+"file"+separator;
+//        return "D:"+separator+"bishe"+separator+"file"+separator;
 //    }
 //
 //    public static String tempPath(){
-//        return separator+"D:"+separator+"bishe"+separator+"temppath"+separator;
+//        return "D:"+separator+"bishe"+separator+"temppath"+separator;
 //    }
 
 

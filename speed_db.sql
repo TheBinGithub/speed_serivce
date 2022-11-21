@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80021
 File Encoding         : 65001
 
-Date: 2022-11-16 16:52:52
+Date: 2022-11-21 19:44:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -41,7 +41,7 @@ CREATE TABLE `tb_belong` (
   `belong_id` int NOT NULL AUTO_INCREMENT,
   `belong` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`belong_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_belong
@@ -49,6 +49,7 @@ CREATE TABLE `tb_belong` (
 INSERT INTO `tb_belong` VALUES ('30', '我是30在根目录');
 INSERT INTO `tb_belong` VALUES ('31', '我是31在30里面');
 INSERT INTO `tb_belong` VALUES ('32', '建我是32在31里面');
+INSERT INTO `tb_belong` VALUES ('33', '建');
 
 -- ----------------------------
 -- Table structure for tb_delete
@@ -60,7 +61,7 @@ CREATE TABLE `tb_delete` (
   `file_id` int DEFAULT NULL,
   `delete_time` bigint DEFAULT NULL,
   PRIMARY KEY (`delete_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_delete
@@ -84,25 +85,29 @@ CREATE TABLE `tb_file` (
   `du_you` int DEFAULT NULL,
   `delete_id` int DEFAULT NULL COMMENT '逻辑删除id(默认0不删除，其他则为绑定回收站表)',
   PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_file
 -- ----------------------------
-INSERT INTO `tb_file` VALUES ('100', '2', null, '', '30', '我是30在根目录', 'folder', '0', '2022-11-16 16:25', null, '0', '0');
-INSERT INTO `tb_file` VALUES ('101', '2', null, '30@-.@', '31', '我是31在30里面', 'folder', '0', '2022-11-16 16:53', null, '0', '0');
-INSERT INTO `tb_file` VALUES ('103', '2', null, '30@-.@31@-.@', '32', '我是32在31里面', 'folder', '0', '2022-11-16 16:29', null, '0', '0');
+INSERT INTO `tb_file` VALUES ('100', '2', null, '37@-.@38@-.@', '30', '我是30在根目录', 'folder', '0', '2022-11-16 16:25', null, '0', '0');
+INSERT INTO `tb_file` VALUES ('101', '2', null, '37@-.@38@-.@30@-.@', '31', '我是31在30里面', 'folder', '0', '2022-11-16 16:53', null, '0', '0');
+INSERT INTO `tb_file` VALUES ('103', '2', null, '37@-.@38@-.@30@-.@31@-.@', '32', '我是32在31里面', 'folder', '0', '2022-11-16 16:29', null, '0', '0');
+INSERT INTO `tb_file` VALUES ('105', '2', null, '', '33', '建', 'folder', '0', '2022-11-16 17:48', null, '0', '0');
 
 -- ----------------------------
 -- Table structure for tb_share
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_share`;
 CREATE TABLE `tb_share` (
-  `share_id` int NOT NULL AUTO_INCREMENT,
+  `share_id` bigint NOT NULL AUTO_INCREMENT,
   `file_id` int NOT NULL COMMENT '文件id',
   `share_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件分享的对外地址',
-  `command` varchar(4) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件分享的提取码',
+  `command` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件分享的提取码',
   `user_id` bigint NOT NULL COMMENT '分享的用户id',
+  `share_time` bigint DEFAULT NULL,
+  `share_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `user_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`share_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
