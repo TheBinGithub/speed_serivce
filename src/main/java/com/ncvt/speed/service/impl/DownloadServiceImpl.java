@@ -3,6 +3,7 @@ package com.ncvt.speed.service.impl;
 import com.ncvt.speed.entity.FileEntity;
 import com.ncvt.speed.service.DownloadService;
 import com.ncvt.speed.util.Result;
+import com.ncvt.speed.util.SavePath;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,14 +20,12 @@ import java.net.URLEncoder;
 @Slf4j
 public class DownloadServiceImpl implements DownloadService {
 
-    @Value("${file-save-path}")
-    private String path;
-//
+//    @Value("${file-save-path}")
+//    private String path;
+
+    private final String path = SavePath.savePath();
+
     private static final String utf8 = "utf-8";
-
-    String separator = File.separator+File.separator;  // 获取文件名称分隔符, win \ ,linux/
-
-//    private String path = separator+"bishe"+separator+"file"+separator;
 
     // 下载,file
     @Override

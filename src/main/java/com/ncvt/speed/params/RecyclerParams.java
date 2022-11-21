@@ -10,7 +10,7 @@ public class RecyclerParams {
     private String fileId;
     @ApiModelProperty(value = "类型(文件夹传folder，其他随意)", example = "folder", required = true)
     private String type;
-    @ApiModelProperty(value = "该目录下一层的属于id(文件夹传cBelongID,其他随意)", example = "2@-.@", required = true)
+    @ApiModelProperty(value = "该目录下一层的属于id", example = "2@-.@", required = true)
     private String cBelongId;
 
 }

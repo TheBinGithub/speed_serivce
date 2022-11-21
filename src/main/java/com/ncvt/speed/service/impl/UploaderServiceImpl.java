@@ -9,6 +9,7 @@ import com.ncvt.speed.service.UploaderService;
 import com.ncvt.speed.util.Md5;
 import com.ncvt.speed.util.RecursiveDeletion;
 import com.ncvt.speed.util.Result;
+import com.ncvt.speed.util.SavePath;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,17 +27,15 @@ import java.util.UUID;
 @Slf4j
 public class UploaderServiceImpl implements UploaderService {
 
-    @Value("${file-save-path}")
-    private String path;
-
-    @Value("${file-temp-path}")
-    private String temppath;
-
-    String separator = File.separator+File.separator;  // 获取文件名称分隔符, win \ ,linux/
-
-//    private String path = separator+"bishe"+separator+"file"+separator;
+//    @Value("${file-save-path}")
+//    private String path;
 //
-//    private String temppath = separator+"bishe"+separator+"temppath"+separator;
+//    @Value("${file-temp-path}")
+//    private String temppath;
+
+    private final String path = SavePath.savePath();
+
+    private final String temppath = SavePath.tempPath();
 
     @Resource
     private FileService fileService;
@@ -52,6 +51,7 @@ public class UploaderServiceImpl implements UploaderService {
         List<FileEntity> hashs = fileMapper.queryHash(id,fileEntity.getHash());
         if (hashs.size() != 0) {
             hashs.get(0).setBelongId(fileEntity.getBelongId());
+            hashs.get(0).setDeleteId(0);
             long e = System.currentTimeMillis();
             System.out.println("time:"+(e-s)+"/ms");
             return fileService.addFile(hashs.get(0),"秒传成功！");
@@ -109,7 +109,6 @@ public class UploaderServiceImpl implements UploaderService {
                     String salt = UUID.randomUUID().toString().toUpperCase();
                     String[] type = fileEntity.getFileName().split("\\.");
                     File endFile = new File(f.getPath(), Md5.getMd5Password(originName,salt)+"."+type[type.length - 1]);
-
                     // 循环拿出分片
                     for (int i=0; i<shunks; i++){
                         // new一个当前取到的分片File对象
