@@ -8,7 +8,7 @@ public class ShareParams {
 
     @ApiModelProperty(required = true, value = "文件id", example = "82")
     private String fileId;
-    @ApiModelProperty(required = true, value = "?", example = "82")
+    @ApiModelProperty(required = true, value = "这是啥?", example = "82")
     private String command;
     @ApiModelProperty(required = true, value = "类型", example = "folder")
     private String type;

@@ -43,9 +43,9 @@
 
     <!-- 根据id和belong查询 -->
     <select id="queryFileByBelong" resultMap="FileRMap">
-        SELECT file_id,belong_id,folder_belong_id,file_name,file_type,upload_time,file_path,delete_id
+        SELECT file_id,belong_id,folder_belong_id,file_name,file_type,upload_time,file_path
         FROM tb_file
-        WHERE belong_id=#{belongId}
+        WHERE belong_id=#{belongId} and delete_id=0
     </select>
 
     <!-- 查询文件夹下的所有数据 -->

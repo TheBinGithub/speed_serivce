@@ -2,6 +2,7 @@ package com.ncvt.speed.controller;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.ncvt.speed.params.DownloadParams;
 import com.ncvt.speed.service.DownloadService;
 import com.ncvt.speed.util.Result;
 import io.swagger.annotations.Api;
@@ -42,14 +43,12 @@ public class DownloadController {
         return downloadService.downloadByUrl(userId, s, req, res);
     }
 
-//    @ApiOperation(value = "下载1(返回地址1)")
-//  ,produces="application/octet-stream,charset=utf-8"
-//    @GetMapping(value="/downloading/{id}/{fileName}")
-//    @ResponseBody
-//    public String downloadByUrls(@PathVariable String id, @PathVariable String fileName,HttpServletRequest req, HttpServletResponse res){
-//        String s = fileName.replace("@", "\\");
-//        log.info("download " + s + " ...");
-//        return downloadService.downloadByUrls(id, s, req, res);
-//    }
+    @ApiOperation(value = "批量下载(返回地址)")
+    @PostMapping(value="/downloads/{id}")
+    @ResponseBody
+    public Result batchDownloadByUrl(@PathVariable String id, @RequestBody DownloadParams downloadParams, HttpServletRequest req, HttpServletResponse res){
+        log.info("download " + downloadParams.getPathList() + " ...");
+        return downloadService.batchDownloadByUrl(id, downloadParams, req, res);
+    }
 
 }
