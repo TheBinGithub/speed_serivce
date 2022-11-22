@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80021
 File Encoding         : 65001
 
-Date: 2022-11-21 19:44:22
+Date: 2022-11-22 20:13:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -52,6 +52,21 @@ INSERT INTO `tb_belong` VALUES ('32', '建我是32在31里面');
 INSERT INTO `tb_belong` VALUES ('33', '建');
 
 -- ----------------------------
+-- Table structure for tb_collect
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_collect`;
+CREATE TABLE `tb_collect` (
+  `collect_id` bigint NOT NULL AUTO_INCREMENT,
+  `file_id` varchar(255) DEFAULT NULL,
+  `user_id` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`collect_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_collect
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for tb_delete
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_delete`;
@@ -61,7 +76,7 @@ CREATE TABLE `tb_delete` (
   `file_id` int DEFAULT NULL,
   `delete_time` bigint DEFAULT NULL,
   PRIMARY KEY (`delete_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_delete
@@ -85,7 +100,7 @@ CREATE TABLE `tb_file` (
   `du_you` int DEFAULT NULL,
   `delete_id` int DEFAULT NULL COMMENT '逻辑删除id(默认0不删除，其他则为绑定回收站表)',
   PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_file

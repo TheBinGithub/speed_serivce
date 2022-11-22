@@ -6,6 +6,7 @@ import lombok.Data;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 @Data
 public class FileEntity {
@@ -40,7 +41,7 @@ public class FileEntity {
         // 需要注意的是像【.】【|】【+】【*】等都是转义字符，在作为参数时，需要加入“\\”,
         String[] sName = fileEntity.getFileName().split("\\.");
 
-        fileEntity.setFileType(sName[sName.length - 1]);
+        fileEntity.setFileType(sName[sName.length - 1].toLowerCase());
 //                    fileEntity.setFilePath(endFile.getPath());
         if (endFile != null) fileEntity.setFileSize(endFile.length());
         Long timeStamp = System.currentTimeMillis();  //获取当前时间戳

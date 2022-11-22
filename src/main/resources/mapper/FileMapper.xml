@@ -23,7 +23,7 @@
     <select id="queryFile" resultMap="FileRMap">
         SELECT file_path,user_id,belong_id,file_id,file_name,file_size,file_type,upload_time,folder_belong_id
         FROM tb_file
-        WHERE user_id =#{userId} AND delete_id=0 ORDER BY file_type
+        WHERE user_id =#{userId} AND delete_id=0 and du_you=0 ORDER BY file_type
     </select>
 
     <!-- hash校验 -->
@@ -45,7 +45,7 @@
     <select id="queryFileByBelong" resultMap="FileRMap">
         SELECT file_id,belong_id,folder_belong_id,file_name,file_type,upload_time,file_path
         FROM tb_file
-        WHERE belong_id=#{belongId} and delete_id=0
+        WHERE belong_id=#{belongId} and delete_id=0 and du_you=0
     </select>
 
     <!-- 查询文件夹下的所有数据 -->
@@ -53,7 +53,7 @@
         <bind name="belongLike" value="belongId+'%'"/>
         select file_id, user_id, belong_id
         from tb_file
-        where belong_id like #{belongLike} and delete_id=0
+        where belong_id like #{belongLike} and delete_id=0 and du_you=0
     </select>
 
     <!-- 查询回收站的 -->
@@ -119,6 +119,25 @@
             #{item.fileId}
         </foreach>
     </update>
+
+    <!-- 添加收藏 -->
+    <update id="modifyFileByDuyou">
+        UPDATE tb_file SET du_you=
+        case
+        <foreach collection="list" item="item" index="index">
+            when file_id= #{item.fileId} then #{item.collectId}
+        </foreach>
+        end
+        where file_id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item.fileId}
+        </foreach>
+    </update>
+
+    <!-- 查询收藏 -->
+    <select id="queryFileByDuyou" resultMap="FileRMap">
+        SELECT * FROM tb_file WHERE user_id=#{userId} and du_you!=0 ORDER BY file_type
+    </select>
 
     <!-- keyProperty="userId" 设置主键字段对应的实体类 -->
     <insert id="addFile" useGeneratedKeys="true">

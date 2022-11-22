@@ -1,5 +1,6 @@
 package com.ncvt.speed.mapper;
 
+import com.ncvt.speed.entity.CollectEntity;
 import com.ncvt.speed.entity.DeleteEntity;
 import com.ncvt.speed.entity.FileEntity;
 import com.ncvt.speed.util.Result;
@@ -49,6 +50,12 @@ public interface FileMapper {
 
     // 添加
     Integer addFile(FileEntity file);
+
+    // 添加收藏
+    Integer modifyFileByDuyou(List<CollectEntity> lists);
+
+    // 查询收藏
+    List<FileEntity> queryFileByDuyou(String userId);
 
     // 删除
     Integer deleteFile(String FileName);
