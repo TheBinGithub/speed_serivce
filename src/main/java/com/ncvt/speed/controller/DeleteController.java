@@ -22,8 +22,8 @@ public class DeleteController {
     @ApiOperation(value = "加入回收站")
     @PostMapping("/recycler/{userId}")
     public Result addRecycler(@PathVariable String userId, @RequestBody RecyclerParams params){
-        log.info("addRecycler:"+userId+","+params.getFileId());
-        return operationFileService.addRecycler(userId, params);
+        log.info("addRecycler:"+userId+","+params.getRecyclerList());
+        return operationFileService.addRecycler(userId, params.getRecyclerList());
     }
 
     @ApiOperation(value = "查询回收站")

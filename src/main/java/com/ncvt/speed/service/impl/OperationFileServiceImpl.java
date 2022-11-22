@@ -7,6 +7,7 @@ import com.ncvt.speed.mapper.BelongMapper;
 import com.ncvt.speed.mapper.DeleteMapper;
 import com.ncvt.speed.mapper.FileMapper;
 import com.ncvt.speed.params.MovementParams;
+import com.ncvt.speed.params.RecyclerJson;
 import com.ncvt.speed.params.RecyclerParams;
 import com.ncvt.speed.params.RenameParams;
 import com.ncvt.speed.service.OperationFileService;
@@ -176,36 +177,34 @@ public class OperationFileServiceImpl implements OperationFileService {
 
     // 加入回收站
     @Override
-    public Result addRecycler(String userId, RecyclerParams params) {
+    public Result addRecycler(String userId, List<RecyclerJson> lists) {
         try {
+            List<DeleteEntity> list = new ArrayList<>();
+
             Long timeStamp = System.currentTimeMillis();  //获取当前时间戳
-            int dfResult = -1;
-            if (params.getType().equals("folder")){
-                List<FileEntity> fe = fileMapper.queryFileLikeBelongId(params.getCBelongId());
-                List<DeleteEntity> des = new ArrayList<>();
-                if (fe.size() != 0) {
-                    for (FileEntity f : fe){
-                        DeleteEntity de = new DeleteEntity();
-                        de.setFileId(f.getFileId());
-                        de.setUserId(f.getUserId());
-                        de.setDeleteTime(timeStamp);
-                        des.add(de);
+            for (RecyclerJson r : lists){
+                DeleteEntity deleteEntity = new DeleteEntity();
+                deleteEntity.setDeleteTime(timeStamp);
+                deleteEntity.setUserId(userId);
+                deleteEntity.setFileId(r.getFileId());
+                list.add(deleteEntity);
+                if (r.getType().equals("folder")) {
+                    List<FileEntity> fe = fileMapper.queryFileLikeBelongId(r.getCBelongId());
+                    if (fe.size() != 0){
+                        for (FileEntity f : fe){
+                            DeleteEntity deleteEntity1 = new DeleteEntity();
+                            deleteEntity1.setDeleteTime(timeStamp);
+                            deleteEntity1.setUserId(userId);
+                            deleteEntity1.setFileId(f.getFileId());
+                            list.add(deleteEntity1);
+                        }
                     }
-                    int dResult = deleteMapper.addDeleteList(des);
-                    int fResult = fileMapper.modifyFileByFileId(des);
-                    if (dResult != fe.size() || fResult != fe.size()) dfResult = -2;
-                    dfResult = fe.size();
                 }
             }
-            DeleteEntity deleteEntity = new DeleteEntity();
-            deleteEntity.setUserId(userId);
-            deleteEntity.setFileId(params.getFileId());
-            deleteEntity.setDeleteTime(timeStamp);
-            int dResult = deleteMapper.addDelete(deleteEntity);
-            int fResult = fileMapper.logicalDeletionFile(params.getFileId(), deleteEntity.getDeleteId());
-            if (dfResult == -1) if (dResult != 1 || fResult != 1) return Result.fail(400,"添加回收站出现未知异常！");
-            if (dfResult == -2) return Result.fail("删除文件夹出现未知异常！");
-            return Result.ok("添加回收站成功！","加入了"+dfResult+"条记录");
+            int dResult = deleteMapper.addDeleteList(list);
+            int fResult = fileMapper.modifyFileByFileId(list);
+            if (dResult != fResult) return Result.fail("加入回收站出现未知异常！");
+            return Result.ok("加入回收站成功！","修改了"+dResult+"条记录！");
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！",e.getMessage());

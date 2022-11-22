@@ -1,6 +1,7 @@
 package com.ncvt.speed.controller;
 
 import com.ncvt.speed.params.CollectParams;
+import com.ncvt.speed.params.DeleteCollectParams;
 import com.ncvt.speed.service.CollectService;
 import com.ncvt.speed.util.Result;
 import io.swagger.annotations.Api;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Api(tags = "收藏模块")
 @RestController
@@ -31,5 +33,13 @@ public class CollectController {
         log.info("queryCollect: " + userId);
         return collectService.qeuryCollect(userId);
     }
+
+    @ApiOperation(value = "移出收藏")
+    @PutMapping("/collect/{userId}")
+    public Result deleteCollect(@PathVariable String userId, @RequestBody DeleteCollectParams params){
+        log.info("deleteCollect: " + userId);
+        return collectService.deleteCollect(params.getFileIdList(), params.getCollectIdList());
+    }
+
 
 }

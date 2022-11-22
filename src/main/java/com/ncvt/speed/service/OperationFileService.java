@@ -1,6 +1,7 @@
 package com.ncvt.speed.service;
 
 import com.ncvt.speed.params.MovementParams;
+import com.ncvt.speed.params.RecyclerJson;
 import com.ncvt.speed.params.RecyclerParams;
 import com.ncvt.speed.params.RenameParams;
 import com.ncvt.speed.util.Result;
@@ -25,7 +26,7 @@ public interface OperationFileService {
     Result queryRecycler(String userId);
 
     // 加入回收站
-    Result addRecycler(String userId, RecyclerParams params);
+    Result addRecycler(String userId, List<RecyclerJson> params);
 
     // 回收站还原
     Result restores(List<String> fileId);
