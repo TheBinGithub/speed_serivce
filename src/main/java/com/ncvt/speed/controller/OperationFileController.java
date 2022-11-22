@@ -1,25 +1,17 @@
 package com.ncvt.speed.controller;
 
-import com.ncvt.speed.entity.BelongEntity;
-import com.ncvt.speed.entity.FileEntity;
 import com.ncvt.speed.params.MovementParams;
 import com.ncvt.speed.params.NewFolderParams;
-import com.ncvt.speed.params.RecyclerParams;
 import com.ncvt.speed.params.RenameParams;
-import com.ncvt.speed.service.BelongService;
 import com.ncvt.speed.service.FileService;
 import com.ncvt.speed.service.OperationFileService;
 import com.ncvt.speed.util.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Api(tags = "文件操作模块")
 @RestController
@@ -60,10 +52,17 @@ public class OperationFileController {
         return operationFileService.rename(userId, renameParams);
     }
 
+//    @ApiOperation(value = "目录(文件)移动")
+//    @PutMapping("/movement/{userId}")
+//    public Result movement(@PathVariable String userId, @RequestBody MovementParams movementParams){
+//        log.info("movement: " + movementParams.getFileId());
+//        return operationFileService.movement(movementParams);
+//    }
+
     @ApiOperation(value = "目录(文件)移动")
     @PutMapping("/movement/{userId}")
     public Result movement(@PathVariable String userId, @RequestBody MovementParams movementParams){
-        log.info("movement: " + movementParams.getFileId());
+        log.info("movement: " + movementParams.getMovementList());
         return operationFileService.movement(movementParams);
     }
 

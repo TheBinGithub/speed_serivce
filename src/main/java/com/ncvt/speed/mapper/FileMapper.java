@@ -39,11 +39,8 @@ public interface FileMapper {
     // 恢复文件
     Integer restoresFile(List<String> fileIds);
 
-    // 移动文件
-    Integer movement(String fileId, String nBelongId);
-
-    // 移动文件夹
-    Integer movementFolder(List<FileEntity> lists);
+    // 移动
+    Integer movement(List<FileEntity> lists);
 
     // 逻辑删除
     Integer logicalDeletionFile(String fileId, Long deleteId);

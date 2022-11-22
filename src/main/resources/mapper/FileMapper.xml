@@ -96,13 +96,8 @@
         update tb_file set delete_id=#{deleteId} where file_id=#{fileId}
     </update>
 
-    <!-- 文件移动 -->
+    <!-- 移动 -->
     <update id="movement">
-        update tb_file set belong_id=#{nBelongId} where file_id=#{fileId}
-    </update>
-
-    <!-- 文件夹移动 -->
-    <update id="movementFolder">
 <!--        <bind name="cBelongId" value="cBelongId+'%'"/>-->
 <!--        update tb_file t set t.belong_id=#{nBelongId} where t.file_id in-->
 <!--        (select * from-->

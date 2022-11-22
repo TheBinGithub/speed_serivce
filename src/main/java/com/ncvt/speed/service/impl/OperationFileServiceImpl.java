@@ -6,9 +6,9 @@ import com.ncvt.speed.entity.FileEntity;
 import com.ncvt.speed.mapper.BelongMapper;
 import com.ncvt.speed.mapper.DeleteMapper;
 import com.ncvt.speed.mapper.FileMapper;
+import com.ncvt.speed.params.MovementJson;
 import com.ncvt.speed.params.MovementParams;
 import com.ncvt.speed.params.RecyclerJson;
-import com.ncvt.speed.params.RecyclerParams;
 import com.ncvt.speed.params.RenameParams;
 import com.ncvt.speed.service.OperationFileService;
 import com.ncvt.speed.util.Result;
@@ -59,31 +59,66 @@ public class OperationFileServiceImpl implements OperationFileService {
     }
 
     // 移动
+//    @Override
+//    public Result movement(MovementParams params){
+//        try {
+//            if (params.getOldBelongId().equals(params.getNewBelongId())) return Result.fail(300,"无效文件移动！");
+//            if (params.getType().equals("folder")){
+//                String cBelong = (params.getOldBelongId()+params.getFolderBelongId()+"@-.@");
+//                List<FileEntity> lists = fileMapper.queryFileLikeBelongId(cBelong);
+//                int result = -1;
+//                if (lists.size() != 0){
+//                    for (FileEntity list : lists){
+//                        if (params.getOldBelongId().equals("")) {
+//                            list.setBelongId(params.getNewBelongId()+list.getBelongId());
+//                        }else {
+//                            list.setBelongId(list.getBelongId().replace(params.getOldBelongId(),params.getNewBelongId()));
+//                        }
+//                    }
+//                    result = fileMapper.movementFolder(lists);
+//                }
+//                int result1 = fileMapper.movement(params.getFileId(),params.getNewBelongId());
+//                if (result == 0 && result1 != 1) return Result.fail("移动文件夹出现未知异常！");
+//                return Result.ok("移动文件夹成功！");
+//            }
+//            int result = fileMapper.movement(params.getFileId(),params.getNewBelongId());
+//            if (result != 1) return Result.fail("移动文件出现未知异常！");
+//            return Result.ok("移动文件成功！");
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            return Result.fail("服务端异常！",e.getMessage());
+//        }
+//    }
+
+    // 移动
     @Override
     public Result movement(MovementParams params){
         try {
-            if (params.getOldBelongId().equals(params.getNewBelongId())) return Result.fail(300,"无效文件移动！");
-            if (params.getType().equals("folder")){
-                String cBelong = (params.getOldBelongId()+params.getFolderBelongId()+"@-.@");
-                List<FileEntity> lists = fileMapper.queryFileLikeBelongId(cBelong);
-                int result = -1;
-                if (lists.size() != 0){
-                    for (FileEntity list : lists){
-                        if (params.getOldBelongId().equals("")) {
-                            list.setBelongId(params.getNewBelongId()+list.getBelongId());
-                        }else {
-                            list.setBelongId(list.getBelongId().replace(params.getOldBelongId(),params.getNewBelongId()));
+            if (params.getMovementList().get(0).getOldBelongId().equals(params.getNewBelongId())) return Result.fail(300,"无效文件移动！");
+            List<FileEntity> fList = new ArrayList<>();
+            for (MovementJson m : params.getMovementList()){
+                FileEntity file = new FileEntity();
+                file.setFileId(m.getFileId());
+                file.setBelongId(params.getNewBelongId());
+                fList.add(file);
+                if (m.getType().equals("folder")){
+                    String cBelong = (m.getOldBelongId()+m.getFolderBelongId()+"@-.@");
+                    List<FileEntity> lists = fileMapper.queryFileLikeBelongId(cBelong);
+                    if (lists.size() != 0){
+                        for (FileEntity list : lists){
+                            if (m.getOldBelongId().equals("")) {
+                                list.setBelongId(params.getNewBelongId()+list.getBelongId());
+                            }else {
+                                list.setBelongId(list.getBelongId().replace(m.getOldBelongId(),params.getNewBelongId()));
+                            }
                         }
                     }
-                    result = fileMapper.movementFolder(lists);
+                    fList.addAll(lists);
                 }
-                int result1 = fileMapper.movement(params.getFileId(),params.getNewBelongId());
-                if (result == 0 && result1 != 1) return Result.fail("移动文件夹出现未知异常！");
-                return Result.ok("移动文件夹成功！");
             }
-            int result = fileMapper.movement(params.getFileId(),params.getNewBelongId());
-            if (result != 1) return Result.fail("移动文件出现未知异常！");
-            return Result.ok("移动文件成功！");
+            int result = fileMapper.movement(fList);
+            if (result != fList.size()) return Result.fail("移动出现未知异常！");
+            return Result.ok("移动成功！");
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！",e.getMessage());
@@ -180,7 +215,6 @@ public class OperationFileServiceImpl implements OperationFileService {
     public Result addRecycler(String userId, List<RecyclerJson> lists) {
         try {
             List<DeleteEntity> list = new ArrayList<>();
-
             Long timeStamp = System.currentTimeMillis();  //获取当前时间戳
             for (RecyclerJson r : lists){
                 DeleteEntity deleteEntity = new DeleteEntity();
