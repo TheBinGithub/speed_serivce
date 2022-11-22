@@ -86,29 +86,6 @@ public class FileServiceImpl implements FileService {
         }
     }
 
-    // 新增
-//    @Override
-//    public Result addFile(FileEntity file, String msg) {
-//        try {
-//            BelongEntity belong = belongMapper.queryBelongByBelong(file.getBelong());
-//            System.out.println("belong:"+file.getBelong());
-//            if (belong != null) {
-//                file.setBelongId(belong.getBelongId());
-//            }else {
-//                BelongEntity addBelong = new BelongEntity();
-//                addBelong.setBelong(file.getBelong());
-//                belongMapper.addBelong(addBelong);
-//                file.setBelongId(addBelong.getBelongId());
-//            }
-//            int result = fileMapper.addFile(file);
-//            if (result == 0) return Result.fail(300,"数据库新增出现未知异常！");
-//            return Result.ok("合并成功，数据库记录已添加 ！",msg);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            return Result.fail("服务端异常！");
-//        }
-//    }
-
     @Override
     public Result addFile(FileEntity file, String msg) {
         try {

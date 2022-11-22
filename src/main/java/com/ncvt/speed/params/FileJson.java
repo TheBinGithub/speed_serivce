@@ -1,8 +1,11 @@
 package com.ncvt.speed.params;
 
+import lombok.Data;
+
 /**
- * 辅助类
+ * File辅助类
  */
+@Data
 public class FileJson {
 
     private String filePath;

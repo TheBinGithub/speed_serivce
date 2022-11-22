@@ -26,4 +26,12 @@
         </foreach>
     </insert>
 
+    <!-- 移出收藏 -->
+    <delete id="deleteCollect">
+        delete from tb_collect where collect_id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
 </mapper>

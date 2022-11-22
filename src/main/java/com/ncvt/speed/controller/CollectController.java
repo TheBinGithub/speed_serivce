@@ -21,8 +21,8 @@ public class CollectController {
     @ApiOperation(value = "添加收藏")
     @PostMapping("/collect/{userId}")
     public Result addCollect(@PathVariable String userId, @RequestBody CollectParams collectParams){
-        log.info("addCollect: " + collectParams.getFileIdList());
-        return collectService.addCollect(userId, collectParams.getFileIdList());
+        log.info("addCollect: " + collectParams.getCollectList());
+        return collectService.addCollect(userId, collectParams.getCollectList());
     }
 
     @ApiOperation(value = "查询收藏")

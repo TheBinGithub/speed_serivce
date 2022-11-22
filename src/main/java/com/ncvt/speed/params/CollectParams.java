@@ -8,8 +8,8 @@ import java.util.List;
 @Data
 public class CollectParams {
 
-    @ApiModelProperty(value = "文件id列表", required = true, example = "[82,89]")
-    private List<String> fileIdList;
+    @ApiModelProperty(value = "收藏数据列表", required = true, example = "[82,89]")
+    private List<CollectJson> CollectList;
 
 
 }

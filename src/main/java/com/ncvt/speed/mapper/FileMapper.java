@@ -57,6 +57,9 @@ public interface FileMapper {
     // 查询收藏
     List<FileEntity> queryFileByDuyou(String userId);
 
+    // 移出收藏
+    Integer modifyFileByDuyouDelete(List<String> lists);
+
     // 删除
     Integer deleteFile(String FileName);
 

@@ -139,6 +139,15 @@
         SELECT * FROM tb_file WHERE user_id=#{userId} and du_you!=0 ORDER BY file_type
     </select>
 
+    <!-- 移出收藏 -->
+    <update id="modifyFileByDuyouDelete">
+        UPDATE tb_file SET du_you=0
+        where file_id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+
     <!-- keyProperty="userId" 设置主键字段对应的实体类 -->
     <insert id="addFile" useGeneratedKeys="true">
         INSERT INTO tb_file(
