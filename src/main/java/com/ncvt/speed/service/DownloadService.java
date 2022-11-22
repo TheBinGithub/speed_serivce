@@ -10,7 +10,7 @@ public interface DownloadService {
 
     void downloadByFile(String id, String filePath, HttpServletRequest req, HttpServletResponse res);
 
-    Result batchDownloadByUrl(String id, DownloadParams downloadParams, HttpServletRequest req, HttpServletResponse res);
+    Result batchDownloadByUrl(String userId, DownloadParams downloadParams, HttpServletRequest req, HttpServletResponse res);
 
     Result downloadByUrl(String id, String fileName, HttpServletRequest req, HttpServletResponse res);
 

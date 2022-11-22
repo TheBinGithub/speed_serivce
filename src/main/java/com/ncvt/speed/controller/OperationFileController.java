@@ -39,13 +39,6 @@ public class OperationFileController {
         return fileService.queryFileByUserId(id);
     }
 
-    @ApiOperation(value = "添加收藏")
-    @GetMapping("/collect/{id}")
-    public Result addCollect(@PathVariable String id){
-        log.info("queryFileByUserId: " + id);
-        return null;
-    }
-
     @ApiOperation(value = "查询指定目录下的目录(文件)")
     @GetMapping("/contents/{userId}/{belong}")
     public Result queryContents(@PathVariable String userId, @PathVariable String belong){

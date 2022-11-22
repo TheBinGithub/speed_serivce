@@ -27,12 +27,12 @@ public class DownloadController {
     String separator = File.separator;  // 获取文件名称分隔符, win \ ,linux/
 
     @ApiOperation(value = "下载(返回文件流)")
-    @GetMapping("/download/{id}/{filePath}")
+    @GetMapping("/download/{userId}/{filePath}")
     @JsonBackReference
-    public void downloadByFile(@PathVariable String id, @PathVariable String filePath, HttpServletRequest req, HttpServletResponse res){
+    public void downloadByFile(@PathVariable String userId, @PathVariable String filePath, HttpServletRequest req, HttpServletResponse res){
         String s = filePath.replace("@-.@", "\\");
         log.info("download " + s + "...");
-        downloadService.downloadByFile(id, s, req, res);
+        downloadService.downloadByFile(userId, s, req, res);
     }
 
     @ApiOperation(value = "下载(返回地址)")
@@ -44,11 +44,11 @@ public class DownloadController {
     }
 
     @ApiOperation(value = "批量下载(返回地址)")
-    @PostMapping(value="/downloads/{id}")
+    @PostMapping(value="/downloads/{userId}")
     @ResponseBody
-    public Result batchDownloadByUrl(@PathVariable String id, @RequestBody DownloadParams downloadParams, HttpServletRequest req, HttpServletResponse res){
+    public Result batchDownloadByUrl(@PathVariable String userId, @RequestBody DownloadParams downloadParams, HttpServletRequest req, HttpServletResponse res){
         log.info("download " + downloadParams.getPathList() + " ...");
-        return downloadService.batchDownloadByUrl(id, downloadParams, req, res);
+        return downloadService.batchDownloadByUrl(userId, downloadParams, req, res);
     }
 
 }

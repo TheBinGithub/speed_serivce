@@ -17,7 +17,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -84,8 +86,11 @@ public class DownloadServiceImpl implements DownloadService {
 //            res.addHeader("Content-Disposition","attachment;filename=" + URLEncoder.encode(file.getName(),utf8));
             if (!file.exists()) return Result.ok(404,"文件不存在！");
             String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/file/" + filePath;
-            log.info(url);
-            return Result.ok("获取成功！",url);
+            Map<String,Object> uMap = new HashMap<>();
+            uMap.put("url",url);
+            String[] type = filePath.split("\\.");
+            uMap.put("type",type[type.length - 1]);
+            return Result.ok("获取成功！",uMap);
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！",e.getMessage());
@@ -94,7 +99,7 @@ public class DownloadServiceImpl implements DownloadService {
 
     // 批量下载,url
     @Override
-    public Result batchDownloadByUrl(String id, DownloadParams downloadParams, HttpServletRequest req, HttpServletResponse res) {
+    public Result batchDownloadByUrl(String userId, DownloadParams downloadParams, HttpServletRequest req, HttpServletResponse res) {
         try {
             res.reset();
             res.setContentType("application/octet-stream");
@@ -102,13 +107,17 @@ public class DownloadServiceImpl implements DownloadService {
             res.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
             res.addHeader("Access-Control-Allow-Headers", "Content-Type");
             res.addHeader("Access-Control-Allow-Credentials","true");
-            List<String> lists = new ArrayList<>();
+            List<Map<String,Object>> lists = new ArrayList<>();
             for (String s : downloadParams.getPathList()){
                 s = s.replace("@-.@",separator);
                 File file = new File(path,s);
                 if (!file.exists()) return Result.ok(404,"文件不存在！");
                 String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/file/" + s;
-                lists.add(url);
+                Map<String,Object> uMap = new HashMap<>();
+                uMap.put("url",url);
+                String[] type = s.split("\\.");
+                uMap.put("type",type[type.length - 1]);
+                lists.add(uMap);
             }
             return Result.ok("获取成功！",lists);
         }catch (Exception e){
