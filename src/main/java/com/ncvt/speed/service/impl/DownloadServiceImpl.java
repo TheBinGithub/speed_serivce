@@ -7,6 +7,7 @@ import com.ncvt.speed.util.Result;
 import com.ncvt.speed.util.SavePath;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -108,15 +109,15 @@ public class DownloadServiceImpl implements DownloadService {
             res.addHeader("Access-Control-Allow-Headers", "Content-Type");
             res.addHeader("Access-Control-Allow-Credentials","true");
             List<Map<String,Object>> lists = new ArrayList<>();
-            for (String s : downloadParams.getPathList()){
-                s = s.replace("@-.@",separator);
-                File file = new File(path,s);
+            for (List s : downloadParams.getPathList()){
+                String filePath = ((String) s.get(0)).replace("@-.@",separator);
+                File file = new File(path, filePath);
                 if (!file.exists()) return Result.ok(404,"文件不存在！");
-                String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/file/" + s;
+                String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/file/" + filePath;
                 Map<String,Object> uMap = new HashMap<>();
                 uMap.put("url",url);
-                String[] type = s.split("\\.");
-                uMap.put("type",type[type.length - 1]);
+                uMap.put("filetype",s.get(1));
+                uMap.put("fileName",s.get(2));
                 lists.add(uMap);
             }
             return Result.ok("获取成功！",lists);

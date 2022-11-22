@@ -9,8 +9,8 @@ import java.util.List;
 @Data
 public class CollectParams {
 
-    @ApiModelProperty(value = "添加收藏的数据列表", required = true, example = "[82,89]")
-    private List<JSONObject> collectList;
+    @ApiModelProperty(value = "文件id列表", required = true, example = "[82,89]")
+    private List<JSONObject> fileIdList;
 
 
 }
