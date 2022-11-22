@@ -11,12 +11,7 @@ import java.io.File;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-//    @Value("${file-save-path}")
-//    String path;
     private final String path = SavePath.savePath();
-
-//    String separator = File.separator+File.separator;  // 获取文件名称分隔符, win \ ,linux/
-//    private String path = separator+"bishe"+separator+"file"+separator;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

@@ -19,9 +19,10 @@
             user_id,
             delete_time
         ) VALUES (
-                     #{fileId},#{userId},#{deleteTime}
-                 )
+            #{fileId},#{userId},#{deleteTime}
+        )
     </insert>
+
     <!-- 批量添加 -->
     <insert id="addDeleteList" useGeneratedKeys="true" keyProperty="deleteId">
         INSERT INTO tb_delete(
@@ -33,6 +34,7 @@
             (#{item.fileId},#{item.userId},#{item.deleteTime})
         </foreach>
     </insert>
+
     <!-- 恢复文件 -->
     <delete id="restoresDelete">
         delete from tb_delete where file_id in

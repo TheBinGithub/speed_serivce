@@ -26,9 +26,6 @@ import java.util.Date;
 @Slf4j
 public class OperationFileController {
 
-    @Value("${file-save-path}")
-    private String path;
-
     @Resource
     private FileService fileService;
 

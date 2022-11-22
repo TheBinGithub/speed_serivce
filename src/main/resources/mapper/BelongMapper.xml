@@ -26,8 +26,8 @@
         INSERT INTO tb_belong(
             belong
         ) VALUES (
-                     #{belong}
-                 )
+            #{belong}
+        )
     </insert>
 
     <!-- 修改 -->

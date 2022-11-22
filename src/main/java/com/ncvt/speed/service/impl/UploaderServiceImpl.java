@@ -1,7 +1,6 @@
 package com.ncvt.speed.service.impl;
 
 import com.ncvt.speed.entity.FileEntity;
-import com.ncvt.speed.mapper.BelongMapper;
 import com.ncvt.speed.mapper.FileMapper;
 import com.ncvt.speed.params.UploaderParams;
 import com.ncvt.speed.service.FileService;
@@ -11,15 +10,12 @@ import com.ncvt.speed.util.RecursiveDeletion;
 import com.ncvt.speed.util.Result;
 import com.ncvt.speed.util.SavePath;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 

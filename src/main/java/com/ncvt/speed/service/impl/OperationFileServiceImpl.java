@@ -12,14 +12,11 @@ import com.ncvt.speed.params.RenameParams;
 import com.ncvt.speed.service.OperationFileService;
 import com.ncvt.speed.util.Result;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -182,6 +179,7 @@ public class OperationFileServiceImpl implements OperationFileService {
     public Result addRecycler(String userId, RecyclerParams params) {
         try {
             Long timeStamp = System.currentTimeMillis();  //获取当前时间戳
+            int dfResult = -1;
             if (params.getType().equals("folder")){
                 List<FileEntity> fe = fileMapper.queryFileLikeBelongId(params.getCBelongId());
                 List<DeleteEntity> des = new ArrayList<>();
@@ -195,8 +193,8 @@ public class OperationFileServiceImpl implements OperationFileService {
                     }
                     int dResult = deleteMapper.addDeleteList(des);
                     int fResult = fileMapper.modifyFileByFileId(des);
-                    if (dResult != fe.size() || fResult != fe.size()) return Result.fail("添加delete出现未知异常！");
-                    return Result.ok("删除文件夹成功！","删除了"+fe.size()+"条");
+                    if (dResult != fe.size() || fResult != fe.size()) dfResult = -2;
+                    dfResult = fe.size();
                 }
             }
             DeleteEntity deleteEntity = new DeleteEntity();
@@ -205,8 +203,9 @@ public class OperationFileServiceImpl implements OperationFileService {
             deleteEntity.setDeleteTime(timeStamp);
             int dResult = deleteMapper.addDelete(deleteEntity);
             int fResult = fileMapper.logicalDeletionFile(params.getFileId(), deleteEntity.getDeleteId());
-            if (dResult != 1 || fResult != 1) return Result.fail(400,"添加回收站出现未知异常！");
-            return Result.ok("添加回收站成功！");
+            if (dfResult == -1) if (dResult != 1 || fResult != 1) return Result.fail(400,"添加回收站出现未知异常！");
+            if (dfResult == -2) return Result.fail("删除文件夹出现未知异常！");
+            return Result.ok("添加回收站成功！","加入了"+dfResult+"条记录");
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！",e.getMessage());

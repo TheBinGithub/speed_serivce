@@ -31,8 +31,8 @@
             share_type,
             user_name
         ) VALUES (
-                     #{fileId},#{shareUrl},#{command},#{userId},#{shareTime},#{shareType},#{userName}
-                 )
+            #{fileId},#{shareUrl},#{command},#{userId},#{shareTime},#{shareType},#{userName}
+        )
     </insert>
 
 </mapper>

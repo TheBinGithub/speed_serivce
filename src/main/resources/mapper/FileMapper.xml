@@ -35,34 +35,34 @@
     <select id="queryFileByName" resultMap="FileRMap">
         SELECT * FROM tb_file WHERE file_id=#{fileId}
     </select>
+
     <!-- 根据belongId和fileName查询 -->
     <select id="queryFileByFileName" resultMap="FileRMap">
         SELECT file_id FROM tb_file WHERE belong_id=#{belongId} and file_name=#{fileName}
     </select>
+
     <!-- 根据id和belong查询 -->
-<!--    <select id="queryFileByBelong" resultMap="FileRMap">-->
-<!--        SELECT f.belong_id,b.belong,file_name,file_type-->
-<!--        FROM tb_file as f,tb_belong as b-->
-<!--        WHERE f.belong_id=b.belong_id AND user_id=#{userId} AND f.belong_id=#{belongId}-->
-<!--    </select>-->
     <select id="queryFileByBelong" resultMap="FileRMap">
-        SELECT file_id,belong_id,folder_belong_id,file_name,file_type,upload_time,file_path
+        SELECT file_id,belong_id,folder_belong_id,file_name,file_type,upload_time,file_path,delete_id
         FROM tb_file
         WHERE belong_id=#{belongId}
     </select>
+
     <!-- 查询文件夹下的所有数据 -->
     <select id="queryFileLikeBelongId" resultMap="FileRMap">
         <bind name="belongLike" value="belongId+'%'"/>
         select file_id, user_id, belong_id
         from tb_file
-        where belong_id like #{belongLike} and belong_id=0
+        where belong_id like #{belongLike} and delete_id=0
     </select>
+
     <!-- 查询回收站的 -->
     <select id="queryD" resultMap="FileRMap">
         SELECT f.user_id,f.file_id,file_name,file_size,file_type,upload_time,d.delete_time
         FROM tb_file as f,tb_delete as d
         WHERE f.delete_id=d.delete_id AND f.user_id =#{userId} AND f.delete_id!=0 ORDER BY file_type
     </select>
+
     <!-- 批量加入回收站 -->
     <update id="modifyFileByFileId">
         UPDATE tb_file SET delete_id=
@@ -76,7 +76,8 @@
             #{item.fileId}
         </foreach>
     </update>
-    <!-- 恢复文件 -->
+
+    <!-- 回收站还原 -->
     <update id="restoresFile">
         UPDATE tb_file SET delete_id=0
         where file_id in
@@ -84,24 +85,23 @@
             #{item}
         </foreach>
     </update>
+
     <!-- 重命名 -->
     <update id="modifyFile">
         UPDATE tb_file SET file_name=#{fileName} WHERE file_id=#{fileId}
     </update>
+
     <!-- 逻辑删除 -->
     <update id="logicalDeletionFile">
         update tb_file set delete_id=#{deleteId} where file_id=#{fileId}
     </update>
-    <!-- 移动文件 -->
+
+    <!-- 文件移动 -->
     <update id="movement">
         update tb_file set belong_id=#{nBelongId} where file_id=#{fileId}
     </update>
-    <!--
-        <foreach collection="list" item="item" separator=",">
-        (#{item})
-        </foreach>
-    -->
-    <!-- 移动文件夹 -->
+
+    <!-- 文件夹移动 -->
     <update id="movementFolder">
 <!--        <bind name="cBelongId" value="cBelongId+'%'"/>-->
 <!--        update tb_file t set t.belong_id=#{nBelongId} where t.file_id in-->
@@ -119,6 +119,7 @@
             #{item.fileId}
         </foreach>
     </update>
+
     <!-- keyProperty="userId" 设置主键字段对应的实体类 -->
     <insert id="addFile" useGeneratedKeys="true">
         INSERT INTO tb_file(
@@ -134,8 +135,8 @@
             delete_id,
             folder_belong_id
         ) VALUES (
-                     #{userId},#{duYou},#{fileName},#{fileType},#{filePath},#{fileSize},#{hash},#{belongId},#{uploadTime},#{deleteId},#{folderBelongId}
-                 )
+            #{userId},#{duYou},#{fileName},#{fileType},#{filePath},#{fileSize},#{hash},#{belongId},#{uploadTime},#{deleteId},#{folderBelongId}
+        )
     </insert>
 
 </mapper>
