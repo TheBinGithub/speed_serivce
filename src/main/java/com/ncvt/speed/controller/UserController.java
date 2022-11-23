@@ -5,6 +5,8 @@ import com.ncvt.speed.entity.UserEntity;
 import com.ncvt.speed.service.UserService;
 import com.ncvt.speed.util.Result;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

@@ -50,7 +50,7 @@
 
     <!-- 容量修改 -->
     <update id="modifyUserBySpace">
-        UPDATE tb_user SET used_space+#{space} WHERE user_id=#{userId}
+        UPDATE tb_user SET used_space=used_space+#{space} WHERE user_id=#{userId}
     </update>
 
     <!-- 注销 -->
