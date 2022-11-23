@@ -28,7 +28,7 @@
 
     <!-- hash校验 -->
     <select id="queryHash" resultMap="FileRMap">
-        SELECT * FROM tb_file WHERE user_id=#{userId} AND hash=#{hash}
+        SELECT * FROM tb_file WHERE user_id=#{userId} AND hash=#{hash} limit 1
     </select>
 
     <!-- 根据id和name查询 -->

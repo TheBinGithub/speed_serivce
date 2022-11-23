@@ -1,15 +1,12 @@
 package com.ncvt.speed.service.impl;
 
-import com.ncvt.speed.entity.BelongEntity;
 import com.ncvt.speed.entity.FileEntity;
-import com.ncvt.speed.mapper.BelongMapper;
 import com.ncvt.speed.mapper.FileMapper;
 import com.ncvt.speed.service.FileService;
 import com.ncvt.speed.util.Result;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +15,6 @@ public class FileServiceImpl implements FileService {
 
     @Resource
     private FileMapper fileMapper;
-
 
     // 根据用户id查询文件位置
     @Override

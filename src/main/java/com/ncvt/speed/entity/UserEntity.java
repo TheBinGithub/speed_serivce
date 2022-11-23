@@ -5,9 +5,11 @@ import lombok.Data;
 @Data
 public class UserEntity {
 
-    private Integer userId;
-    private String name;
-    private Integer allSpace;
-    private Integer userSpace;
+    private String userId;
+    private String nickname;
+    private String allSpace;
+    private String usedSpace;
+    private String secondPassword;
+    private String sSalt;
 
 }

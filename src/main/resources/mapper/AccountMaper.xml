@@ -29,4 +29,19 @@
         )
     </insert>
 
+    <!-- 用户名修改 -->
+    <update id="updateUserName">
+        UPDATE tb_account SET user_name=#{userName} WHERE user_id=#{userId}
+    </update>
+
+    <!-- 查询登录密码 -->
+    <select id="queryAccountByPassword" resultMap="UserRMap">
+        SELECT password,salt FROM tb_account WHERE user_id=#{userId}
+    </select>
+
+    <!-- 登录密码修改 -->
+    <update id="updateUserByPassword">
+        UPDATE tb_user SET passwrod=#{password} WHERE user_id=#{userId}
+    </update>
+
 </mapper>

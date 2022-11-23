@@ -10,9 +10,18 @@ public interface UserMapper {
     // 添加
     Integer addUser(UserEntity user);
 
-    // 删除
+    // 注销
     Integer deleteUser(String userId);
 
-    // 修改
-    Integer updateUser(UserEntity user);
+    // 昵称修改
+    Integer updateNickname(String nickname, String userId);
+
+    // 查询二级密码
+    UserEntity querySecondPassword(String userId);
+
+    // 二级密码修改
+    Integer updateSecondPassword(String secondPassword, String userId);
+
+    // 容量修改
+    Integer modifyUserBySpace(String userId, Integer space);
 }

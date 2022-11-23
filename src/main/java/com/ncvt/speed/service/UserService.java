@@ -14,7 +14,16 @@ public interface UserService {
     // 删除
     Result deleteUser(String userId);
 
-    // 修改
-    Result updateUser(UserEntity user);
+    // 修改昵称
+    Result updateNickname(String userId, String nickname, String userName);
+
+    // 修改登录密码
+    Result updatePassword(String oldPassword, String newPassword, String userId);
+
+    // 设置二级密码
+    Result addSepasswrod(String sePassword, String userId);
+
+    // 修改二级密码
+    Result updateSecondPassword(String oldPassword, String newPassword, String userId);
 
 }

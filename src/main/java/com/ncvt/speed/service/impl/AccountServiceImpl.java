@@ -1,19 +1,14 @@
 package com.ncvt.speed.service.impl;
 
 import com.ncvt.speed.entity.AccountEntity;
-import com.ncvt.speed.entity.BelongEntity;
-import com.ncvt.speed.entity.FileEntity;
+import com.ncvt.speed.entity.UserEntity;
 import com.ncvt.speed.mapper.AccountMapper;
-import com.ncvt.speed.mapper.BelongMapper;
-import com.ncvt.speed.mapper.FileMapper;
+import com.ncvt.speed.mapper.UserMapper;
 import com.ncvt.speed.params.AccountParams;
 import com.ncvt.speed.service.AccountService;
-import com.ncvt.speed.service.FileService;
-import com.ncvt.speed.service.OperationFileService;
 import com.ncvt.speed.util.Md5;
 import com.ncvt.speed.util.Result;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
 import java.util.UUID;
@@ -23,6 +18,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Resource
     private AccountMapper accountMapper;
+
+    @Resource
+    private UserMapper userMapper;
 
     // 查询单个
     @Override
@@ -43,22 +41,20 @@ public class AccountServiceImpl implements AccountService {
         try {
             if (accountParams.getUserName() ==null || accountParams.getPassword() == null) return Result.fail(400,"账号或密码不能为空");
             if(accountMapper.queryOneAccount(accountParams.getUserName()) != null) return Result.fail(400,"用户名已存在！");
-
-//            BelongEntity belong = new BelongEntity();
-//            belong.setBelong(accountParams.getUserId());
-//
-//            int result1 = belongMapper.addBelong(belong);
-//            if (result1 != 1) return Result.fail("添加belong数据出现未知异常！");
-//            System.out.println(belong.getBelongId());
-//            accountParams.setBelongId(belong.getBelongId()+"\\");
-
             String salt = UUID.randomUUID().toString().toUpperCase();
             accountParams.setSalt(salt);
             accountParams.setPassword(Md5.getMd5Password(accountParams.getPassword(),salt));
-            int result = accountMapper.accountAddition(accountParams);
-            if (result != 1) return Result.fail("注册过程出现未知异常！");
-
-            return Result.ok("注册成功！",accountParams);
+            int aResult = accountMapper.accountAddition(accountParams);
+            UserEntity user = new UserEntity();
+            user.setNickname(accountParams.getUserName());
+            user.setUsedSpace("0");
+            user.setAllSpace("10737418240");
+            user.setSecondPassword("");
+            user.setSSalt("");
+            user.setUserId(accountParams.getUserId());
+            int uResul = userMapper.addUser(user);
+            if (aResult != 1 || uResul != 1) return Result.fail("注册过程出现未知异常！");
+            return Result.ok("注册成功！", accountParams);
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！");

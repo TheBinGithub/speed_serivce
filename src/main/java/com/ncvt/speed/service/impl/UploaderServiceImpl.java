@@ -23,12 +23,6 @@ import java.util.UUID;
 @Slf4j
 public class UploaderServiceImpl implements UploaderService {
 
-//    @Value("${file-save-path}")
-//    private String path;
-//
-//    @Value("${file-temp-path}")
-//    private String temppath;
-
     private final String path = SavePath.savePath();
 
     private final String temppath = SavePath.tempPath();

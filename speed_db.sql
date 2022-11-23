@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80021
 File Encoding         : 65001
 
-Date: 2022-11-22 20:13:48
+Date: 2022-11-23 17:14:05
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,7 +31,6 @@ CREATE TABLE `tb_account` (
 -- ----------------------------
 -- Records of tb_account
 -- ----------------------------
-INSERT INTO `tb_account` VALUES ('2', '7000C191831EB2A37721452568982303', 'admin', '8A3E7194-0047-4A5D-9264-107D6C724CBF', '');
 
 -- ----------------------------
 -- Table structure for tb_belong
@@ -49,7 +48,6 @@ CREATE TABLE `tb_belong` (
 INSERT INTO `tb_belong` VALUES ('30', '我是30在根目录');
 INSERT INTO `tb_belong` VALUES ('31', '我是31在30里面');
 INSERT INTO `tb_belong` VALUES ('32', '建我是32在31里面');
-INSERT INTO `tb_belong` VALUES ('33', '建');
 
 -- ----------------------------
 -- Table structure for tb_collect
@@ -60,7 +58,7 @@ CREATE TABLE `tb_collect` (
   `file_id` varchar(255) DEFAULT NULL,
   `user_id` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`collect_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_collect
@@ -76,7 +74,7 @@ CREATE TABLE `tb_delete` (
   `file_id` int DEFAULT NULL,
   `delete_time` bigint DEFAULT NULL,
   PRIMARY KEY (`delete_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_delete
@@ -100,15 +98,14 @@ CREATE TABLE `tb_file` (
   `du_you` int DEFAULT NULL,
   `delete_id` int DEFAULT NULL COMMENT '逻辑删除id(默认0不删除，其他则为绑定回收站表)',
   PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_file
 -- ----------------------------
-INSERT INTO `tb_file` VALUES ('100', '2', null, '37@-.@38@-.@', '30', '我是30在根目录', 'folder', '0', '2022-11-16 16:25', null, '0', '0');
-INSERT INTO `tb_file` VALUES ('101', '2', null, '37@-.@38@-.@30@-.@', '31', '我是31在30里面', 'folder', '0', '2022-11-16 16:53', null, '0', '0');
-INSERT INTO `tb_file` VALUES ('103', '2', null, '37@-.@38@-.@30@-.@31@-.@', '32', '我是32在31里面', 'folder', '0', '2022-11-16 16:29', null, '0', '0');
-INSERT INTO `tb_file` VALUES ('105', '2', null, '', '33', '建', 'folder', '0', '2022-11-16 17:48', null, '0', '0');
+INSERT INTO `tb_file` VALUES ('100', '2', null, '', '30', '我是30在根目录', 'folder', '0', '2022-11-16 16:25', null, '0', '0');
+INSERT INTO `tb_file` VALUES ('101', '2', null, '30@-.@', '31', '我是31在30里面', 'folder', '0', '2022-11-16 16:53', null, '0', '0');
+INSERT INTO `tb_file` VALUES ('103', '2', null, '30@-.@31@-.@', '32', '我是32在31里面', 'folder', '0', '2022-11-16 16:29', null, '0', '0');
 
 -- ----------------------------
 -- Table structure for tb_share
@@ -136,9 +133,12 @@ CREATE TABLE `tb_share` (
 DROP TABLE IF EXISTS `tb_user`;
 CREATE TABLE `tb_user` (
   `user_id` bigint NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `nickname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `all_space` int NOT NULL,
   `used_space` int NOT NULL,
+  `
+second_password` varchar(255) DEFAULT NULL,
+  `s_salt` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

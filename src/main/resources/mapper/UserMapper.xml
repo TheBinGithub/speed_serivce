@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ncvt.speed.mapper.UserMapper">
+
+    <resultMap id="UserRMap" type="com.ncvt.speed.entity.UserEntity">
+        <result column="user_id" property="userId"></result>
+        <result column="nickname" property="nickname"></result>
+        <result column="all_space" property="allSpace"></result>
+        <result column="used_space" property="usedSpace"></result>
+        <result column="second_password" property="secondPassword"></result>
+        <result column="s_salt" property="sSalt"></result>
+    </resultMap>
+
+    <!-- 查询 -->
+    <select id="queryUser" resultMap="UserRMap">
+        SELECT * FROM tb_user WHERE user_id=#{userId}
+    </select>
+
+    <!-- 添加 -->
+    <insert id="addUser" useGeneratedKeys="true">
+        INSERT INTO tb_user(
+            user_id,
+            nickname,
+            all_space,
+            used_space,
+            second_password,
+            s_salt
+        ) VALUES (
+            #{userId},#{nickname},#{allSpace},#{usedSpace},#{secondPassword},#{sSalt}
+        )
+    </insert>
+
+    <!-- 昵称修改 -->
+    <update id="updateNickname">
+        UPDATE tb_user SET nickname=#{nickname} WHERE user_id=#{userId}
+    </update>
+
+    <!-- 查询二级密码 -->
+    <select id="querySecondPassword" resultMap="UserRMap">
+        SELECT second_password,s_salt FROM tb_user WHERE user_id=#{userId}
+    </select>
+
+    <!-- 二级密码修改 -->
+    <update id="updateSecondPassword">
+        UPDATE tb_user SET second_password=#{secondPassword} WHERE user_id=#{userId}
+    </update>
+
+    <!-- 容量修改 -->
+    <update id="modifyUserBySpace">
+        UPDATE tb_user SET used_space+#{space} WHERE user_id=#{userId}
+    </update>
+
+    <!-- 注销 -->
+    <delete id="deleteUser">
+        delete from tb_user where user_id=#{userId}
+    </delete>
+
+</mapper>

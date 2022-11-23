@@ -3,7 +3,6 @@ package com.ncvt.speed.service.impl;
 import com.ncvt.speed.entity.BelongEntity;
 import com.ncvt.speed.mapper.BelongMapper;
 import com.ncvt.speed.service.BelongService;
-import com.ncvt.speed.util.Result;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
