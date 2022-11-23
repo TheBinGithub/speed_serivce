@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80021
 File Encoding         : 65001
 
-Date: 2022-11-23 17:14:05
+Date: 2022-11-23 18:27:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,11 +26,12 @@ CREATE TABLE `tb_account` (
   `salt` varchar(255) DEFAULT NULL,
   `belong_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1575320222104588300 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1575320222104588307 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_account
 -- ----------------------------
+INSERT INTO `tb_account` VALUES ('2', 'A376952642ACAFDEE18A417917EC2C0B', 'admin', '7591931E-EFE9-4D22-A149-273C446ACC73', '');
 
 -- ----------------------------
 -- Table structure for tb_belong
@@ -98,7 +99,7 @@ CREATE TABLE `tb_file` (
   `du_you` int DEFAULT NULL,
   `delete_id` int DEFAULT NULL COMMENT '逻辑删除id(默认0不删除，其他则为绑定回收站表)',
   PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_file
@@ -134,14 +135,14 @@ DROP TABLE IF EXISTS `tb_user`;
 CREATE TABLE `tb_user` (
   `user_id` bigint NOT NULL AUTO_INCREMENT,
   `nickname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `all_space` int NOT NULL,
-  `used_space` int NOT NULL,
-  `
-second_password` varchar(255) DEFAULT NULL,
+  `all_space` bigint NOT NULL,
+  `used_space` bigint NOT NULL,
+  `second_password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `s_salt` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1575320222104588307 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_user
 -- ----------------------------
+INSERT INTO `tb_user` VALUES ('2', 'admin', '10737418240', '47196', '', '');

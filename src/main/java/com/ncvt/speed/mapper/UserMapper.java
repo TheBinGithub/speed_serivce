@@ -23,5 +23,5 @@ public interface UserMapper {
     Integer updateSecondPassword(String secondPassword, String userId);
 
     // 容量修改
-    Integer modifyUserBySpace(String userId, Integer space);
+    Integer modifyUserBySpace(String userId, Long space);
 }

@@ -2,6 +2,7 @@ package com.ncvt.speed.service.impl;
 
 import com.ncvt.speed.entity.FileEntity;
 import com.ncvt.speed.mapper.FileMapper;
+import com.ncvt.speed.mapper.UserMapper;
 import com.ncvt.speed.params.UploaderParams;
 import com.ncvt.speed.service.FileService;
 import com.ncvt.speed.service.UploaderService;
@@ -32,6 +33,9 @@ public class UploaderServiceImpl implements UploaderService {
 
     @Resource
     private FileMapper fileMapper;
+
+    @Resource
+    private UserMapper userMapper;
 
     // 分片上传
     @Override
@@ -133,6 +137,9 @@ public class UploaderServiceImpl implements UploaderService {
                     RecursiveDeletion.deleteFile(temppath1);
                     boolean result = temppath1.delete();
                     if (!result) return Result.fail("删除临时目录出现异常！");
+                    // 修改容量
+                    int uResult = userMapper.modifyUserBySpace(id,endFile.length());
+                    if (uResult != 1) return Result.fail("修改容量出现未知异常！");
                     // 数据库添加记录
                     fileEntity.setFilePath(id+"@-.@"+endFile.getName());
                     fileEntity.setBelongId(fileEntity.getBelongId());
