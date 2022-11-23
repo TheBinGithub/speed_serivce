@@ -20,6 +20,9 @@ public interface UserService {
     // 修改登录密码
     Result updatePassword(String oldPassword, String newPassword, String userId);
 
+    // 二级密码校验
+    Result CheckSePassword(String sePassword, String userId);
+
     // 设置二级密码
     Result addSepasswrod(String sePassword, String userId);
 

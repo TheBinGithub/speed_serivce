@@ -89,6 +89,19 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    // 二级密码校验
+    @Override
+    public Result CheckSePassword(String sePassword, String userId) {
+        try {
+            UserEntity user = userMapper.querySecondPassword(userId);
+            if (Md5.getMd5Password(sePassword,user.getSSalt()).equals(user.getSecondPassword())) return Result.ok("密码正确！");
+            return Result.fail(300,"密码错误！");
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.fail("服务端异常！",e.getMessage());
+        }
+    }
+
     // 设置二级密码
     @Override
     public Result addSepasswrod(String sePassword, String userId) {

@@ -33,6 +33,13 @@ public class UserController {
         return userService.updateNickname(userId, nickname, userName);
     }
 
+    @ApiOperation(value = "校验二级密码")
+    @GetMapping("/sePassword/{userId}")
+    public Result CheckSePassword(@PathVariable String userId, @RequestBody String sePassword){
+        log.info("CheckSePassword: " + userId);
+        return userService.CheckSePassword(sePassword, userId);
+    }
+
     @ApiOperation(value = "设置二级密码")
     @PostMapping("/sePassword/{userId}")
     public Result addUserBysePassword(@PathVariable String userId, @RequestBody String sePassword){
