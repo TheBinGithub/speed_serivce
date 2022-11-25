@@ -60,11 +60,10 @@ public class UserServiceImpl implements UserService {
 
     // 用户名称和昵称修改
     @Override
-    public Result updateNickname(String userId, String nickname, String userName) {
+    public Result updateNickname(String userId, String nickname) {
         try {
             int uResult = userMapper.updateNickname(nickname, userId);
-            int aResult = accountMapper.updateUserName(userName, userId);
-            if (uResult != 1 || aResult != 1) return Result.fail("修改过程出现未知异常！");
+            if (uResult != 1) return Result.fail("修改过程出现未知异常！");
             return Result.ok("修改成功！");
         }catch (Exception e){
             e.printStackTrace();

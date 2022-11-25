@@ -28,11 +28,11 @@ public class UserController {
         return userService.queryUser(userId);
     }
 
-    @ApiOperation(value = "修改用户名和昵称")
+    @ApiOperation(value = "修改昵称")
     @PutMapping("/name/{userId}")
-    public Result updateUserByName(@PathVariable String userId, @RequestBody String nickname, @RequestBody String userName){
+    public Result updateUserByName(@PathVariable String userId, @RequestBody String nickname){
         log.info("updateUserByName: " + userId);
-        return userService.updateNickname(userId, nickname, userName);
+        return userService.updateNickname(userId, nickname);
     }
 
     @ApiOperation(value = "校验二级密码")

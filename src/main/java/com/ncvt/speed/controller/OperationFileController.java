@@ -52,13 +52,6 @@ public class OperationFileController {
         return operationFileService.rename(userId, renameParams);
     }
 
-//    @ApiOperation(value = "目录(文件)移动")
-//    @PutMapping("/movement/{userId}")
-//    public Result movement(@PathVariable String userId, @RequestBody MovementParams movementParams){
-//        log.info("movement: " + movementParams.getFileId());
-//        return operationFileService.movement(movementParams);
-//    }
-
     @ApiOperation(value = "目录(文件)移动")
     @PutMapping("/movement/{userId}")
     public Result movement(@PathVariable String userId, @RequestBody MovementParams movementParams){

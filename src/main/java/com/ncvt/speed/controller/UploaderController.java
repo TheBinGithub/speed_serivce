@@ -55,7 +55,7 @@ public class UploaderController {
         return uploaderService.endUpload(id, uploaderParams);
     }
 
-    @ApiOperation(value = "hast校验")
+    @ApiOperation(value = "hash校验")
     @GetMapping("/hash/{userId}/{hash}")
     public Result hashCheck(@PathVariable String userId, @PathVariable String hash){
         log.info("hashCheck: " + hash);

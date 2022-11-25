@@ -114,7 +114,7 @@ public class UploaderServiceImpl implements UploaderService {
 //                        while (!iFile.exists()){
 //                            Thread.sleep(1000);
 //                        }
-                        // 捕获一下，在try()里可传入流
+                        // 捕获一下, 在try()里可传入流
                         try(
                             BufferedOutputStream endBos = new BufferedOutputStream(new FileOutputStream(endFile,true));
                             BufferedInputStream endBis = new BufferedInputStream(new FileInputStream(iFile))
@@ -166,16 +166,12 @@ public class UploaderServiceImpl implements UploaderService {
             File file = new File(temppath+id,uploaderParams.getOriginName());
             RecursiveDeletion.deleteFile(file);
             boolean result =  file.delete();
-            if (file.exists() && result){
-                return Result.fail("删除临时文件出现未知异常！");
-            }else {
-                return Result.ok("取消成功！");
-            }
+            if (file.exists() && result) return Result.fail("删除临时文件出现未知异常！");
+            return Result.ok("取消成功！");
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("取消上传出现未知异常！",e.getMessage());
         }
     }
-
 
 }

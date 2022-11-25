@@ -15,7 +15,7 @@ public interface UserService {
     Result deleteUser(String userId);
 
     // 修改昵称
-    Result updateNickname(String userId, String nickname, String userName);
+    Result updateNickname(String userId, String nickname);
 
     // 修改登录密码
     Result updatePassword(String oldPassword, String newPassword, String userId);
