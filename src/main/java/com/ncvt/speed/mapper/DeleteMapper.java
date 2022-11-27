@@ -19,4 +19,8 @@ public interface DeleteMapper {
 
     List<DeleteEntity> queryRecyclerByUserId(String userId);
 
+    // 根据deleteId批量删除
+    Integer deleteById(List<String> dList);
+
+
 }

@@ -1,5 +1,6 @@
 package com.ncvt.speed.controller;
 
+import com.ncvt.speed.params.CompletelyDeleteParams;
 import com.ncvt.speed.params.RecyclerParams;
 import com.ncvt.speed.params.RestoresParams;
 import com.ncvt.speed.service.OperationFileService;
@@ -40,7 +41,11 @@ public class DeleteController {
         return operationFileService.restores(params.getFileIds());
     }
 
-
-
+    @ApiOperation(value = "彻底删除")
+    @DeleteMapping("/recycler/{userId}")
+    public Result deleteRestores(@PathVariable String userId, @RequestBody CompletelyDeleteParams params){
+        log.info("deleteRestores:"+params.getDList());
+        return operationFileService.deleteRestores(params);
+    }
 
 }

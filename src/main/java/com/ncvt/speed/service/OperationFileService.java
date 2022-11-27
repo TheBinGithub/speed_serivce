@@ -1,9 +1,6 @@
 package com.ncvt.speed.service;
 
-import com.ncvt.speed.params.MovementParams;
-import com.ncvt.speed.params.RecyclerJson;
-import com.ncvt.speed.params.RecyclerParams;
-import com.ncvt.speed.params.RenameParams;
+import com.ncvt.speed.params.*;
 import com.ncvt.speed.util.Result;
 
 import java.util.List;
@@ -30,5 +27,8 @@ public interface OperationFileService {
 
     // 回收站还原
     Result restores(List<String> fileId);
+
+    // 彻底删除
+    Result deleteRestores(CompletelyDeleteParams params);
 
 }

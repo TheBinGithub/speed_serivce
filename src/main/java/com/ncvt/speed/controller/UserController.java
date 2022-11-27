@@ -2,6 +2,7 @@ package com.ncvt.speed.controller;
 
 
 import com.ncvt.speed.entity.UserEntity;
+import com.ncvt.speed.params.NicknameParams;
 import com.ncvt.speed.service.UserService;
 import com.ncvt.speed.util.Result;
 import io.swagger.annotations.Api;
@@ -30,14 +31,14 @@ public class UserController {
 
     @ApiOperation(value = "修改昵称")
     @PutMapping("/name/{userId}")
-    public Result updateUserByName(@PathVariable String userId, @RequestBody String nickname){
+    public Result updateUserByName(@PathVariable String userId, @RequestBody NicknameParams params){
         log.info("updateUserByName: " + userId);
-        return userService.updateNickname(userId, nickname);
+        return userService.updateNickname(userId, params.getNickname());
     }
 
     @ApiOperation(value = "校验二级密码")
-    @GetMapping("/sePassword/{userId}")
-    public Result CheckSePassword(@PathVariable String userId, @RequestBody String sePassword){
+    @GetMapping("/sePassword/{userId}/{sePassword}")
+    public Result CheckSePassword(@PathVariable String userId, @PathVariable String sePassword){
         log.info("CheckSePassword: " + userId);
         return userService.CheckSePassword(sePassword, userId);
     }

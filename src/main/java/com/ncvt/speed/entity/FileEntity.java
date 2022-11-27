@@ -21,7 +21,7 @@ public class FileEntity {
     private String hash;
     private String belongId;
     private String uploadTime;
-    private Integer deleteId;
+    private String deleteId;
     private String folderBelongId;
 
     // 非数据库字段
@@ -48,7 +48,7 @@ public class FileEntity {
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));      // 时间戳转换成时间
         fileEntity.setUploadTime(sd);
-        fileEntity.setDeleteId(0);
+        fileEntity.setDeleteId("0");
         return fileEntity;
     }
 

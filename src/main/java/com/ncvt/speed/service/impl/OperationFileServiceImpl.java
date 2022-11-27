@@ -6,10 +6,7 @@ import com.ncvt.speed.entity.FileEntity;
 import com.ncvt.speed.mapper.BelongMapper;
 import com.ncvt.speed.mapper.DeleteMapper;
 import com.ncvt.speed.mapper.FileMapper;
-import com.ncvt.speed.params.MovementJson;
-import com.ncvt.speed.params.MovementParams;
-import com.ncvt.speed.params.RecyclerJson;
-import com.ncvt.speed.params.RenameParams;
+import com.ncvt.speed.params.*;
 import com.ncvt.speed.service.OperationFileService;
 import com.ncvt.speed.util.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -107,7 +105,7 @@ public class OperationFileServiceImpl implements OperationFileService {
             fileEntity.setDuYou(0);
             fileEntity.setFileType("folder");
             fileEntity.setFileSize(0L);
-            fileEntity.setDeleteId(0);
+            fileEntity.setDeleteId("0");
             Long timeStamp = System.currentTimeMillis();  //获取当前时间戳
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:ss");
             String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));  // 时间戳转换成时间
@@ -227,6 +225,25 @@ public class OperationFileServiceImpl implements OperationFileService {
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！",e.getMessage());
+        }
+    }
+
+    // 彻底删除
+    @Override
+    public Result deleteRestores(CompletelyDeleteParams params) {
+        try {
+            int fResult = fileMapper.completelyDelete(params.getFList());
+            if (fResult != params.getFList().size()) return Result.fail("彻底删除f出现未知异常！");
+            // 去重
+            List<String> dLists = params.getDList().stream().distinct().collect(Collectors.toList());
+            // 删0
+            boolean d = dLists.remove("0");
+            int dResult = deleteMapper.deleteById(dLists);
+            if (!d || dResult != dLists.size()) return Result.fail("彻底删除d出现未知异常！");
+            return Result.ok("彻底删除成功！","修改了"+fResult+"条记录");
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.fail("服务端异常！");
         }
     }
 }

@@ -42,7 +42,7 @@ public class UploaderServiceImpl implements UploaderService {
     public Result upload(String id, FileEntity fileEntity, MultipartFile MFile, HttpServletRequest req,Long s) {
 
         // 判断是否秒传
-        List<FileEntity> hashs = fileMapper.queryHash(id,fileEntity.getHash());
+        List<FileEntity> hashs = fileMapper.queryHash(fileEntity.getHash());
         if (hashs.size() != 0) {
             hashs.get(0).setBelongId(fileEntity.getBelongId());
             hashs.get(0).setDeleteId(0);

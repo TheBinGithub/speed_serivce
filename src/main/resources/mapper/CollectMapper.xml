@@ -11,10 +11,6 @@
         <result column="user_id" property="userId"></result>
     </resultMap>
 
-    <select id="queryOneAccount" resultMap="CollectRMap">
-        SELECT * FROM tb_account WHERE user_name=#{userName}
-    </select>
-
     <!-- 批量添加收藏 -->
     <insert id="addCollect" useGeneratedKeys="true" keyProperty="collectId">
         INSERT INTO tb_collect(

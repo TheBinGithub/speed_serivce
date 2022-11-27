@@ -59,7 +59,7 @@ public class UploaderController {
     @GetMapping("/hash/{userId}/{hash}")
     public Result hashCheck(@PathVariable String userId, @PathVariable String hash){
         log.info("hashCheck: " + hash);
-        return fileService.hashCheck(userId, hash);
+        return fileService.hashCheck(hash);
     }
 
 }

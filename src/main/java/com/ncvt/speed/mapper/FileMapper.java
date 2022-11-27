@@ -5,6 +5,7 @@ import com.ncvt.speed.entity.DeleteEntity;
 import com.ncvt.speed.entity.FileEntity;
 import com.ncvt.speed.util.Result;
 
+import java.io.File;
 import java.util.List;
 
 public interface FileMapper {
@@ -13,7 +14,7 @@ public interface FileMapper {
     List<FileEntity> queryFile(String userId);
 
     // 查询hash
-    List<FileEntity> queryHash(String userId, String hash);
+    List<FileEntity> queryHash(String hash);
 
     // 根据id和fileName查询
     FileEntity queryFileByName(String fileId,String userId, String fileName);
@@ -30,7 +31,7 @@ public interface FileMapper {
     // 修改记录
     Integer modifyFile(FileEntity fileEntity);
 
-    // 查询回收站的
+    // 查询用户回收站
     List<FileEntity> queryD(String userId);
 
     // 根据fileId批量修改(批量逻辑删除)
@@ -62,6 +63,15 @@ public interface FileMapper {
 
     // 修改
     Integer updateFile(FileEntity file);
+
+    // 查询回收站所有数据
+    List<FileEntity> queryAllDelete(Long time);
+
+    // 根据fileId批量删除
+    Integer deleteFileById(List<String> idList);
+
+    // 根据fileId批量彻底逻辑删除
+    Integer completelyDelete(List<String> fileIdList);
 
 
 }

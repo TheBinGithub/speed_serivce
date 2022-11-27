@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    // 用户名称和昵称修改
+    // 昵称修改
     @Override
     public Result updateNickname(String userId, String nickname) {
         try {
@@ -131,6 +131,5 @@ public class UserServiceImpl implements UserService {
             return Result.fail("服务端异常！",e.getMessage());
         }
     }
-
 
 }

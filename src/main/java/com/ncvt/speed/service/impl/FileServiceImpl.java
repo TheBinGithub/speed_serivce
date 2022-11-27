@@ -47,9 +47,9 @@ public class FileServiceImpl implements FileService {
 
     // hash校验
     @Override
-    public Result hashCheck(String userId, String hash) {
+    public Result hashCheck(String hash) {
         try {
-            List<FileEntity> lists = fileMapper.queryHash(userId, hash);
+            List<FileEntity> lists = fileMapper.queryHash(hash);
             if (lists.size() == 0) return Result.ok(404,"无结果");
             return Result.ok("查询成功！",lists);
         }catch (Exception e){

@@ -21,14 +21,14 @@
     </resultMap>
 
     <select id="queryFile" resultMap="FileRMap">
-        SELECT file_path,user_id,belong_id,file_id,file_name,file_size,file_type,upload_time,folder_belong_id
+        SELECT file_path,user_id,belong_id,file_id,file_name,file_size,file_type,upload_time,folder_belong_id,delete_id
         FROM tb_file
         WHERE user_id =#{userId} AND delete_id=0 and du_you=0 ORDER BY file_type
     </select>
 
     <!-- hash校验 -->
     <select id="queryHash" resultMap="FileRMap">
-        SELECT * FROM tb_file WHERE user_id=#{userId} AND hash=#{hash} limit 1
+        SELECT * FROM tb_file WHERE hash=#{hash} limit 2
     </select>
 
     <!-- 根据id和name查询 -->
@@ -58,7 +58,7 @@
 
     <!-- 查询回收站的 -->
     <select id="queryD" resultMap="FileRMap">
-        SELECT f.user_id,f.file_id,file_name,file_size,file_type,upload_time,d.delete_time
+        SELECT f.user_id,f.file_id,f.file_name,f.file_size,f.file_type,f.upload_time,d.delete_time,f.delete_id
         FROM tb_file as f,tb_delete as d
         WHERE f.delete_id=d.delete_id AND f.user_id =#{userId} AND f.delete_id!=0 ORDER BY file_type
     </select>
@@ -137,6 +137,30 @@
     <!-- 移出收藏 -->
     <update id="modifyFileByDuyouDelete">
         UPDATE tb_file SET du_you=0
+        where file_id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+
+    <!-- 查询回收站过期的数据 -->
+    <select id="queryAllDelete" resultMap="FileRMap">
+        SELECT f.user_id,f.file_id,d.delete_time,f.hash,f.file_path
+        FROM tb_file as f,tb_delete as d
+        WHERE f.delete_id=d.delete_id AND delete_time - #{time} <![CDATA[<]]> 604800000
+    </select>
+
+    <!-- 根据file_id批量删除 -->
+    <delete id="deleteFileById">
+        delete from tb_file where file_id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!-- 根据file_id批量彻底逻辑删除 -->
+    <update id="completelyDelete">
+        UPDATE tb_file SET delete_id=1
         where file_id in
         <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
             #{item}

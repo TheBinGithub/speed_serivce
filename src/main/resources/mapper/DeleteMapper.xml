@@ -51,4 +51,12 @@
         SELECT * FROM tb_delete WHERE user_id=#{userId}
     </select>
 
+    <!-- 根据delete_id批量删除 -->
+    <delete id="deleteById">
+        delete from tb_delete where delete_id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
 </mapper>
