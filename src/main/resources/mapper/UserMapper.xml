@@ -16,7 +16,8 @@
 
     <!-- 查询 -->
     <select id="queryUser" resultMap="UserRMap">
-        SELECT * FROM tb_user WHERE user_id=#{userId}
+        SELECT user_id,nickname,all_space,used_space,second_password,s_salt
+        FROM tb_user WHERE user_id=#{userId}
     </select>
 
     <!-- 添加 -->

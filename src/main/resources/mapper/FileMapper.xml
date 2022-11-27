@@ -28,12 +28,14 @@
 
     <!-- hash校验 -->
     <select id="queryHash" resultMap="FileRMap">
-        SELECT * FROM tb_file WHERE hash=#{hash} limit 2
+        SELECT file_id,user_id,file_path,belong_id,folder_belong_id,file_name,file_type,file_size,upload_time,hash,du_you,delete_id
+        FROM tb_file WHERE hash=#{hash} limit 2
     </select>
 
     <!-- 根据id和name查询 -->
     <select id="queryFileByName" resultMap="FileRMap">
-        SELECT * FROM tb_file WHERE file_id=#{fileId}
+        SELECT file_id,user_id,file_path,belong_id,folder_belong_id,file_name,file_type,file_size,upload_time,hash,du_you,delete_id
+        FROM tb_file WHERE file_id=#{fileId}
     </select>
 
     <!-- 根据belongId和fileName查询 -->
@@ -131,7 +133,8 @@
 
     <!-- 查询收藏 -->
     <select id="queryFileByDuyou" resultMap="FileRMap">
-        SELECT * FROM tb_file WHERE user_id=#{userId} and du_you!=0 ORDER BY file_type
+        SELECT file_id,user_id,file_path,belong_id,folder_belong_id,file_name,file_type,file_size,upload_time,hash,du_you,delete_id
+        FROM tb_file WHERE user_id=#{userId} and du_you!=0 ORDER BY file_type
     </select>
 
     <!-- 移出收藏 -->

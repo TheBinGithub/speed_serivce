@@ -12,12 +12,12 @@
 
     <!-- id查询 -->
     <select id="queryBelongById" resultMap="BelongRMap">
-        SELECT * FROM tb_belong WHERE belong_id=#{belongId}
+        SELECT belong_id,belong FROM tb_belong WHERE belong_id=#{belongId}
     </select>
 
     <!-- belong查询 -->
     <select id="queryBelongByBelong" resultMap="BelongRMap">
-        SELECT * FROM tb_belong WHERE belong=#{belong}
+        SELECT belong_id,belong FROM tb_belong WHERE belong=#{belong}
     </select>
 
     <!-- keyProperty="userId" 把自增的主键返回到传入的参数类的属性 -->

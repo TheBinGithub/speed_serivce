@@ -17,7 +17,8 @@
     </resultMap>
 
     <select id="queryShareByUrl" resultMap="ShareRMap">
-        SELECT * FROM tb_share WHERE share_url=#{url}
+        SELECT share_id,file_id,share_url,command,user_id,share_time,share_type,user_name
+        FROM tb_share WHERE share_url=#{url}
     </select>
 
     <!-- keyProperty="userId" 设置主键字段对应的实体类 -->

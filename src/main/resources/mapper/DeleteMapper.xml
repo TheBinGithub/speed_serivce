@@ -48,7 +48,8 @@
     </delete>
 
     <select id="queryRecycler" resultMap="DeleteRMap">
-        SELECT * FROM tb_delete WHERE user_id=#{userId}
+        SELECT delete_id,file_id,user_id,delete_time
+        FROM tb_delete WHERE user_id=#{userId}
     </select>
 
     <!-- 根据delete_id批量删除 -->

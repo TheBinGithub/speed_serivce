@@ -14,7 +14,8 @@
     </resultMap>
 
     <select id="queryOneAccount" resultMap="UserRMap">
-        SELECT * FROM tb_account WHERE user_name=#{userName}
+        SELECT user_id,user_name,password,salt,belong_id
+        FROM tb_account WHERE user_name=#{userName}
     </select>
 
     <!-- keyProperty="userId" 设置主键字段对应的实体类 -->
