@@ -147,7 +147,7 @@
     <select id="queryAllDelete" resultMap="FileRMap">
         SELECT f.user_id,f.file_id,d.delete_time,f.hash,f.file_path
         FROM tb_file as f,tb_delete as d
-        WHERE f.delete_id=d.delete_id AND delete_time - #{time} <![CDATA[<]]> 604800000
+        WHERE f.delete_id=d.delete_id AND d.delete_time - #{time} <![CDATA[<]]> 604800000
     </select>
 
     <!-- 根据file_id批量删除 -->
@@ -166,6 +166,11 @@
             #{item}
         </foreach>
     </update>
+
+    <!-- 查询彻底删除的数据 -->
+    <select id="queryFileByD" resultMap="FileRMap">
+        SELECT file_id,file_path FROM tb_file WHERE delete_id=1
+    </select>
 
     <!-- keyProperty="userId" 设置主键字段对应的实体类 -->
     <insert id="addFile" useGeneratedKeys="true">

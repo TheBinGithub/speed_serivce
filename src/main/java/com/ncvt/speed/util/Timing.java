@@ -27,6 +27,8 @@ public class Timing {
 
     private static String separator = File.separator;  // 获取文件名称分隔符, win \ linux /
 
+    private String savePath = SavePath.savePath();
+
     @Scheduled(cron = "0 0 3 * * ?")
 //    @Scheduled(cron = "0/5 * * * * *")
     public void timingDelete(){
@@ -34,6 +36,9 @@ public class Timing {
         Long timeStamp = System.currentTimeMillis();  //获取当前时间戳
         // 获取过期的数据
         List<FileEntity> deleteList = fileMapper.queryAllDelete(timeStamp);
+        // 获取彻底删除的数据
+        List<FileEntity> cdfList = fileMapper.queryFileByD();
+        if (!deleteList.addAll(cdfList)) log.info("合并出现未知异常！");
         // 删除文件的地址列表
         List<String> deletePathList = new ArrayList<>();
         // 删除tb_file的id列表
@@ -51,21 +56,31 @@ public class Timing {
             // 添加删除的tb_file
             fList.add(d.getFileId());
             // 添加删除的tb_delete
-            dList.add(d.getDeleteId());
+            if (!d.getDeleteId().equals("1")) dList.add(d.getDeleteId());
         }
         if (deletePathList.size() != 0){
             // 此处删除实际文件
             log.info("删除实际文件 ...");
+            try {
+                for (String s : deletePathList){
+                    File file = new File(savePath+s);
+                    boolean b = file.delete();
+                    if (!b) log.info("删除 " + s + "出现未知异常！");
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+                log.info("批量删除实际文件出现未知异常！");
+            }
         }
         // 此处删除数据库记录
         int fResult = fileMapper.deleteFileById(fList);
         int dResult = deleteMapper.deleteById(dList);
         if (deleteList.size() != fResult) log.info("删除F出现未知异常！");
         if (deleteList.size() != dResult) log.info("删除D出现未知异常！");
-        log.info("删除完成！！！");
-        Long t = timeStamp - deleteList.get(0).getDelete_time();
-        System.out.println("剩余时间(ms): " + (604800000 - t));
-        System.out.println("d:" + deleteList);
+        log.info("定时删除完成！！！");
+//        Long t = timeStamp - deleteList.get(0).getDelete_time();
+//        System.out.println("剩余时间(ms): " + (604800000 - t));
+//        System.out.println("d:" + deleteList);
 //         七天的毫秒数：604800000
     }
 

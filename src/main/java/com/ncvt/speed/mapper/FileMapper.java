@@ -73,5 +73,7 @@ public interface FileMapper {
     // 根据fileId批量彻底逻辑删除
     Integer completelyDelete(List<String> fileIdList);
 
+    // 查询彻底删除的数据
+    List<FileEntity> queryFileByD();
 
 }
