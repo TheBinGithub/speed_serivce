@@ -45,7 +45,7 @@ public class UploaderServiceImpl implements UploaderService {
         List<FileEntity> hashs = fileMapper.queryHash(fileEntity.getHash());
         if (hashs.size() != 0) {
             hashs.get(0).setBelongId(fileEntity.getBelongId());
-            hashs.get(0).setDeleteId(0);
+            hashs.get(0).setDeleteId("0");
             long e = System.currentTimeMillis();
             System.out.println("time:"+(e-s)+"/ms");
             return fileService.addFile(hashs.get(0),"秒传成功！");

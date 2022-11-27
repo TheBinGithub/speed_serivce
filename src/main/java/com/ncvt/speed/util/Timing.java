@@ -25,9 +25,9 @@ public class Timing {
     @Resource
     private DeleteMapper deleteMapper;
 
-    private static String separator = File.separator;  // 获取文件名称分隔符, win \ linux /
+    private static final String separator = File.separator;  // 获取文件名称分隔符, win \ linux /
 
-    private String savePath = SavePath.savePath();
+    private final String savePath = SavePath.savePath();
 
     @Scheduled(cron = "0 0 3 * * ?")
 //    @Scheduled(cron = "0/5 * * * * *")
