@@ -228,7 +228,7 @@ public class OperationFileServiceImpl implements OperationFileService {
         try {
             List<String> fList = params.getBList();
             List<String> dList = params.getDList();
-            for (String s : fList){
+            for (String s : params.getBList()){
                 if (!s.equals("")){
                     List<FileEntity> fl = fileMapper.queryFileByBelong(userId,s);
                     for (FileEntity f : fl){
