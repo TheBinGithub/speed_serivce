@@ -13,5 +13,4 @@ public interface UploaderService {
 
     Result endUpload(String id, UploaderParams uploaderParams);
 
-
 }

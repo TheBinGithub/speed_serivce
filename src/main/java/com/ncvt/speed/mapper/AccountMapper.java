@@ -20,5 +20,4 @@ public interface AccountMapper{
     // 修改登录密码
     Integer updateUserByPassword(String password, String userId);
 
-
 }

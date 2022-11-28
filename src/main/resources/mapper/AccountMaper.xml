@@ -42,7 +42,7 @@
 
     <!-- 登录密码修改 -->
     <update id="updateUserByPassword">
-        UPDATE tb_user SET passwrod=#{password} WHERE user_id=#{userId}
+        UPDATE tb_user SET password=#{password} WHERE user_id=#{userId}
     </update>
 
 </mapper>

@@ -1,12 +1,10 @@
 package com.ncvt.speed.entity;
 
-import io.swagger.annotations.ApiImplicitParam;
 import lombok.Data;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 @Data
 public class FileEntity {
@@ -51,6 +49,5 @@ public class FileEntity {
         fileEntity.setDeleteId("0");
         return fileEntity;
     }
-
 
 }

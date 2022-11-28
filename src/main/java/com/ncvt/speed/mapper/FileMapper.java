@@ -3,9 +3,7 @@ package com.ncvt.speed.mapper;
 import com.ncvt.speed.entity.CollectEntity;
 import com.ncvt.speed.entity.DeleteEntity;
 import com.ncvt.speed.entity.FileEntity;
-import com.ncvt.speed.util.Result;
 
-import java.io.File;
 import java.util.List;
 
 public interface FileMapper {

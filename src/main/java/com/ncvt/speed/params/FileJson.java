@@ -3,7 +3,7 @@ package com.ncvt.speed.params;
 import lombok.Data;
 
 /**
- * File辅助类
+ * File JSON接收辅助类
  */
 @Data
 public class FileJson {

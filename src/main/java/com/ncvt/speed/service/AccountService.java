@@ -11,5 +11,4 @@ public interface AccountService {
     //查询单个
     Object queryOneAccount(String userName);
 
-
 }

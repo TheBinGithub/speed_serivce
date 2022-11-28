@@ -10,7 +10,4 @@ public class DownloadParams {
     @ApiModelProperty(value = "file_path", required = true, example = "82,89,3,,,82,89,3")
     private List<List> pathList;
 
-//    private List<FileJson> pathLists;
-
-
 }

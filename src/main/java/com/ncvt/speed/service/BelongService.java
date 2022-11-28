@@ -7,4 +7,5 @@ public interface BelongService {
     boolean modifyBelong(BelongEntity entity);
 
     boolean addBelon(BelongEntity entity);
+
 }

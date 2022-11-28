@@ -20,8 +20,9 @@ public interface UserMapper {
     UserEntity querySecondPassword(String userId);
 
     // 二级密码修改
-    Integer updateSecondPassword(String secondPassword, String userId);
+    Integer updateSecondPassword(String secondPassword, String sSalt, String userId);
 
     // 容量修改
     Integer modifyUserBySpace(String userId, Long space);
+
 }

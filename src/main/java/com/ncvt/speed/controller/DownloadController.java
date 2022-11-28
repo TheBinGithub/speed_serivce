@@ -1,6 +1,5 @@
 package com.ncvt.speed.controller;
 
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ncvt.speed.params.DownloadParams;
 import com.ncvt.speed.service.DownloadService;
@@ -8,7 +7,6 @@ import com.ncvt.speed.util.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +14,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.util.List;
 
 @Api(tags = "下载模块")
 @Controller

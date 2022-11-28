@@ -2,16 +2,12 @@ package com.ncvt.speed.controller;
 
 import com.ncvt.speed.service.AccountService;
 import com.ncvt.speed.util.Result;
-import com.ncvt.speed.mapper.AccountMapper;
 import com.ncvt.speed.params.AccountParams;
-import com.ncvt.speed.entity.AccountEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
 
 @Api(tags = "登录模块")
 @RestController
@@ -44,33 +40,5 @@ public class LoginController {
             return Result.fail("服务器错误！");
         }
     }
-
-//
-//    // 修改密码
-//    @ApiOperation("修改密码")
-//    @PatchMapping("login/{id}")
-//    public Result accountUpdate(@PathVariable int id, @RequestBody String password){
-//
-//        try {
-//
-//            return null;
-//
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            return Result.fail("服务器错误！");
-//        }
-//    }
-//
-//    // 注销
-//    @ApiOperation("注销")
-//    @DeleteMapping("login/{id}")
-//    public Result accountDeletion(@PathVariable int id){
-//
-//        return null;
-//    }
-
-
-
-
 
 }

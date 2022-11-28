@@ -24,4 +24,5 @@ public class RenameParams {
     private String fileId;
     @ApiModelProperty(required = true, value = "文件夹本身的属于id", example = "4")
     private String folderBelongId;
+
 }

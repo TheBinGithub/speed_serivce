@@ -95,7 +95,6 @@ public class OperationFileServiceImpl implements OperationFileService {
     @Override
     public Result addFolder(String userId, String folderName, String belongId) {
         try {
-
             List<FileEntity> f = fileMapper.queryFileByFileName(belongId,folderName);
             if (f.size() != 0) return Result.fail(400,"当前目录已存在");
 
@@ -123,7 +122,6 @@ public class OperationFileServiceImpl implements OperationFileService {
             if (result1 != 1) return Result.fail("file出现未知异常！");
 
             return Result.ok("新建成功！");
-
         }catch (Exception e){
             e.printStackTrace();
             return Result.fail("服务端异常！",e.getMessage());
@@ -218,9 +216,6 @@ public class OperationFileServiceImpl implements OperationFileService {
             int fResult = fileMapper.restoresFile(fileIds);
             int dResult = deleteMapper.restoresDelete(fileIds);
             if ((fResult + dResult) != (fileIds.size() * 2)) return Result.fail(400,"还原过程出现未知异常！");
-//            int fResult = fileMapper.logicalDeletionFile(fileIds.get(0),0L);
-//            int dResult = deleteMapper.dDelete(fileIds.get(0));
-//            if (fResult != 1 || dResult != 1) return Result.fail(400,"还原过程出现未知异常！");
             return Result.ok("还原成功！");
         }catch (Exception e){
             e.printStackTrace();
@@ -246,4 +241,5 @@ public class OperationFileServiceImpl implements OperationFileService {
             return Result.fail("服务端异常！");
         }
     }
+
 }

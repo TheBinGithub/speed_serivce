@@ -93,6 +93,10 @@ public class UserServiceImpl implements UserService {
     public Result CheckSePassword(String sePassword, String userId) {
         try {
             UserEntity user = userMapper.querySecondPassword(userId);
+            System.out.println(sePassword+".."+userId);
+            System.out.println(user.getSSalt());
+            System.out.println((Md5.getMd5Password(sePassword,user.getSSalt())));
+            System.out.println(user.getSecondPassword());
             if (Md5.getMd5Password(sePassword,user.getSSalt()).equals(user.getSecondPassword())) return Result.ok("密码正确！");
             return Result.fail(300,"密码错误！");
         }catch (Exception e){
@@ -106,7 +110,7 @@ public class UserServiceImpl implements UserService {
     public Result addSepasswrod(String sePassword, String userId) {
         try {
             String salt = UUID.randomUUID().toString().toUpperCase();
-            int result = userMapper.updateSecondPassword(Md5.getMd5Password(sePassword, salt), userId);
+            int result = userMapper.updateSecondPassword(Md5.getMd5Password(sePassword, salt), salt, userId);
             if (result != 1) return Result.fail("设置二级密码出现未知异常！");
             return Result.ok("设置二级密码成功！");
         }catch (Exception e){
@@ -121,7 +125,7 @@ public class UserServiceImpl implements UserService {
         try {
             UserEntity user = userMapper.querySecondPassword(userId);
             if (Md5.getMd5Password(oldPasswrod,user.getSSalt()).equals(user.getSecondPassword())){
-                int result = userMapper.updateSecondPassword(Md5.getMd5Password(newPassword,user.getSSalt()), userId);
+                int result = userMapper.updateSecondPassword(Md5.getMd5Password(newPassword,user.getSSalt()), user.getSSalt(), userId);
                 if (result != 1) return Result.fail("修改二级密码出现未知异常！");
                 return Result.ok("修改二级密码成功！");
             }

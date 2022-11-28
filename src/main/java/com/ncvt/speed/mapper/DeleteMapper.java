@@ -22,5 +22,4 @@ public interface DeleteMapper {
     // 根据deleteId批量删除
     Integer deleteById(List<String> dList);
 
-
 }

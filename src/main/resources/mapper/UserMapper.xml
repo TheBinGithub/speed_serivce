@@ -46,7 +46,7 @@
 
     <!-- 二级密码修改 -->
     <update id="updateSecondPassword">
-        UPDATE tb_user SET second_password=#{secondPassword} WHERE user_id=#{userId}
+        UPDATE tb_user SET second_password=#{secondPassword},s_salt={sSalt} WHERE user_id=#{userId}
     </update>
 
     <!-- 容量修改 -->

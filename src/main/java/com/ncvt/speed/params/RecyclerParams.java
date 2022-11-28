@@ -11,5 +11,4 @@ public class RecyclerParams {
     @ApiModelProperty(value = "加入回收站信息列表", example = "", required = true)
     List<RecyclerJson> recyclerList;
 
-
 }

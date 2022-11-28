@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @Api(tags = "收藏模块")
 @RestController
@@ -40,6 +39,5 @@ public class CollectController {
         log.info("deleteCollect: " + userId);
         return collectService.deleteCollect(params.getFileIdList(), params.getCollectIdList());
     }
-
 
 }

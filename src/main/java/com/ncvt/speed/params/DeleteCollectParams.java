@@ -12,4 +12,5 @@ public class DeleteCollectParams {
     private List<String> fileIdList;
     @ApiModelProperty(value = "收藏id列表", required = true, example = "82,89")
     private List<String> collectIdList;
+
 }

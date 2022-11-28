@@ -79,4 +79,5 @@ public class CollectServiceImpl implements CollectService {
             return Result.fail("服务端异常！", e.getMessage());
         }
     }
+
 }
