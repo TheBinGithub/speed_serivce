@@ -2,6 +2,7 @@ package com.ncvt.speed.controller;
 
 import com.ncvt.speed.params.NicknameParams;
 import com.ncvt.speed.params.PasswordParams;
+import com.ncvt.speed.params.SePasswordParams;
 import com.ncvt.speed.service.UserService;
 import com.ncvt.speed.util.Result;
 import io.swagger.annotations.Api;
@@ -42,9 +43,9 @@ public class UserController {
 
     @ApiOperation(value = "设置二级密码")
     @PostMapping("/sePassword/{userId}")
-    public Result addUserBysePassword(@PathVariable String userId, @RequestBody String sePassword){
+    public Result addUserBysePassword(@PathVariable String userId, @RequestBody SePasswordParams params){
         log.info("addUserBysePassword: " + userId);
-        return userService.addSepasswrod(sePassword, userId);
+        return userService.addSepasswrod(params.getSePassword(), userId);
     }
 
     @ApiOperation(value = "修改登录密码")

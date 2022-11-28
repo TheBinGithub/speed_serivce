@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80021
 File Encoding         : 65001
 
-Date: 2022-11-28 12:45:46
+Date: 2022-11-28 13:09:39
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,7 +31,7 @@ CREATE TABLE `tb_account` (
 -- ----------------------------
 -- Records of tb_account
 -- ----------------------------
-INSERT INTO `tb_account` VALUES ('1575320222104588307', 'ACDCB886505E8B48B4A8DEEDA2B73F9A', 'admin', '3779EC13-F4C7-4910-B046-7CCF373DE8FF', null);
+INSERT INTO `tb_account` VALUES ('2', 'ACDCB886505E8B48B4A8DEEDA2B73F9A', 'admin', '3779EC13-F4C7-4910-B046-7CCF373DE8FF', null);
 
 -- ----------------------------
 -- Table structure for tb_belong
@@ -145,4 +145,4 @@ CREATE TABLE `tb_user` (
 -- ----------------------------
 -- Records of tb_user
 -- ----------------------------
-INSERT INTO `tb_user` VALUES ('1575320222104588307', 'admin', '10737418240', '0', '', '');
+INSERT INTO `tb_user` VALUES ('2', 'admin', '10737418240', '0', '', '');
