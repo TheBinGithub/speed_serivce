@@ -17,4 +17,7 @@ public class CompletelyDeleteParams {
     @ApiModelProperty(value = "文件属于列表", required = true)
     private List<String> bList;
 
+    @ApiModelProperty(value = "文件大小列表", required = true)
+    private List<String> sList;
+
 }

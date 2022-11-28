@@ -47,6 +47,8 @@ public class UploaderServiceImpl implements UploaderService {
             hashs.get(0).setBelongId(fileEntity.getBelongId());
             hashs.get(0).setDeleteId("0");
             long e = System.currentTimeMillis();
+            int uResult = userMapper.modifyUserBySpaceU(id,hashs.get(0).getFileSize());
+            if (uResult != 1) return Result.fail("秒传修改容量出现未知异常！");
             System.out.println("time:"+(e-s)+"/ms");
             return fileService.addFile(hashs.get(0),"秒传成功！");
         }
@@ -138,7 +140,7 @@ public class UploaderServiceImpl implements UploaderService {
                     boolean result = temppath1.delete();
                     if (!result) return Result.fail("删除临时目录出现异常！");
                     // 修改容量
-                    int uResult = userMapper.modifyUserBySpace(id,endFile.length());
+                    int uResult = userMapper.modifyUserBySpaceU(id,endFile.length());
                     if (uResult != 1) return Result.fail("修改容量出现未知异常！");
                     // 数据库添加记录
                     fileEntity.setFilePath(id+"@-.@"+endFile.getName());

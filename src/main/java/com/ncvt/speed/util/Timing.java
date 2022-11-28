@@ -29,6 +29,7 @@ public class Timing {
 
     private final String savePath = SavePath.savePath();
 
+    // 定时删除所有过期记录
     @Scheduled(cron = "0 0 3 * * ?")
 //    @Scheduled(cron = "0/5 * * * * *")
     public void timingDelete(){

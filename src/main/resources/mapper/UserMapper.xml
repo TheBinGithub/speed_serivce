@@ -49,9 +49,14 @@
         UPDATE tb_user SET second_password=#{secondPassword},s_salt=#{sSalt} WHERE user_id=#{userId}
     </update>
 
-    <!-- 容量修改 -->
-    <update id="modifyUserBySpace">
+    <!-- 容量+ -->
+    <update id="modifyUserBySpaceU">
         UPDATE tb_user SET used_space=used_space+#{space} WHERE user_id=#{userId}
+    </update>
+
+    <!-- 容量- -->
+    <update id="modifyUserBySpaceD">
+        UPDATE tb_user SET used_space=used_space-#{space} WHERE user_id=#{userId}
     </update>
 
     <!-- 注销 -->

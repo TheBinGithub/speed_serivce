@@ -6,6 +6,7 @@ import com.ncvt.speed.entity.FileEntity;
 import com.ncvt.speed.mapper.BelongMapper;
 import com.ncvt.speed.mapper.DeleteMapper;
 import com.ncvt.speed.mapper.FileMapper;
+import com.ncvt.speed.mapper.UserMapper;
 import com.ncvt.speed.params.*;
 import com.ncvt.speed.service.OperationFileService;
 import com.ncvt.speed.util.Result;
@@ -31,6 +32,9 @@ public class OperationFileServiceImpl implements OperationFileService {
 
     @Resource
     private DeleteMapper deleteMapper;
+
+    @Resource
+    private UserMapper userMapper;
 
     // 重命名
     @Override
@@ -226,7 +230,7 @@ public class OperationFileServiceImpl implements OperationFileService {
     @Override
     public Result deleteRestores(String userId,CompletelyDeleteParams params) {
         try {
-            List<String> fList = params.getBList();
+            List<String> fList = params.getFList();
             List<String> dList = params.getDList();
             for (String s : params.getBList()){
                 if (!s.equals("")){
@@ -239,6 +243,10 @@ public class OperationFileServiceImpl implements OperationFileService {
             }
             int fResult = fileMapper.completelyDelete(fList);
             if (fResult != params.getFList().size()) return Result.fail("彻底删除f出现未知异常！");
+            int size = 0;
+            for (String ss : params.getSList()) size+=Integer.parseInt(ss);
+            int uResult = userMapper.modifyUserBySpaceD(userId, (long) size);
+            if (uResult != 1) return Result.fail("彻底删除u出现未知异常！");
             if (dList.contains("0")) {
                 // 去重
                 List<String> dLists = params.getDList().stream().distinct().collect(Collectors.toList());

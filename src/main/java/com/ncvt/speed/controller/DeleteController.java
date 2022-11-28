@@ -44,7 +44,9 @@ public class DeleteController {
     @ApiOperation(value = "彻底删除")
     @DeleteMapping("/recycler/{userId}")
     public Result deleteRestores(@PathVariable String userId, @RequestBody CompletelyDeleteParams params){
-        log.info("deleteRestores:"+params.getDList());
+        log.info("deleteRestores f:"+params.getFList());
+        log.info("deleteRestores d:"+params.getDList());
+        log.info("deleteRestores b:"+params.getBList());
         return operationFileService.deleteRestores(userId,params);
     }
 

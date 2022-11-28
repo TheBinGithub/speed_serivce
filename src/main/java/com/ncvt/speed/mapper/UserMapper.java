@@ -22,7 +22,10 @@ public interface UserMapper {
     // 二级密码修改
     Integer updateSecondPassword(String secondPassword, String sSalt, String userId);
 
-    // 容量修改
-    Integer modifyUserBySpace(String userId, Long space);
+    // 容量+
+    Integer modifyUserBySpaceU(String userId, Long space);
+
+    // 容量-
+    Integer modifyUserBySpaceD(String userId, Long space);
 
 }

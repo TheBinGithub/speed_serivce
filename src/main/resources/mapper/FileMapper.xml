@@ -60,7 +60,7 @@
 
     <!-- 查询回收站的 -->
     <select id="queryD" resultMap="FileRMap">
-        SELECT f.user_id,f.file_id,f.file_name,f.file_size,f.file_type,f.upload_time,d.delete_time,f.delete_id
+        SELECT f.user_id,f.file_id,f.file_name,f.file_size,f.file_type,f.upload_time,d.delete_time,f.delete_id,f.belong_id
         FROM tb_file as f,tb_delete as d
         WHERE f.delete_id=d.delete_id AND f.user_id =#{userId} AND f.delete_id!=0 AND f.delete_id!=1 ORDER BY file_type
     </select>
