@@ -3,6 +3,7 @@ package com.ncvt.speed.controller;
 
 import com.ncvt.speed.entity.UserEntity;
 import com.ncvt.speed.params.NicknameParams;
+import com.ncvt.speed.params.PasswordParams;
 import com.ncvt.speed.service.UserService;
 import com.ncvt.speed.util.Result;
 import io.swagger.annotations.Api;
@@ -51,17 +52,17 @@ public class UserController {
     }
 
     @ApiOperation(value = "修改登录密码")
-    @PutMapping("/Password/{userId}")
-    public Result updateUserByPassword(@PathVariable String userId, @RequestBody String oldPassword, @RequestBody String newPassword){
+    @PutMapping("/password/{userId}")
+    public Result updateUserByPassword(@PathVariable String userId, @RequestBody PasswordParams params){
         log.info("updateUserByPassword: " + userId);
-        return userService.updatePassword(oldPassword, newPassword, userId);
+        return userService.updatePassword(params.getOldPassword(), params.getNewPassword(), userId);
     }
 
     @ApiOperation(value = "修改二级密码")
     @PutMapping("/sePassword/{userId}")
-    public Result updateUserBySePassword(@PathVariable String userId, @RequestBody String oldPassword, @RequestBody String newPassword){
+    public Result updateUserBySePassword(@PathVariable String userId, @RequestBody PasswordParams params){
         log.info("updateUserBySePassword: " + userId);
-        return userService.updateSecondPassword(oldPassword, newPassword, userId);
+        return userService.updateSecondPassword(params.getOldPassword(), params.getNewPassword(), userId);
     }
 
 }
