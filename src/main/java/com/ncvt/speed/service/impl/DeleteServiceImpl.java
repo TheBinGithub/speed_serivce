@@ -4,7 +4,6 @@ import com.ncvt.speed.service.DeleteService;
 import com.ncvt.speed.util.Result;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class DeleteServiceImpl implements DeleteService {
 

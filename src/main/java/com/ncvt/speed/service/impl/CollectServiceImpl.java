@@ -7,6 +7,7 @@ import com.ncvt.speed.mapper.FileMapper;
 import com.ncvt.speed.params.CollectJson;
 import com.ncvt.speed.service.CollectService;
 import com.ncvt.speed.util.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class CollectServiceImpl implements CollectService {
 
     @Resource
@@ -47,7 +49,7 @@ public class CollectServiceImpl implements CollectService {
             if (cResult != list.size() || fResult != cResult) return Result.fail("添加收藏出现未知异常！");
             return Result.ok("添加成功！","添加了"+cResult+"条记录");
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！",e.getMessage());
         }
     }
@@ -60,7 +62,7 @@ public class CollectServiceImpl implements CollectService {
             if (lists.size() == 0) return Result.ok(404,"无记录");
             return Result.ok("查询收藏成功！",lists);
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！",e.getMessage());
         }
     }
@@ -75,7 +77,7 @@ public class CollectServiceImpl implements CollectService {
             if ((fResult + cResult) != (fileIdList.size()*2)) return Result.fail("移出收藏出现未知异常！");
             return Result.ok("移出收藏成功！","修改了"+fResult+"条记录！");
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！", e.getMessage());
         }
     }

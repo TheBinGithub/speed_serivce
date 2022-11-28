@@ -7,12 +7,14 @@ import com.ncvt.speed.mapper.UserMapper;
 import com.ncvt.speed.service.UserService;
 import com.ncvt.speed.util.Md5;
 import com.ncvt.speed.util.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Resource
@@ -29,7 +31,7 @@ public class UserServiceImpl implements UserService {
             if (user.getUserId() == null) return Result.ok("无结果");
             return Result.ok("查询成功！", user);
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！");
         }
     }
@@ -41,7 +43,7 @@ public class UserServiceImpl implements UserService {
             if (result == 0) return Result.fail("新增过程出现未知异常！");
             return Result.ok("添加成功！");
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！");
         }
     }
@@ -53,7 +55,7 @@ public class UserServiceImpl implements UserService {
             if (result == 0) return Result.fail("删除过程出现未知异常！");
             return Result.ok("删除成功！");
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！");
         }
     }
@@ -66,7 +68,7 @@ public class UserServiceImpl implements UserService {
             if (uResult != 1) return Result.fail("修改过程出现未知异常！");
             return Result.ok("修改成功！");
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！");
         }
     }
@@ -83,8 +85,8 @@ public class UserServiceImpl implements UserService {
             }
             return Result.ok(300,"原密码错误！");
         }catch (Exception e){
-            e.printStackTrace();
-            return Result.fail("服务端异常！");
+            log.info("异常："+e);
+            return Result.fail("服务端异常！",e.getMessage());
         }
     }
 
@@ -96,7 +98,7 @@ public class UserServiceImpl implements UserService {
             if (Md5.getMd5Password(sePassword,user.getSSalt()).equals(user.getSecondPassword())) return Result.ok("密码正确！");
             return Result.fail(300,"密码错误！");
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！",e.getMessage());
         }
     }
@@ -110,7 +112,7 @@ public class UserServiceImpl implements UserService {
             if (result != 1) return Result.fail("设置二级密码出现未知异常！");
             return Result.ok("设置二级密码成功！");
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！");
         }
     }
@@ -127,7 +129,7 @@ public class UserServiceImpl implements UserService {
             }
             return Result.fail(300,"原密码错误");
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！",e.getMessage());
         }
     }

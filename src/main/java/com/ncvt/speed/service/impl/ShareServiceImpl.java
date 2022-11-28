@@ -6,6 +6,7 @@ import com.ncvt.speed.params.ShareParams;
 import com.ncvt.speed.service.ShareService;
 import com.ncvt.speed.util.Md5;
 import com.ncvt.speed.util.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class ShareServiceImpl implements ShareService {
 
     @Resource
@@ -37,7 +39,7 @@ public class ShareServiceImpl implements ShareService {
             String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/s/"+shareUrl;
             return Result.ok("新增分享成功！",url);
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！",e.getMessage());
         }
     }

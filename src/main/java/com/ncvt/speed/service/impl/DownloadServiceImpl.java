@@ -60,7 +60,7 @@ public class DownloadServiceImpl implements DownloadService {
 //            bis.close();
 //            String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/" + filePath;
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
 //            return Result.fail("服务端出现异常！",e.getMessage());
         }
     }
@@ -87,7 +87,7 @@ public class DownloadServiceImpl implements DownloadService {
             uMap.put("type",type[type.length - 1]);
             return Result.ok("获取成功！",uMap);
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！",e.getMessage());
         }
     }
@@ -116,7 +116,7 @@ public class DownloadServiceImpl implements DownloadService {
             }
             return Result.ok("获取成功！",lists);
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！",e.getMessage());
         }
     }
@@ -140,7 +140,7 @@ public class DownloadServiceImpl implements DownloadService {
             log.info(url);
             return url;
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return e.getMessage();
         }
     }

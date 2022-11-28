@@ -4,6 +4,7 @@ import com.ncvt.speed.entity.FileEntity;
 import com.ncvt.speed.mapper.FileMapper;
 import com.ncvt.speed.service.FileService;
 import com.ncvt.speed.util.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class FileServiceImpl implements FileService {
 
     @Resource
@@ -40,7 +42,7 @@ public class FileServiceImpl implements FileService {
             }
             return Result.ok("查询成功！",list);
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！");
         }
     }
@@ -53,7 +55,7 @@ public class FileServiceImpl implements FileService {
             if (lists.size() == 0) return Result.ok(404,"无结果");
             return Result.ok("查询成功！",lists);
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！");
         }
     }
@@ -64,7 +66,7 @@ public class FileServiceImpl implements FileService {
             FileEntity fileEntity = fileMapper.queryFileByName(fileId,userId,fileName);;
             return Result.ok("查询成功！",fileEntity);
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！");
         }
     }
@@ -77,7 +79,7 @@ public class FileServiceImpl implements FileService {
             if (result != 1) return Result.fail(400,"修改失败！");
             return Result.ok("修改成功！");
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！");
         }
     }
@@ -89,7 +91,7 @@ public class FileServiceImpl implements FileService {
             if (result == 0) return Result.fail(300,"数据库新增出现未知异常！");
             return Result.ok("合并成功，数据库记录已添加 ！",msg);
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！");
         }
     }
@@ -103,7 +105,7 @@ public class FileServiceImpl implements FileService {
             }
             return Result.ok("删除成功！","len："+result);
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！",e.getMessage());
         }
     }
@@ -115,7 +117,7 @@ public class FileServiceImpl implements FileService {
             if (result == 0) return Result.fail(300,"修改时出现未知异常！");
             return Result.ok("修改成功！","len："+result);
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！",e.getMessage());
         }
     }

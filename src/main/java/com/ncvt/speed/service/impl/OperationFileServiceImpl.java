@@ -51,7 +51,7 @@ public class OperationFileServiceImpl implements OperationFileService {
             if (result == 1) return Result.ok("文件重命名成功！");
             return Result.fail("文件重命名出现未知异常！");
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！",e.getMessage());
         }
     }
@@ -86,7 +86,7 @@ public class OperationFileServiceImpl implements OperationFileService {
             if (result != fList.size()) return Result.fail("移动出现未知异常！");
             return Result.ok("移动成功！","修改了"+result+"条记录");
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！",e.getMessage());
         }
     }
@@ -123,7 +123,7 @@ public class OperationFileServiceImpl implements OperationFileService {
 
             return Result.ok("新建成功！");
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！",e.getMessage());
         }
     }
@@ -143,7 +143,7 @@ public class OperationFileServiceImpl implements OperationFileService {
             }
             return Result.ok("查询成功！",fileEntityList);
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！",e.getMessage());
         }
     }
@@ -165,11 +165,10 @@ public class OperationFileServiceImpl implements OperationFileService {
                 SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
                 String sd2 = sdf2.format(new Date(Long.parseLong(String.valueOf(l))));
                 entity.setSurplusTime(sd2);
-
             }
             return Result.ok("查询成功！",list);
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！",e.getMessage());
         }
     }
@@ -204,7 +203,7 @@ public class OperationFileServiceImpl implements OperationFileService {
             if (dResult != fResult) return Result.fail("加入回收站出现未知异常！");
             return Result.ok("加入回收站成功！","修改了"+dResult+"条记录！");
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！",e.getMessage());
         }
     }
@@ -218,7 +217,7 @@ public class OperationFileServiceImpl implements OperationFileService {
             if ((fResult + dResult) != (fileIds.size() * 2)) return Result.fail(400,"还原过程出现未知异常！");
             return Result.ok("还原成功！");
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！",e.getMessage());
         }
     }
@@ -237,7 +236,7 @@ public class OperationFileServiceImpl implements OperationFileService {
             if (!d || dResult != dLists.size()) return Result.fail("彻底删除d出现未知异常！");
             return Result.ok("彻底删除成功！","修改了"+fResult+"条记录");
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！");
         }
     }

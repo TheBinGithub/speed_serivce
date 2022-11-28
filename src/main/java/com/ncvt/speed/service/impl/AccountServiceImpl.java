@@ -8,12 +8,14 @@ import com.ncvt.speed.params.AccountParams;
 import com.ncvt.speed.service.AccountService;
 import com.ncvt.speed.util.Md5;
 import com.ncvt.speed.util.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class AccountServiceImpl implements AccountService {
 
     @Resource
@@ -30,7 +32,7 @@ public class AccountServiceImpl implements AccountService {
             if (accountEntity == null) return Result.fail(404,"账号不存在！");
             return Result.ok("查询成功！",accountEntity);
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！");
         }
     }
@@ -56,7 +58,7 @@ public class AccountServiceImpl implements AccountService {
             if (aResult != 1 || uResul != 1) return Result.fail("注册过程出现未知异常！");
             return Result.ok("注册成功！", accountParams);
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！");
         }
     }
@@ -71,7 +73,7 @@ public class AccountServiceImpl implements AccountService {
             if (accountEntity.getPassword().equals(Md5.getMd5Password(password,accountEntity.getSalt()))) return Result.ok("登录成功！",accountEntity);
             return Result.fail(400,"密码错误！");
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("服务端异常！");
         }
     }

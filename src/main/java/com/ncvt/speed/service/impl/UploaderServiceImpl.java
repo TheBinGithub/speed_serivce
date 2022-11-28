@@ -128,7 +128,7 @@ public class UploaderServiceImpl implements UploaderService {
                             }
                             if (endBos != null) endBos.close();
                         }catch (Exception endE){
-                            endE.printStackTrace();
+                            log.info("异常："+endE);
                             return Result.fail("合并出现异常！",endE.getMessage());
                         }
                     }
@@ -150,7 +150,7 @@ public class UploaderServiceImpl implements UploaderService {
 //                String.format("%.2f", (shunk/shunks)*100)+"%"
                 return Result.ok(201,"分片成功！","null");
             }catch (Exception e){
-                e.printStackTrace();
+                log.info("异常："+e);
                 return Result.fail("服务端异常！",e.getMessage());
             }
         }else {
@@ -169,7 +169,7 @@ public class UploaderServiceImpl implements UploaderService {
             if (file.exists() && result) return Result.fail("删除临时文件出现未知异常！");
             return Result.ok("取消成功！");
         }catch (Exception e){
-            e.printStackTrace();
+            log.info("异常："+e);
             return Result.fail("取消上传出现未知异常！",e.getMessage());
         }
     }
