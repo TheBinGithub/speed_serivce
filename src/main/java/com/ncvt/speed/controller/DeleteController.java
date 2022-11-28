@@ -45,7 +45,7 @@ public class DeleteController {
     @DeleteMapping("/recycler/{userId}")
     public Result deleteRestores(@PathVariable String userId, @RequestBody CompletelyDeleteParams params){
         log.info("deleteRestores:"+params.getDList());
-        return operationFileService.deleteRestores(params);
+        return operationFileService.deleteRestores(userId,params);
     }
 
 }

@@ -224,13 +224,13 @@ public class OperationFileServiceImpl implements OperationFileService {
 
     // 彻底删除
     @Override
-    public Result deleteRestores(CompletelyDeleteParams params) {
+    public Result deleteRestores(String userId,CompletelyDeleteParams params) {
         try {
             List<String> fList = params.getBList();
             List<String> dList = params.getDList();
             for (String s : fList){
                 if (!s.equals("")){
-                    List<FileEntity> fl = fileMapper.queryFileByBelong("2",s);
+                    List<FileEntity> fl = fileMapper.queryFileByBelong(userId,s);
                     for (FileEntity f : fl){
                         fList.add(f.getFileId());
                         dList.add(f.getDeleteId());

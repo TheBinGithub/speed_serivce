@@ -29,6 +29,6 @@ public interface OperationFileService {
     Result restores(List<String> fileId);
 
     // 彻底删除
-    Result deleteRestores(CompletelyDeleteParams params);
+    Result deleteRestores(String userId, CompletelyDeleteParams params);
 
 }

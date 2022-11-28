@@ -8,13 +8,13 @@ import java.util.List;
 @Data
 public class CompletelyDeleteParams {
 
-    @ApiModelProperty(value = "文件id列表(fileId)", required = true, example = "82,89")
+    @ApiModelProperty(value = "文件id列表", required = true)
     private List<String> fList;
 
-    @ApiModelProperty(value = "删除id列表(deleteId)", required = true, example = "82,89")
+    @ApiModelProperty(value = "删除id列表", required = true)
     private List<String> dList;
 
-    @ApiModelProperty(value = "文件属于列表(belongId)", required = true, example = "82,89")
+    @ApiModelProperty(value = "文件属于列表", required = true)
     private List<String> bList;
 
 }
