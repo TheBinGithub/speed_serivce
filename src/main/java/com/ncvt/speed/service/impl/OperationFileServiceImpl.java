@@ -226,18 +226,33 @@ public class OperationFileServiceImpl implements OperationFileService {
     @Override
     public Result deleteRestores(CompletelyDeleteParams params) {
         try {
-            int fResult = fileMapper.completelyDelete(params.getFList());
+            List<String> fList = params.getBList();
+            List<String> dList = params.getDList();
+            for (String s : fList){
+                if (!s.equals("")){
+                    List<FileEntity> fl = fileMapper.queryFileByBelong("2",s);
+                    for (FileEntity f : fl){
+                        fList.add(f.getFileId());
+                        dList.add(f.getDeleteId());
+                    }
+                }
+            }
+            int fResult = fileMapper.completelyDelete(fList);
             if (fResult != params.getFList().size()) return Result.fail("彻底删除f出现未知异常！");
-            // 去重
-            List<String> dLists = params.getDList().stream().distinct().collect(Collectors.toList());
-            // 删0
-            boolean d = dLists.remove("0");
-            int dResult = deleteMapper.deleteById(dLists);
-            if (!d || dResult != dLists.size()) return Result.fail("彻底删除d出现未知异常！");
+            if (dList.contains("0")) {
+                // 去重
+                List<String> dLists = params.getDList().stream().distinct().collect(Collectors.toList());
+                // 删0
+                boolean d = dLists.remove("0");
+                if (dLists.size() != 0){
+                    int dResult = deleteMapper.deleteById(dLists);
+                    if (!d || dResult != dLists.size()) return Result.fail("彻底删除d出现未知异常！");
+                }
+            }
             return Result.ok("彻底删除成功！","修改了"+fResult+"条记录");
         }catch (Exception e){
             log.info("异常："+e);
-            return Result.fail("服务端异常！");
+            return Result.fail("服务端异常！",e.getMessage());
         }
     }
 
